@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UTA — fail-closed spend authorization for AI agents · AliceLabs</title>
+<meta name="description" content="UTA makes remote spending by AI agents verifiable and fail-closed: when the spending authority can't answer, the spend doesn't happen. Rust, MCP-native, x402-ready. By AliceLabs.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230a0f14'/%3E%3Cpath d='M8 22 L16 7 L24 22 Z' fill='none' stroke='%232dd4bf' stroke-width='2.4' stroke-linejoin='round'/%3E%3Cpath d='M11.5 22 L16 13.5 L20.5 22 Z' fill='%232dd4bf'/%3E%3C/svg%3E">
+<meta property="og:title" content="UTA — fail-closed spend authorization for AI agents">
+<meta property="og:description" content="When the authority can't answer, the spend doesn't happen. Rust · MCP · x402. By AliceLabs.">
+<meta property="og:url" content="https://utalabs.tech">
+<meta property="og:type" content="website">
+<style>
+  :root{
+    --bg:#0a0f14; --bg2:#0e1620; --panel:#111c27; --line:#1d2d3d;
+    --tx:#dce8f2; --dim:#8aa3b8; --faint:#5d7488;
+    --acc:#2dd4bf; --acc2:#5eead4;
+    --mono:'SF Mono',ui-monospace,'Cascadia Code',Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--tx);font-family:var(--sans);line-height:1.65;-webkit-font-smoothing:antialiased}
+  a{color:var(--acc);text-decoration:none}
+  a:hover{color:var(--acc2)}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 28px}
+  nav{position:sticky;top:0;z-index:9;background:rgba(10,15,20,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:62px}
+  .brand{font-family:var(--mono);font-weight:700;font-size:19px;letter-spacing:.5px;color:var(--tx)}
+  .brand span{color:var(--acc)}
+  .navlinks{display:flex;gap:26px;font-size:14.5px}
+  .navlinks a{color:var(--dim)}
+  .navlinks a:hover{color:var(--acc2)}
+  header{padding:88px 0 72px;border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+  header::before{content:"";position:absolute;inset:0;background:
+    radial-gradient(700px 300px at 15% 0%,rgba(45,212,191,.09),transparent 60%),
+    radial-gradient(700px 300px at 85% 100%,rgba(45,212,191,.05),transparent 60%);pointer-events:none}
+  .kick{font-family:var(--mono);font-size:13px;letter-spacing:2.5px;text-transform:uppercase;color:var(--acc);margin-bottom:18px}
+  h1{font-size:clamp(32px,5.2vw,54px);line-height:1.12;font-weight:800;letter-spacing:-1.2px;max-width:820px}
+  h1 em{font-style:normal;color:var(--acc)}
+  .sub{margin-top:22px;font-size:18.5px;color:var(--dim);max-width:700px}
+  .sub strong{color:var(--tx);font-weight:600}
+  .ctas{margin-top:36px;display:flex;gap:14px;flex-wrap:wrap}
+  .btn{display:inline-block;padding:13px 26px;border-radius:9px;font-weight:600;font-size:15.5px;border:1px solid transparent;transition:.18s}
+  .btn.pri{background:var(--acc);color:#04211c}
+  .btn.pri:hover{background:var(--acc2)}
+  .btn.sec{border-color:var(--line);color:var(--tx);background:var(--panel)}
+  .btn.sec:hover{border-color:var(--acc);color:var(--acc2)}
+  .tags{margin-top:30px;display:flex;gap:10px;flex-wrap:wrap;font-family:var(--mono);font-size:12.5px;color:var(--faint)}
+  .tags i{font-style:normal;border:1px solid var(--line);border-radius:6px;padding:4px 11px;background:var(--bg2)}
+  section{padding:64px 0;border-bottom:1px solid var(--line)}
+  .lbl{font-family:var(--mono);font-size:12.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--acc);margin-bottom:14px}
+  h2{font-size:clamp(24px,3.4vw,34px);font-weight:750;letter-spacing:-.5px;margin-bottom:14px}
+  .lead{color:var(--dim);font-size:16.5px;max-width:760px;margin-bottom:36px}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:26px}
+  .card h3{font-size:17.5px;margin-bottom:10px;font-weight:700}
+  .card h3 code{font-family:var(--mono);color:var(--acc);font-size:15px}
+  .card p{color:var(--dim);font-size:14.8px}
+  .rows{display:flex;flex-direction:column;gap:12px}
+  .row{display:flex;gap:16px;align-items:baseline;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:17px 22px}
+  .row .b{font-family:var(--mono);font-size:12px;color:var(--acc);white-space:nowrap;letter-spacing:1px;text-transform:uppercase;min-width:118px}
+  .row p{color:var(--dim);font-size:15px}
+  .row p b{color:var(--tx);font-weight:600}
+  .contact{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px}
+  footer{padding:34px 0;color:var(--faint);font-size:13.5px}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+  footer a{color:var(--dim)}
+  @media(max-width:640px){ .row{flex-direction:column;gap:6px} .navlinks{display:none} }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand">UTA<span>·</span>tech</div>
+    <div class="navlinks">
+      <a href="#what">What it is</a>
+      <a href="#proof">Traction</a>
+      <a href="https://wall.utalabs.tech">UTA&nbsp;Shield</a>
+      <a href="https://github.com/eddyflores100-lang">GitHub</a>
+    </div>
+  </div>
+</nav>
+
+<header>
+  <div class="wrap">
+    <div class="kick">AliceLabs · Remote spend authorization</div>
+    <h1>When the authority can't answer, <em>the spend doesn't happen.</em></h1>
+    <p class="sub">UTA gives AI agents a <strong>fail-closed spending layer</strong>: every remote charge must be authorized by a live, verifiable authority — with signed receipts and machine-readable reasons for every decision, including the refusals.</p>
+    <div class="ctas">
+      <a class="btn pri" href="https://wall.utalabs.tech">UTA Shield — for MCP operators →</a>
+      <a class="btn sec" href="https://github.com/eddyflores100-lang">Source &amp; proposals</a>
+    </div>
+    <div class="tags"><i>Rust</i><i>fail-closed</i><i>MCP-native</i><i>x402</i><i>signed receipts</i><i>no silent telemetry</i></div>
+  </div>
+</header>
+
+<section id="what">
+  <div class="wrap">
+    <div class="lbl">What it is</div>
+    <h2>Spending that stops when trust stops.</h2>
+    <p class="lead">Agent frameworks were built to act. Payment rails were built to trust. UTA is the layer between them that refuses to guess — and proves every refusal.</p>
+    <div class="cards">
+      <div class="card">
+        <h3><code>fail-closed</code> by default</h3>
+        <p>If the spending authority is unreachable, expired, or out of budget, the operation is denied — never silently allowed. Downtime degrades to "no", not to "yes".</p>
+      </div>
+      <div class="card">
+        <h3>Receipts, not vibes</h3>
+        <p>Every decision returns a signed receipt: allow, deny, or <em>not evaluated</em> — each with a machine-readable reason and the identity of the authority that failed to answer. Auditors see why, not just what.</p>
+      </div>
+      <div class="card">
+        <h3>Rust · MCP · x402</h3>
+        <p>A Rust core with MCP-native integration and x402-compatible metering, designed to bolt onto existing agent stacks without rewriting them — and without phoning home.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="proof">
+  <div class="wrap">
+    <div class="lbl">Traction · in public</div>
+    <h2>Not promises — a paper trail.</h2>
+    <p class="lead">Everything below is linked and verifiable. We build in the open, upstream first.</p>
+    <div class="rows">
+      <div class="row"><div class="b">Solana</div><p><b>PR #525 at <a href="https://github.com/solana-foundation/pay">solana-foundation/pay</a></b> — the spending authority, 199 tests passing, under active review by maintainers.</p></div>
+      <div class="row"><div class="b">x402</div><p><b>Active in <a href="https://github.com/x402-foundation/wg-identity">wg-identity</a></b> — aligning the "not evaluated" receipt schema with ecosystem vendors (AXES and others building on it).</p></div>
+      <div class="row"><div class="b">satroot</div><p><b>Co-designed spend reconciliation shipped in satroot 0.21.4</b> — upstream credits the collaboration in their threat model and 0.21.5 changelog.</p></div>
+      <div class="row"><div class="b">Ecosystem</div><p><b>21 public integration proposals</b> across agent frameworks and facilitators — piprail, qntx/facilitator, daydreams and more, each arguing the concrete integration path.</p></div>
+      <div class="row"><div class="b">Reputation</div><p><b>Listed in flisk's hall of fame</b> (merged hardening PR) and cited across MCP security discussions.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="lbl">Get in touch</div>
+    <h2>Building agents that spend? Talk to us.</h2>
+    <p class="lead">Integrations, pilots, licensing of UTA Shield, or standards work — one line is enough to start.</p>
+    <div class="contact">
+      <a class="btn pri" href="mailto:contacto@alicelabs.site">contacto@alicelabs.site</a>
+      <a class="btn sec" href="https://github.com/eddyflores100-lang">github.com/eddyflores100-lang</a>
+      <a class="btn sec" href="https://alicelabs.site">alicelabs.site ↗</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>© 2026 AliceLabs LLC · UTA and UTA Shield</div>
+    <div><a href="https://wall.utalabs.tech">wall.utalabs.tech</a> · <a href="https://alicelabs.site">alicelabs.site</a> · <a href="https://github.com/eddyflores100-lang">GitHub</a></div>
+  </div>
+</footer>
+
+</body>
+</html>
