@@ -1,157 +1,411 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UTA — fail-closed spend authorization for AI agents · AliceLabs</title>
-<meta name="description" content="UTA makes remote spending by AI agents verifiable and fail-closed: when the spending authority can't answer, the spend doesn't happen. Rust, MCP-native, x402-ready. By AliceLabs.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230a0f14'/%3E%3Cpath d='M8 22 L16 7 L24 22 Z' fill='none' stroke='%232dd4bf' stroke-width='2.4' stroke-linejoin='round'/%3E%3Cpath d='M11.5 22 L16 13.5 L20.5 22 Z' fill='%232dd4bf'/%3E%3C/svg%3E">
-<meta property="og:title" content="UTA — fail-closed spend authorization for AI agents">
-<meta property="og:description" content="When the authority can't answer, the spend doesn't happen. Rust · MCP · x402. By AliceLabs.">
-<meta property="og:url" content="https://utalabs.tech">
-<meta property="og:type" content="website">
-<style>
-  :root{
-    --bg:#0a0f14; --bg2:#0e1620; --panel:#111c27; --line:#1d2d3d;
-    --tx:#dce8f2; --dim:#8aa3b8; --faint:#5d7488;
-    --acc:#2dd4bf; --acc2:#5eead4;
-    --mono:'SF Mono',ui-monospace,'Cascadia Code',Menlo,Consolas,monospace;
-    --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
-  }
-  *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{background:var(--bg);color:var(--tx);font-family:var(--sans);line-height:1.65;-webkit-font-smoothing:antialiased}
-  a{color:var(--acc);text-decoration:none}
-  a:hover{color:var(--acc2)}
-  .wrap{max-width:1040px;margin:0 auto;padding:0 28px}
-  nav{position:sticky;top:0;z-index:9;background:rgba(10,15,20,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:62px}
-  .brand{font-family:var(--mono);font-weight:700;font-size:19px;letter-spacing:.5px;color:var(--tx)}
-  .brand span{color:var(--acc)}
-  .navlinks{display:flex;gap:26px;font-size:14.5px}
-  .navlinks a{color:var(--dim)}
-  .navlinks a:hover{color:var(--acc2)}
-  header{padding:88px 0 72px;border-bottom:1px solid var(--line);position:relative;overflow:hidden}
-  header::before{content:"";position:absolute;inset:0;background:
-    radial-gradient(700px 300px at 15% 0%,rgba(45,212,191,.09),transparent 60%),
-    radial-gradient(700px 300px at 85% 100%,rgba(45,212,191,.05),transparent 60%);pointer-events:none}
-  .kick{font-family:var(--mono);font-size:13px;letter-spacing:2.5px;text-transform:uppercase;color:var(--acc);margin-bottom:18px}
-  h1{font-size:clamp(32px,5.2vw,54px);line-height:1.12;font-weight:800;letter-spacing:-1.2px;max-width:820px}
-  h1 em{font-style:normal;color:var(--acc)}
-  .sub{margin-top:22px;font-size:18.5px;color:var(--dim);max-width:700px}
-  .sub strong{color:var(--tx);font-weight:600}
-  .ctas{margin-top:36px;display:flex;gap:14px;flex-wrap:wrap}
-  .btn{display:inline-block;padding:13px 26px;border-radius:9px;font-weight:600;font-size:15.5px;border:1px solid transparent;transition:.18s}
-  .btn.pri{background:var(--acc);color:#04211c}
-  .btn.pri:hover{background:var(--acc2)}
-  .btn.sec{border-color:var(--line);color:var(--tx);background:var(--panel)}
-  .btn.sec:hover{border-color:var(--acc);color:var(--acc2)}
-  .tags{margin-top:30px;display:flex;gap:10px;flex-wrap:wrap;font-family:var(--mono);font-size:12.5px;color:var(--faint)}
-  .tags i{font-style:normal;border:1px solid var(--line);border-radius:6px;padding:4px 11px;background:var(--bg2)}
-  section{padding:64px 0;border-bottom:1px solid var(--line)}
-  .lbl{font-family:var(--mono);font-size:12.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--acc);margin-bottom:14px}
-  h2{font-size:clamp(24px,3.4vw,34px);font-weight:750;letter-spacing:-.5px;margin-bottom:14px}
-  .lead{color:var(--dim);font-size:16.5px;max-width:760px;margin-bottom:36px}
-  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
-  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:26px}
-  .card h3{font-size:17.5px;margin-bottom:10px;font-weight:700}
-  .card h3 code{font-family:var(--mono);color:var(--acc);font-size:15px}
-  .card p{color:var(--dim);font-size:14.8px}
-  .rows{display:flex;flex-direction:column;gap:12px}
-  .row{display:flex;gap:16px;align-items:baseline;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:17px 22px}
-  .row .b{font-family:var(--mono);font-size:12px;color:var(--acc);white-space:nowrap;letter-spacing:1px;text-transform:uppercase;min-width:118px}
-  .row p{color:var(--dim);font-size:15px}
-  .row p b{color:var(--tx);font-weight:600}
-  .contact{display:flex;gap:14px;flex-wrap:wrap;margin-top:8px}
-  footer{padding:34px 0;color:var(--faint);font-size:13.5px}
-  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
-  footer a{color:var(--dim)}
-  @media(max-width:640px){ .row{flex-direction:column;gap:6px} .navlinks{display:none} }
-</style>
+<title>utalabs.tech — agent trust infrastructure, in files · AliceLabs LLC</title>
+<meta name="description" content="utalabs.tech is the file cabinet of AliceLabs' agent-trust stack: UTA (credential translation), ATC (agent identity), Sentinel (audit engine), Interceptor (runtime enforcement). One question runs through every file: should this agent be allowed to do that?">
+<link rel="canonical" href="https://utalabs.tech/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230a0a0a'/%3E%3Cpath d='M8 10 L8 22 M8 22 L16 9 L24 22 M24 10 L24 22' stroke='%23d43c19' stroke-width='2.6' fill='none' stroke-linecap='square'/%3E%3C/svg%3E">
+<meta property="og:title" content="utalabs.tech — agent trust infrastructure, in files">
+<meta property="og:description" content="UTA · ATC · Sentinel · Interceptor. Four files, one question: should this agent be allowed to do that? By AliceLabs LLC.">
+<meta property="og:url" content="https://utalabs.tech/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css">
 </head>
 <body>
 
-<nav>
+<!-- ============ NAV ============ -->
+<nav class="topbar">
   <div class="wrap">
-    <div class="brand">UTA<span>·</span>tech</div>
-    <div class="navlinks">
-      <a href="#what">What it is</a>
-      <a href="#proof">Traction</a>
-      <a href="https://wall.utalabs.tech">UTA&nbsp;Shield</a>
-      <a href="https://github.com/eddyflores100-lang">GitHub</a>
+    <a class="brand" href="/"><span class="stamp">U</span>UTALABS<span style="color:var(--signal)">.</span>TECH</a>
+    <div class="navfiles">
+      <a href="/uta/"><sup>01</sup>UTA</a>
+      <a href="/atc/"><sup>02</sup>ATC</a>
+      <a href="/sentinel/"><sup>03</sup>SENTINEL</a>
+      <a href="/interceptor/"><sup>04</sup>INTERCEPTOR</a>
+    </div>
+    <div class="navright">
+      <div class="extlinks">
+        <a href="https://wall.utalabs.tech" title="uta-shield — provider-side MCP firewall">wall↗</a>
+        <a href="https://www.marketnow.site" title="MarketNow — trust registry">marketnow↗</a>
+        <a href="https://github.com/eddyflores100-lang" title="GitHub">github↗</a>
+      </div>
+      <div class="langsw">
+        <button data-setlang="en" class="on">EN</button>
+        <button data-setlang="es">ES</button>
+      </div>
     </div>
   </div>
 </nav>
 
-<header>
+<!-- ============ FILE STRIP ============ -->
+<div class="filestrip">
   <div class="wrap">
-    <div class="kick">AliceLabs · Remote spend authorization</div>
-    <h1>When the authority can't answer, <em>the spend doesn't happen.</em></h1>
-    <p class="sub">UTA gives AI agents a <strong>fail-closed spending layer</strong>: every remote charge must be authorized by a live, verifiable authority — with signed receipts and machine-readable reasons for every decision, including the refusals.</p>
-    <div class="ctas">
-      <a class="btn pri" href="https://wall.utalabs.tech">UTA Shield — for MCP operators →</a>
-      <a class="btn sec" href="https://github.com/eddyflores100-lang">Source &amp; proposals</a>
+    <span><b>FILE 00</b> — index</span>
+    <span class="fs-signal">ALICELABS LLC · agent trust infrastructure</span>
+    <span>status: <b class="ok">shipped</b> · wyoming, usa · est. 2026</span>
+  </div>
+</div>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="wrap herorow">
+    <div>
+      <div class="kick" data-en="AliceLabs LLC — the utalabs file cabinet" data-es="AliceLabs LLC — el archivo de utalabs">AliceLabs LLC — the utalabs file cabinet</div>
+      <h1 class="mega" data-en='Four files.<br>One question: <em>should this agent be allowed to do that?</em>' data-es='Cuatro archivos.<br>Una pregunta: <em>debe permitírsele a este agente hacer eso?</em>'>Four files.<br>One question: <em>should this agent be allowed to do that?</em></h1>
+      <p class="tagline" data-en="utalabs.tech holds the AliceLabs product line for AI-agent trust. Each file answers the question at a different layer — <b>identity</b> (ATC), <b>translation</b> (UTA), <b>audit</b> (Sentinel), <b>enforcement</b> (Interceptor). No hype colors, no vibes: every claim here links to a repo, a receipt or a spec." data-es="utalabs.tech contiene la línea de productos de AliceLabs para confianza de agentes IA. Cada archivo responde la pregunta en una capa distinta — <b>identidad</b> (ATC), <b>traducción</b> (UTA), <b>auditoría</b> (Sentinel), <b>ejecución</b> (Interceptor). Sin colores de hype, sin vibes: cada afirmación enlaza a un repo, un recibo o una spec.">
+        utalabs.tech holds the AliceLabs product line for AI-agent trust. Each file answers the question at a different layer — <b>identity</b> (ATC), <b>translation</b> (UTA), <b>audit</b> (Sentinel), <b>enforcement</b> (Interceptor). No hype colors, no vibes: every claim here links to a repo, a receipt or a spec.
+      </p>
     </div>
-    <div class="tags"><i>Rust</i><i>fail-closed</i><i>MCP-native</i><i>x402</i><i>signed receipts</i><i>no silent telemetry</i></div>
+    <aside class="herometa rv">
+      <div class="row"><span>ecosystem owner</span><b>AliceLabs LLC</b></div>
+      <div class="row"><span>protocol</span><b>ATC / 1.0</b></div>
+      <div class="row"><span>signature</span><b>Ed25519 · RFC 8032</b></div>
+      <div class="row"><span>canonicalization</span><b>RFC 8785 JCS</b></div>
+      <div class="row"><span>verification api</span><b>x402 · $0.01/call</b></div>
+      <div class="row"><span>fail-closed policy</span><b class="ok">ENFORCED</b></div>
+      <div class="row"><span>stranger-verifiable</span><b class="ok">30 s · no account</b></div>
+    </aside>
   </div>
 </header>
 
-<section id="what">
+<!-- ============ INTERACTIVE PIPELINE ============ -->
+<section class="blk" id="pipeline">
   <div class="wrap">
-    <div class="lbl">What it is</div>
-    <h2>Spending that stops when trust stops.</h2>
-    <p class="lead">Agent frameworks were built to act. Payment rails were built to trust. UTA is the layer between them that refuses to guess — and proves every refusal.</p>
-    <div class="cards">
-      <div class="card">
-        <h3><code>fail-closed</code> by default</h3>
-        <p>If the spending authority is unreachable, expired, or out of budget, the operation is denied — never silently allowed. Downtime degrades to "no", not to "yes".</p>
+    <div class="sec-head rv"><span class="no">FIG. 00</span><h2 data-en="The trust pipeline — press play, then break it" data-es="La tubería de confianza — dale play, luego rompela">The trust pipeline — press play, then break it</h2></div>
+    <p class="lede rv" data-en="Every product in this cabinet is one station of the same pipeline. Run a normal request. Then send a hostile one — a trusted agent asking for <b>.env</b> — and watch where it dies. Then send a revoked card. <b>Nothing here ever fails open.</b>" data-es="Cada producto de este archivo es una estación de la misma tubería. Corre una llamada normal. Luego manda una hostil — un agente confiable pidiendo <b>.env</b> — y mira dónde muere. Luego una tarjeta revocada. <b>Nada aquí falla abierto.</b>">
+      Every product in this cabinet is one station of the same pipeline. Run a normal request. Then send a hostile one — a trusted agent asking for <b>.env</b> — and watch where it dies. Then send a revoked card. <b>Nothing here ever fails open.</b>
+    </p>
+
+    <div class="pipebox rv" id="pipe">
+      <div class="pipe-scene">
+        <svg viewBox="0 0 1040 330" width="100%" style="min-width:760px" role="img" aria-label="trust pipeline diagram">
+          <defs>
+            <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0 0 L10 5 L0 10 z" fill="#0a0a0a"/>
+            </marker>
+          </defs>
+          <!-- main line -->
+          <line x1="130" y1="150" x2="950" y2="150" stroke="#0a0a0a" stroke-width="2.5" marker-end="url(#ar)"/>
+          <!-- stations -->
+          <g class="pstep">
+            <circle class="stop" cx="130" cy="150" r="7" fill="#0a0a0a"/>
+            <rect x="72" y="40" width="116" height="64" fill="#fafafa" stroke="#0a0a0a" stroke-width="2"/>
+            <text x="130" y="66" text-anchor="middle" font-family="JetBrains Mono" font-weight="800" font-size="15" fill="#0a0a0a">AGENT</text>
+            <text x="130" y="86" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#6b6b6b">holds an ATC</text>
+            <text x="130" y="118" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#6b6b6b">01 · request + card</text>
+          </g>
+          <g class="pstep">
+            <circle class="stop" cx="360" cy="150" r="7" fill="#0a0a0a"/>
+            <rect x="292" y="40" width="136" height="64" fill="#fafafa" stroke="#0a0a0a" stroke-width="2"/>
+            <text x="360" y="66" text-anchor="middle" font-family="JetBrains Mono" font-weight="800" font-size="15" fill="#d43c19">UTA</text>
+            <text x="360" y="86" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#6b6b6b">translate · verify</text>
+            <text x="360" y="118" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#6b6b6b">02 · card checked</text>
+          </g>
+          <g class="pstep">
+            <circle class="stop" cx="590" cy="150" r="7" fill="#0a0a0a"/>
+            <rect x="510" y="40" width="160" height="64" fill="#fafafa" stroke="#0a0a0a" stroke-width="2"/>
+            <text x="590" y="66" text-anchor="middle" font-family="JetBrains Mono" font-weight="800" font-size="15" fill="#d43c19">SENTINEL</text>
+            <text x="590" y="86" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#6b6b6b">10-layer audit</text>
+            <text x="590" y="118" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#6b6b6b">03 · risk scored</text>
+          </g>
+          <g class="pstep">
+            <circle class="stop" cx="800" cy="150" r="7" fill="#0a0a0a"/>
+            <rect x="722" y="40" width="156" height="64" fill="#fafafa" stroke="#0a0a0a" stroke-width="2"/>
+            <text x="800" y="66" text-anchor="middle" font-family="JetBrains Mono" font-weight="800" font-size="15" fill="#d43c19">INTERCEPTOR</text>
+            <text x="800" y="86" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#6b6b6b">policy engine</text>
+            <text x="800" y="118" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#6b6b6b">04 · allow / block</text>
+          </g>
+          <g class="pstep">
+            <circle class="stop" cx="950" cy="150" r="7" fill="#0a0a0a"/>
+            <rect x="892" y="40" width="116" height="64" fill="#0a0a0a"/>
+            <text x="950" y="66" text-anchor="middle" font-family="JetBrains Mono" font-weight="800" font-size="14" fill="#fafafa">MCP</text>
+            <text x="950" y="84" text-anchor="middle" font-family="JetBrains Mono" font-weight="800" font-size="14" fill="#fafafa">SERVER</text>
+            <text x="950" y="118" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#6b6b6b">05 · the database</text>
+          </g>
+          <!-- audit trail return line -->
+          <path d="M 950 104 L 950 268 L 130 268" fill="none" stroke="#9a9a9a" stroke-width="1.8" stroke-dasharray="6 6"/>
+          <path d="M 136 262 L 128 268 L 136 274" fill="none" stroke="#9a9a9a" stroke-width="1.8"/>
+          <text x="540" y="290" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#6b6b6b">JSONL audit trail — every decision AND every refusal, signed</text>
+          <!-- revocation branch -->
+          <path d="M 360 104 L 360 214 L 240 214" fill="none" stroke="#d43c19" stroke-width="1.8" stroke-dasharray="5 5"/>
+          <path d="M 247 208 L 239 214 L 247 220" fill="none" stroke="#d43c19" stroke-width="1.8"/>
+          <rect x="120" y="196" width="120" height="36" fill="#fafafa" stroke="#d43c19" stroke-width="1.8"/>
+          <text x="180" y="212" text-anchor="middle" font-family="JetBrains Mono" font-size="10" font-weight="700" fill="#d43c19">REVOCATION</text>
+          <text x="180" y="225" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#6b6b6b">MNR-CRL-1.0</text>
+          <!-- moving packet -->
+          <circle class="pkt" cx="130" cy="150" r="8" fill="#d43c19" stroke="#0a0a0a" stroke-width="2" style="opacity:0;transition:cx .6s ease,cy .6s ease,opacity .3s"/>
+        </svg>
       </div>
-      <div class="card">
-        <h3>Receipts, not vibes</h3>
-        <p>Every decision returns a signed receipt: allow, deny, or <em>not evaluated</em> — each with a machine-readable reason and the identity of the authority that failed to answer. Auditors see why, not just what.</p>
+      <div class="pipe-controls">
+        <span class="lbl" data-en="run scenario:" data-es="ejecutar escenario:">run scenario:</span>
+        <button class="tbtn" data-pipe="normal" onclick="pipePlay('normal')" data-en="✓ normal request" data-es="✓ llamada normal">✓ normal request</button>
+        <button class="tbtn danger" data-pipe="hostile" onclick="pipePlay('hostile')" data-en="✕ trusted agent asks for .env" data-es="✕ agente confiable pide .env">✕ trusted agent asks for .env</button>
+        <button class="tbtn danger" data-pipe="revoked" onclick="pipePlay('revoked')" data-en="✕ revoked card" data-es="✕ tarjeta revocada">✕ revoked card</button>
       </div>
-      <div class="card">
-        <h3>Rust · MCP · x402</h3>
-        <p>A Rust core with MCP-native integration and x402-compatible metering, designed to bolt onto existing agent stacks without rewriting them — and without phoning home.</p>
+      <div class="pipe-note" id="pipe-note" data-en="Pick a scenario above. The red dot is the request; the note below narrates what each station does with it — in the order it happens." data-es="Elige un escenario arriba. El punto rojo es la llamada; la nota narra qué hace cada estación con ella — en el orden en que pasa.">
+        Pick a scenario above. The red dot is the request; the note below narrates what each station does with it — in the order it happens.
       </div>
     </div>
   </div>
 </section>
 
-<section id="proof">
+<!-- ============ PRODUCT FILES ============ -->
+<section class="blk" id="files">
   <div class="wrap">
-    <div class="lbl">Traction · in public</div>
-    <h2>Not promises — a paper trail.</h2>
-    <p class="lead">Everything below is linked. Where we are only proposing — not merged — we say so.</p>
-    <div class="rows">
-      <div class="row"><div class="b">Solana</div><p><b>PR #525 at <a href="https://github.com/solana-foundation/pay">solana-foundation/pay</a></b> — remote spending authority, 199 tests green, open and in public review. Not merged yet — no human review recorded as of today.</p></div>
-      <div class="row"><div class="b">x402</div><p><b>Public technical answers to four live x402 core issues (#3808–#3814)</b> and an open third-party extension proposal (<a href="https://github.com/x402-foundation/x402/pull/3815">x402#3815</a>, in review).</p></div>
-      <div class="row"><div class="b">wg-identity</div><p><b>In <a href="https://github.com/x402-foundation/wg-identity">wg-identity #40</a></b>: published the fail-closed position and the not-evaluated receipt requirement — one vendor (AXES) is publicly reviewing it for schema alignment. Filed as requirement #59 in our public tracker.</p></div>
-      <div class="row"><div class="b">Ecosystem</div><p><b>21 public integration proposals filed by us</b> across agent frameworks and facilitators — piprail, qntx/facilitator, daydreams and more. Outcomes are mixed and tracked in public: several open, some closed.</p></div>
-      <div class="row"><div class="b">Reputation</div><p><b>Listed in flisk's hall of fame</b> (merged hardening PR, contributor rank 6 kyu). <b>Cited by name in the x402 wg-identity working group</b> — “a good example of the verifier half built in the open” (MagentiX.AI / AXES).</p></div>
+    <div class="sec-head rv"><span class="no">INDEX</span><h2 data-en="The files" data-es="Los archivos">The files</h2></div>
+    <p class="lede rv" data-en="Four local files, two sister deployments. Local files open here; sisters live on their own walls." data-es="Cuatro archivos locales, dos despliegues hermanos. Los locales abren aquí; los hermanos viven en sus propios muros.">
+      Four local files, two sister deployments. Local files open here; sisters live on their own walls.
+    </p>
+
+    <div class="grid-products">
+      <a class="pcard rv" href="/uta/">
+        <div class="pc-top"><span><span class="idx">FILE 01</span> · translation layer</span><span class="badge">live api</span></div>
+        <div class="pc-body">
+          <h3>UTA<small>universal trust adapter</small></h3>
+          <p data-en="The USB-C of agent trust. <b>8 credential formats in, one canonical schema out</b> — JWT, W3C VC, A2A, EAT-AI, ZTA, MCP Card, X.509, ATC. Lossless translation through the Universal Trust Schema, plus a 12-stage verification pipeline and a paid x402 API at $0.01/verify." data-es="El USB-C de la confianza agentil. <b>8 formatos de credenciales entran, un esquema canónico sale</b> — JWT, W3C VC, A2A, EAT-AI, ZTA, MCP Card, X.509, ATC. Traducción sin pérdida vía Universal Trust Schema, más una tubería de verificación de 12 etapas y una API x402 de pago a $0.01/verificación.">
+            The USB-C of agent trust. <b>8 credential formats in, one canonical schema out</b> — JWT, W3C VC, A2A, EAT-AI, ZTA, MCP Card, X.509, ATC. Lossless translation through the Universal Trust Schema, plus a 12-stage verification pipeline and a paid x402 API at $0.01/verify.
+          </p>
+          <div class="pc-art">
+            <svg viewBox="0 0 320 96" width="100%">
+              <g font-family="JetBrains Mono" font-size="9" fill="#6b6b6b">
+                <rect x="8" y="8" width="58" height="18" fill="#fafafa" stroke="#0a0a0a"/><text x="37" y="20" text-anchor="middle">JWT</text>
+                <rect x="8" y="30" width="58" height="18" fill="#fafafa" stroke="#0a0a0a"/><text x="37" y="42" text-anchor="middle">W3C VC</text>
+                <rect x="8" y="52" width="58" height="18" fill="#fafafa" stroke="#0a0a0a"/><text x="37" y="64" text-anchor="middle">A2A</text>
+                <rect x="8" y="74" width="58" height="18" fill="#fafafa" stroke="#0a0a0a"/><text x="37" y="86" text-anchor="middle">X.509</text>
+                <rect x="128" y="30" width="64" height="40" fill="#d43c19"/>
+                <text x="160" y="47" text-anchor="middle" fill="#fafafa" font-weight="800">UTS</text>
+                <text x="160" y="61" text-anchor="middle" fill="#fafafa" font-size="8">canonical</text>
+                <rect x="254" y="30" width="58" height="40" fill="#fafafa" stroke="#0a0a0a"/>
+                <text x="283" y="47" text-anchor="middle" fill="#0a0a0a" font-weight="700">ATC v3</text>
+                <text x="283" y="61" text-anchor="middle" fill="#6b6b6b" font-size="8">+ 7 out</text>
+                <line x1="66" y1="17" x2="126" y2="44" stroke="#0a0a0a" stroke-width="1.4"/>
+                <line x1="66" y1="39" x2="126" y2="48" stroke="#0a0a0a" stroke-width="1.4"/>
+                <line x1="66" y1="61" x2="126" y2="54" stroke="#0a0a0a" stroke-width="1.4"/>
+                <line x1="66" y1="83" x2="126" y2="60" stroke="#0a0a0a" stroke-width="1.4"/>
+                <line x1="192" y1="50" x2="252" y2="50" stroke="#0a0a0a" stroke-width="1.8" marker-end="url(#ar)"/>
+              </g>
+            </svg>
+          </div>
+        </div>
+        <div class="pc-foot"><span>format adapters · 12-stage verify</span><span class="go">OPEN FILE 01 →</span></div>
+      </a>
+
+      <a class="pcard rv" href="/atc/">
+        <div class="pc-top"><span><span class="idx">FILE 02</span> · identity layer</span><span class="badge">57 cards live</span></div>
+        <div class="pc-body">
+          <h3>ATC<small>agent trust card</small></h3>
+          <p data-en="The passport. An <b>Ed25519-signed capability card</b> (ATC/1.0, v3.0 RFC) that says who the agent is, what it may touch, and who vouches for it — with a public revocation registry (MNR-CRL-1.0) and a lifecycle of five states. 57 cards already issued and verifiable by any stranger." data-es="El pasaporte. Una <b>tarjeta de capacidades firmada con Ed25519</b> (ATC/1.0, RFC v3.0) que dice quién es el agente, qué puede tocar y quién responde por él — con registro público de revocación (MNR-CRL-1.0) y un ciclo de vida de cinco estados. 57 tarjetas emitidas y verificables por cualquier extraño.">
+            The passport. An <b>Ed25519-signed capability card</b> (ATC/1.0, v3.0 RFC) that says who the agent is, what it may touch, and who vouches for it — with a public revocation registry (MNR-CRL-1.0) and a lifecycle of five states. 57 cards already issued and verifiable by any stranger.
+          </p>
+          <div class="pc-art">
+            <svg viewBox="0 0 320 96" width="100%">
+              <g font-family="JetBrains Mono">
+                <rect x="70" y="10" width="180" height="76" rx="6" fill="#fafafa" stroke="#0a0a0a" stroke-width="2"/>
+                <text x="82" y="30" font-size="10" font-weight="800" fill="#0a0a0a">ATC-2026-0042</text>
+                <text x="82" y="46" font-size="8.5" fill="#6b6b6b">subject: agent:invoice-bot-7</text>
+                <text x="82" y="59" font-size="8.5" fill="#6b6b6b">cap: fs.read · net.api</text>
+                <text x="82" y="72" font-size="8.5" fill="#6b6b6b">proof: Ed25519 · mn-ca-003</text>
+                <circle cx="228" cy="60" r="17" fill="none" stroke="#0e7a49" stroke-width="2" stroke-dasharray="3 2"/>
+                <text x="228" y="57" text-anchor="middle" font-size="8" font-weight="700" fill="#0e7a49">VERIFIED</text>
+                <text x="228" y="66" text-anchor="middle" font-size="6.5" fill="#0e7a49">30 s test</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+        <div class="pc-foot"><span>spec v3.0 · revocation registry</span><span class="go">OPEN FILE 02 →</span></div>
+      </a>
+
+      <a class="pcard rv" href="/sentinel/">
+        <div class="pc-top"><span><span class="idx">FILE 03</span> · audit engine</span><span class="badge">1.2M checks</span></div>
+        <div class="pc-body">
+          <h3>Sentinel<small>static + dynamic audit</small></h3>
+          <p data-en="The scanner that doesn't trust source code alone. <b>10 static layers</b> (secrets, injection, dangerous capabilities…) plus an <b>L2 sandbox</b> that actually runs each MCP server under gVisor and watches its syscalls for 30 seconds. 1,211,488 checks performed; 1,030 threats caught." data-es="El escáner que no confía solo en el código fuente. <b>10 capas estáticas</b> (secretos, inyección, capacidades peligrosas…) más un <b>sandbox L2</b> que realmente ejecuta cada servidor MCP bajo gVisor y vigila sus syscalls por 30 segundos. 1.211.488 chequeos realizados; 1.030 amenazas cazadas.">
+            The scanner that doesn't trust source code alone. <b>10 static layers</b> (secrets, injection, dangerous capabilities…) plus an <b>L2 sandbox</b> that actually runs each MCP server under gVisor and watches its syscalls for 30 seconds. 1,211,488 checks performed; 1,030 threats caught.
+          </p>
+          <div class="pc-art">
+            <svg viewBox="0 0 320 96" width="100%">
+              <g font-family="JetBrains Mono" font-size="8.5">
+                <rect x="10" y="10" width="130" height="76" fill="#fafafa" stroke="#0a0a0a" stroke-width="1.6"/>
+                <text x="20" y="26" fill="#0a0a0a" font-weight="700">L1 static ×10</text>
+                <text x="20" y="41" fill="#6b6b6b">· secrets · injection</text>
+                <text x="20" y="54" fill="#6b6b6b">· capabilities · deps</text>
+                <text x="20" y="67" fill="#6b6b6b">· fingerprints · …</text>
+                <rect x="180" y="10" width="130" height="76" fill="#0a0a0a"/>
+                <text x="190" y="26" fill="#fafafa" font-weight="700">L2 sandbox</text>
+                <text x="190" y="41" fill="#9a9a9a">gVisor / Firecracker</text>
+                <text x="190" y="54" fill="#9a9a9a">syscall trace · 30 s</text>
+                <text x="190" y="67" fill="#d43c19" font-weight="700">rm .ssh → CAUGHT</text>
+                <line x1="140" y1="48" x2="178" y2="48" stroke="#d43c19" stroke-width="2" marker-end="url(#ar)"/>
+              </g>
+            </svg>
+          </div>
+        </div>
+        <div class="pc-foot"><span>L1 static · L2 DAST</span><span class="go">OPEN FILE 03 →</span></div>
+      </a>
+
+      <a class="pcard rv" href="/interceptor/">
+        <div class="pc-top"><span><span class="idx">FILE 04</span> · enforcement</span><span class="badge hook">runtime</span></div>
+        <div class="pc-body">
+          <h3>Interceptor<small>policy engine</small></h3>
+          <p data-en="The last gate before your database. A runtime MCP interceptor holding <b>policy rules that block .env reads and rm -rf</b> even when the caller's card is valid and the score is green. Because a good agent with a leaked prompt is still a bad night." data-es="La última compuerta antes de tu base de datos. Un interceptor MCP de runtime con <b>reglas de política que bloquean lecturas de .env y rm -rf</b> incluso cuando la tarjeta del llamador es válida y el puntaje está verde. Porque un buen agente con un prompt filtrado sigue siendo una mala noche.">
+            The last gate before your database. A runtime MCP interceptor holding <b>policy rules that block .env reads and rm -rf</b> even when the caller's card is valid and the score is green. Because a good agent with a leaked prompt is still a bad night.
+          </p>
+          <div class="pc-art">
+            <svg viewBox="0 0 320 96" width="100%">
+              <g font-family="JetBrains Mono" font-size="9">
+                <rect x="10" y="32" width="76" height="30" fill="#fafafa" stroke="#0a0a0a" stroke-width="1.6"/>
+                <text x="48" y="51" text-anchor="middle" fill="#0a0a0a">request</text>
+                <rect x="122" y="18" width="96" height="58" fill="#fafafa" stroke="#d43c19" stroke-width="2"/>
+                <text x="170" y="38" text-anchor="middle" fill="#d43c19" font-weight="800">P-01..P-05</text>
+                <text x="170" y="53" text-anchor="middle" fill="#6b6b6b">capability graph</text>
+                <text x="170" y="66" text-anchor="middle" fill="#6b6b6b">+ org policy</text>
+                <line x1="86" y1="47" x2="120" y2="47" stroke="#0a0a0a" stroke-width="1.6" marker-end="url(#ar)"/>
+                <line x1="218" y1="34" x2="262" y2="26" stroke="#0e7a49" stroke-width="2"/>
+                <text x="286" y="28" fill="#0e7a49" font-weight="700" text-anchor="middle">ALLOW</text>
+                <line x1="218" y1="62" x2="262" y2="70" stroke="#d43c19" stroke-width="2" stroke-dasharray="4 3"/>
+                <text x="286" y="74" fill="#d43c19" font-weight="700" text-anchor="middle">BLOCK</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+        <div class="pc-foot"><span>5 live rules · attack chains</span><span class="go">OPEN FILE 04 →</span></div>
+      </a>
+
+      <a class="pcard rv" href="https://wall.utalabs.tech" target="_blank" rel="noopener">
+        <div class="pc-top"><span>ANNEX A · provider side</span><span class="badge ext">wall.utalabs.tech</span></div>
+        <div class="pc-body">
+          <h3>uta-shield<small>the firewall for mcp operators</small></h3>
+          <p data-en="Lasso, Mintive, Obot protect the consumer. <b>Nobody protects the operator</b> — the SaaS publishing an MCP server. uta-shield wraps your server once: identity gates, threat-intel blocking (23 live IOCs from a real takedown), rate limits, DLP, x402 metering, JSONL audit. 19.8 kB, zero dependencies." data-es="Lasso, Mintive, Obot protegen al consumidor. <b>Nadie protege al operador</b> — el SaaS que publica un servidor MCP. uta-shield envuelve tu servidor una vez: gates de identidad, bloqueo threat-intel (23 IOCs vivos de un takedown real), rate limits, DLP, metering x402, auditoría JSONL. 19.8 kB, cero dependencias.">
+            Lasso, Mintive, Obot protect the consumer. <b>Nobody protects the operator</b> — the SaaS publishing an MCP server. uta-shield wraps your server once: identity gates, threat-intel blocking (23 live IOCs from a real takedown), rate limits, DLP, x402 metering, JSONL audit. 19.8 kB, zero dependencies.
+          </p>
+        </div>
+        <div class="pc-foot"><span>8 layers · zero deps</span><span class="go">OPEN THE WALL ↗</span></div>
+      </a>
+
+      <a class="pcard rv" href="https://www.marketnow.site" target="_blank" rel="noopener">
+        <div class="pc-top"><span>ANNEX B · registry</span><span class="badge ext">marketnow.site</span></div>
+        <div class="pc-body">
+          <h3>MarketNow<small>trust registry & marketplace</small></h3>
+          <p data-en="Where the stack meets the world: a hosted registry verifying skills, credentials and domains across <b>68,388 indexed MCP servers</b> (132,737 tracked), with a free 9-tool MCP API, signed skill submissions, revocation checks and Sentinel scoring on every entry." data-es="Donde el stack se encuentra con el mundo: un registro alojado que verifica skills, credenciales y dominios a través de <b>68.388 servidores MCP indexados</b> (132.737 rastreados), con una API MCP gratuita de 9 tools, submissions firmados, chequeos de revocación y puntaje Sentinel en cada entrada.">
+            Where the stack meets the world: a hosted registry verifying skills, credentials and domains across <b>68,388 indexed MCP servers</b> (132,737 tracked), with a free 9-tool MCP API, signed skill submissions, revocation checks and Sentinel scoring on every entry.
+          </p>
+        </div>
+        <div class="pc-foot"><span>9 MCP tools · free api</span><span class="go">OPEN REGISTRY ↗</span></div>
+      </a>
     </div>
   </div>
 </section>
 
-<section id="contact">
+<!-- ============ STATS ============ -->
+<section class="blk">
   <div class="wrap">
-    <div class="lbl">Get in touch</div>
-    <h2>Building agents that spend? Talk to us.</h2>
-    <p class="lead">Integrations, pilots, licensing of UTA Shield, or standards work — one line is enough to start.</p>
-    <div class="contact">
-      <a class="btn pri" href="mailto:contacto@alicelabs.site">contacto@alicelabs.site</a>
-      <a class="btn sec" href="https://github.com/eddyflores100-lang">github.com/eddyflores100-lang</a>
-      <a class="btn sec" href="https://alicelabs.site">alicelabs.site ↗</a>
+    <div class="sec-head rv"><span class="no">PROOF</span><h2 data-en="Numbers with links" data-es="Números con enlaces">Numbers with links</h2></div>
+    <p class="lede rv" data-en="Counted from public artifacts, not from slide decks. Where a claim is a roadmap item, this site says so — see the honesty policy on each file." data-es="Contados desde artefactos públicos, no desde diapositivas. Donde una afirmación es un item de roadmap, este sitio lo dice — mira la política de honestidad en cada archivo.">
+      Counted from public artifacts, not from slide decks. Where a claim is a roadmap item, this site says so — see the honesty policy on each file.
+    </p>
+    <div class="stats rv">
+      <div class="st"><div class="n"><span data-count="68388">0</span></div><div class="l" data-en="MCP servers indexed" data-es="servidores MCP indexados">MCP servers indexed</div></div>
+      <div class="st"><div class="n"><span data-count="1211488">0</span></div><div class="l" data-en="sentinel checks run" data-es="chequeos sentinel ejecutados">sentinel checks run</div></div>
+      <div class="st"><div class="n"><span data-count="1030">0</span></div><div class="l" data-en="threats detected" data-es="amenazas detectadas">threats detected</div></div>
+      <div class="st"><div class="n"><span data-count="57">0</span></div><div class="l" data-en="ATCs signed &amp; live" data-es="ATCs firmadas y vivas">ATCs signed &amp; live</div></div>
+      <div class="st"><div class="n">$<span data-count="0.01" data-dec="2">0</span></div><div class="l" data-en="per x402 verification" data-es="por verificación x402">per x402 verification</div></div>
+      <div class="st"><div class="n"><span data-count="21">0</span><span class="u">+</span></div><div class="l" data-en="integration proposals filed" data-es="propuestas de integración archivadas">integration proposals filed</div></div>
     </div>
   </div>
 </section>
 
+<!-- ============ PRINCIPLES ============ -->
+<section class="blk">
+  <div class="wrap">
+    <div class="sec-head rv"><span class="no">RULES</span><h2 data-en="House rules" data-es="Reglas de la casa">House rules</h2></div>
+    <p class="lede rv" data-en="Four rules govern every file in this cabinet. They are the difference between security theater and security." data-es="Cuatro reglas gobiernan cada archivo de este gabinete. Son la diferencia entre teatro de seguridad y seguridad.">
+      Four rules govern every file in this cabinet. They are the difference between security theater and security.
+    </p>
+    <div class="rows rv">
+      <div class="row"><div class="b">fail-closed</div><p data-en="<b>If the authority can't answer, the spend doesn't happen.</b> Unreachable revocation check → DENY. Expired card → DENY. Downtime degrades to “no”, never to “probably fine”. Implemented in UTA's verifier and in uta-shield's gates." data-es="<b>Si la autoridad no responde, el gasto no ocurre.</b> Chequeo de revocación inalcanzable → DENY. Tarjeta expirada → DENY. El downtime degrada a “no”, nunca a “probablemente bien”. Implementado en el verificador de UTA y en los gates de uta-shield."><b>If the authority can't answer, the spend doesn't happen.</b> Unreachable revocation check → DENY. Expired card → DENY. Downtime degrades to “no”, never to “probably fine”. Implemented in UTA's verifier and in uta-shield's gates.</p></div>
+      <div class="row"><div class="b">receipts, not vibes</div><p data-en="Every decision — <b>including every refusal</b> — returns a signed receipt with a machine-readable reason and the identity of the authority that answered. Auditors read why, not just what." data-es="Cada decisión — <b>incluyendo cada rechazo</b> — devuelve un recibo firmado con una razón legible por máquina y la identidad de la autoridad que respondió. Los auditores leen el porqué, no solo el qué.">Every decision — <b>including every refusal</b> — returns a signed receipt with a machine-readable reason and the identity of the authority that answered. Auditors read why, not just what.</p></div>
+      <div class="row"><div class="b">stranger-test</div><p data-en="Trust that requires membership is not trust — it's a guest list. Every claim on this site is <b>re-derivable by a stranger</b> from live public URLs, in ~30 seconds, with no account and no reliance on our endpoints. Try the Rekor verifier yourself." data-es="La confianza que requiere membresía no es confianza — es una lista de invitados. Cada afirmación en este sitio es <b>re-derivable por un extraño</b> desde URLs públicas vivas, en ~30 segundos, sin cuenta y sin depender de nuestros endpoints. Prueba el verificador Rekor tú mismo.">Trust that requires membership is not trust — it's a guest list. Every claim on this site is <b>re-derivable by a stranger</b> from live public URLs, in ~30 seconds, with no account and no reliance on our endpoints. Try the Rekor verifier yourself.</p></div>
+      <div class="row"><div class="b">honesty policy</div><p data-en="<span class='ok'>solid line = shipped</span>. <span class='sig'>dashed line = design hook</span>. READMEs and this site mark exactly what ships today — no inflated claims, no stealth betas presented as products." data-es="<span class='ok'>línea sólida = despachado</span>. <span class='sig'>línea punteada = hook de diseño</span>. Los READMEs y este sitio marcan exactamente qué está despachado hoy — sin afirmaciones infladas, ni betas encubiertas presentadas como productos."><span class="ok">solid line = shipped</span>. <span class="sig">dashed line = design hook</span>. READMEs and this site mark exactly what ships today — no inflated claims, no stealth betas presented as products.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="blk">
+  <div class="wrap">
+    <div class="sec-head rv"><span class="no">Q&amp;A</span><h2 data-en="Fair questions" data-es="Preguntas justas">Fair questions</h2></div>
+    <div class="faq rv mt2">
+      <details>
+        <summary><span data-en="Is UTA the same thing as ATC?" data-es="¿UTA es lo mismo que ATC?">Is UTA the same thing as ATC?</span><span class="pm">+</span></summary>
+        <div class="fa" data-en="No. <b>ATC</b> is the protocol — a signed card format with a spec, a lifecycle and a revocation registry. <b>UTA</b> is the adapter that speaks every format (ATC among them) and translates/verifies through one canonical schema. Think passport vs. border checkpoint." data-es="No. <b>ATC</b> es el protocolo — un formato de tarjeta firmada con spec, ciclo de vida y registro de revocación. <b>UTA</b> es el adaptador que habla todos los formatos (ATC entre ellos) y traduce/verifica a través de un esquema canónico. Piensa pasaporte vs. puesto fronterizo.">No. <b>ATC</b> is the protocol — a signed card format with a spec, a lifecycle and a revocation registry. <b>UTA</b> is the adapter that speaks every format (ATC among them) and translates/verifies through one canonical schema. Think passport vs. border checkpoint.</div>
+      </details>
+      <details>
+        <summary><span data-en="Why so many products? Is this one product?" data-es="¿Por qué tantos productos? ¿Es un solo producto?">Why so many products? Is this one product?</span><span class="pm">+</span></summary>
+        <div class="fa" data-en="It's one question with four answers, at four layers: <b>ATC</b> says who the agent is, <b>UTA</b> understands any credential it shows, <b>Sentinel</b> audits what its tools actually do, <b>Interceptor</b> decides at runtime. uta-shield and MarketNow deploy the same stack on the operator and registry sides." data-es="Es una pregunta con cuatro respuestas, en cuatro capas: <b>ATC</b> dice quién es el agente, <b>UTA</b> entiende cualquier credencial que muestre, <b>Sentinel</b> audita lo que sus tools realmente hacen, <b>Interceptor</b> decide en runtime. uta-shield y MarketNow despliegan el mismo stack del lado del operador y del registro.">It's one question with four answers, at four layers: <b>ATC</b> says who the agent is, <b>UTA</b> understands any credential it shows, <b>Sentinel</b> audits what its tools actually do, <b>Interceptor</b> decides at runtime. uta-shield and MarketNow deploy the same stack on the operator and registry sides.</div>
+      </details>
+      <details>
+        <summary><span data-en="Can I use this today, for free?" data-es="¿Puedo usar esto hoy, gratis?">Can I use this today, for free?</span><span class="pm">+</span></summary>
+        <div class="fa" data-en="Yes, in several ways: the x402 verification API is <b>pay-per-call with no signup</b> ($0.01 on Base, free on Sepolia), <b>uta-shield is free to self-host</b>, the MarketNow MCP API is free, and ATC spec + conformance vectors are public. Commercial licensing (white-label, OEM) exists for the managed tiers." data-es="Sí, de varias formas: la API x402 de verificación es <b>de pago por llamada sin registro</b> ($0.01 en Base, gratis en Sepolia), <b>uta-shield es gratis de self-hostear</b>, la API MCP de MarketNow es gratis, y la spec ATC + vectores de conformidad son públicos. Existe licenciamiento comercial (white-label, OEM) para los tiers gestionados.">Yes, in several ways: the x402 verification API is <b>pay-per-call with no signup</b> ($0.01 on Base, free on Sepolia), <b>uta-shield is free to self-host</b>, the MarketNow MCP API is free, and ATC spec + conformance vectors are public. Commercial licensing (white-label, OEM) exists for the managed tiers.</div>
+      </details>
+      <details>
+        <summary><span data-en="Who is behind this?" data-es="¿Quién está detrás de esto?">Who is behind this?</span><span class="pm">+</span></summary>
+        <div class="fa" data-en="AliceLabs LLC (Wyoming, USA) — Edison Flores &amp; Alejandro Flores. The stack is built in the open: solana-foundation/pay PR #525, x402 wg-identity #40, and a public postmortem culture (see the 2026-09-08 CA rotation incident report)." data-es="AliceLabs LLC (Wyoming, EE.UU.) — Edison Flores &amp; Alejandro Flores. El stack se construye en público: solana-foundation/pay PR #525, x402 wg-identity #40, y una cultura de postmortems públicos (ver el informe del incidente de rotación de CA del 2026-09-08).">AliceLabs LLC (Wyoming, USA) — Edison Flores &amp; Alejandro Flores. The stack is built in the open: solana-foundation/pay PR #525, x402 wg-identity #40, and a public postmortem culture (see the 2026-09-08 CA rotation incident report).</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ NEXT FILE ============ -->
+<div class="wrap">
+  <div class="filennav">
+    <a href="https://wall.utalabs.tech" target="_blank" rel="noopener">
+      <div class="fno">annex · sister site</div>
+      <div class="ft">wall.utalabs.tech <span>↗</span></div>
+    </a>
+    <a class="next" href="/uta/">
+      <div class="fno">next file · 01</div>
+      <div class="ft">UTA — universal trust adapter <span>→</span></div>
+    </a>
+  </div>
+</div>
+
+<!-- ============ FOOTER ============ -->
 <footer>
   <div class="wrap">
-    <div>© 2026 AliceLabs LLC · UTA and UTA Shield</div>
-    <div><a href="https://wall.utalabs.tech">wall.utalabs.tech</a> · <a href="https://alicelabs.site">alicelabs.site</a> · <a href="https://github.com/eddyflores100-lang">GitHub</a></div>
+    <div class="fcol">
+      <div class="fbrand">UTALABS<span style="color:var(--signal)">.</span>TECH</div>
+      <div>© 2026 AliceLabs LLC · Wyoming, USA</div>
+      <div>UTA · ATC · Sentinel · Interceptor are AliceLabs products</div>
+      <div><span class="fseal">FAIL-CLOSED BY DEFAULT</span></div>
+    </div>
+    <div class="fcol">
+      <b>FILES</b><br>
+      <a href="/uta/">01 — UTA</a><br>
+      <a href="/atc/">02 — ATC</a><br>
+      <a href="/sentinel/">03 — Sentinel</a><br>
+      <a href="/interceptor/">04 — Interceptor</a>
+    </div>
+    <div class="fcol">
+      <b>SITES</b><br>
+      <a href="https://wall.utalabs.tech">wall.utalabs.tech ↗</a><br>
+      <a href="https://www.marketnow.site">marketnow.site ↗</a><br>
+      <a href="https://github.com/eddyflores100-lang">github.com/eddyflores100-lang ↗</a><br>
+      <a href="mailto:contacto@alicelabs.site">contacto@alicelabs.site</a>
+    </div>
+    <div class="fcol">
+      <b>LEGAL</b><br>
+      <a href="/policies/">policies &amp; licensing</a><br>
+      <a href="/policies/#privacy">privacy</a><br>
+      <a href="/policies/#terms">terms</a><br>
+      <a href="/policies/#aups">acceptable use</a>
+    </div>
   </div>
 </footer>
 
+<script src="/assets/site.js"></script>
 </body>
 </html>

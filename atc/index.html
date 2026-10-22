@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FILE 02 · ATC — agent trust card protocol · utalabs.tech</title>
+<meta name="description" content="ATC/1.0 — the Agent Trust Card protocol: Ed25519-signed capability cards for AI agents, RFC 8785 canonicalization, public revocation registry (MNR-CRL-1.0) and a five-state lifecycle. 57 cards live. By AliceLabs LLC.">
+<link rel="canonical" href="https://utalabs.tech/atc/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230a0a0a'/%3E%3Cpath d='M8 10 L8 22 M8 22 L16 9 L24 22 M24 10 L24 22' stroke='%23d43c19' stroke-width='2.6' fill='none' stroke-linecap='square'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css">
+</head>
+<body>
+
+<nav class="topbar">
+  <div class="wrap">
+    <a class="brand" href="/"><span class="stamp">U</span>UTALABS<span style="color:var(--signal)">.</span>TECH</a>
+    <div class="navfiles">
+      <a href="/uta/"><sup>01</sup>UTA</a>
+      <a href="/atc/" class="on"><sup>02</sup>ATC</a>
+      <a href="/sentinel/"><sup>03</sup>SENTINEL</a>
+      <a href="/interceptor/"><sup>04</sup>INTERCEPTOR</a>
+    </div>
+    <div class="navright">
+      <div class="extlinks">
+        <a href="https://wall.utalabs.tech">wall↗</a>
+        <a href="https://www.marketnow.site">marketnow↗</a>
+        <a href="https://github.com/alicelabs-llc/universal-trust-adapter">repo↗</a>
+      </div>
+      <div class="langsw">
+        <button data-setlang="en" class="on">EN</button>
+        <button data-setlang="es">ES</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="filestrip">
+  <div class="wrap">
+    <span><b>FILE 02</b> — identity layer</span>
+    <span class="fs-signal">ATC · agent trust card · spec v3.0 RFC</span>
+    <span>issued: <b>57 cards</b> · <b class="ok">revocation registry live</b></span>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap herorow">
+    <div>
+      <div class="kick" data-en="File 02 — a passport your agent can actually show" data-es="Archivo 02 — un pasaporte que tu agente sí puede mostrar">File 02 — a passport your agent can actually show</div>
+      <h1 class="mega" data-en='Identity that <em>dies loudly</em> when it must.' data-es='Identidad que <em>muere en voz alta</em> cuando debe hacerlo.'>Identity that <em>dies loudly</em> when it must.</h1>
+      <p class="tagline" data-en="An Agent Trust Card is an <b>Ed25519-signed capability card</b>: who the agent is, what it may touch, who vouches for it, until when. The hard part isn't issuing cards — anyone can issue badges. The hard part is <b>un-issuing</b> them: ATC ships a public, signed revocation registry (MNR-CRL-1.0) anchored to an append-only transparency log. When a card dies, every verifier on earth knows." data-es="Una Agent Trust Card es una <b>tarjeta de capacidades firmada con Ed25519</b>: quién es el agente, qué puede tocar, quién responde por él, hasta cuándo. Lo difícil no es emitir tarjetas — cualquiera emite badges. Lo difícil es <b>des-emitirlas</b>: ATC trae un registro público de revocación firmado (MNR-CRL-1.0) anclado a un log de transparencia append-only. Cuando una tarjeta muere, todo verificador del planeta se entera.">
+        An Agent Trust Card is an <b>Ed25519-signed capability card</b>: who the agent is, what it may touch, who vouches for it, until when. The hard part isn't issuing cards — anyone can issue badges. The hard part is <b>un-issuing</b> them: ATC ships a public, signed revocation registry (MNR-CRL-1.0) anchored to an append-only transparency log. When a card dies, every verifier on earth knows.
+      </p>
+    </div>
+    <aside class="herometa rv">
+      <div class="row"><span>protocol</span><b>ATC/1.0 · spec v3.0</b></div>
+      <div class="row"><span>signature</span><b>Ed25519 · RFC 8032</b></div>
+      <div class="row"><span>canonicalization</span><b>RFC 8785 JCS</b></div>
+      <div class="row"><span>cards live</span><b>57</b></div>
+      <div class="row"><span>revocation</span><b>MNR-CRL-1.0</b></div>
+      <div class="row"><span>states</span><b>VALID · EXPIRED · REVOKED<br>SUSPENDED · SUPERSEDED</b></div>
+      <div class="row"><span>verify cost</span><b class="ok">$0 · public API</b></div>
+    </aside>
+  </div>
+</header>
+
+<!-- ============ CARD ANATOMY ============ -->
+<section class="blk">
+  <div class="wrap">
+    <div class="sec-head rv"><span class="no">FIG. 02-A</span><h2 data-en="Anatomy of a card" data-es="Anatomía de una tarjeta">Anatomy of a card</h2></div>
+    <p class="lede rv" data-en="Every field is machine-checkable. Nothing on the card requires trusting the issuer's word — only its signature." data-es="Cada campo es verificable por máquina. Nada en la tarjeta requiere confiar en la palabra del emisor — solo en su firma.">
+      Every field is machine-checkable. Nothing on the card requires trusting the issuer's word — only its signature.
+    </p>
+    <figure class="dgm fig rv">
+      <svg viewBox="0 0 1000 400" width="100%" style="min-width:700px" role="img" aria-label="ATC card anatomy">
+        <!-- card body -->
+        <g>
+          <rect x="150" y="40" width="480" height="300" rx="14" fill="#fafafa" stroke="#0a0a0a" stroke-width="3"/>
+          <rect x="150" y="40" width="480" height="54" rx="14" fill="#0a0a0a"/>
+          <text x="175" y="74" font-family="JetBrains Mono" font-weight="800" font-size="20" fill="#fafafa">ATC-2026-0042</text>
+          <text x="605" y="74" text-anchor="end" font-family="JetBrains Mono" font-size="11" fill="#9a9a9a">AGENT TRUST CARD / 1.0</text>
+          <g font-family="JetBrains Mono" font-size="14">
+            <text x="175" y="132" fill="#6b6b6b">subject</text><text x="330" y="132" fill="#0a0a0a" font-weight="700">agent:invoice-bot-7</text>
+            <line x1="175" y1="142" x2="605" y2="142" stroke="#d4d1c8" stroke-width="1" stroke-dasharray="4 4"/>
+            <text x="175" y="170" fill="#6b6b6b">issuer / CA</text><text x="330" y="170" fill="#0a0a0a" font-weight="700">mn-ca-003 (AliceLabs)</text>
+            <line x1="175" y1="180" x2="605" y2="180" stroke="#d4d1c8" stroke-width="1" stroke-dasharray="4 4"/>
+            <text x="175" y="208" fill="#6b6b6b">capabilities</text><text x="330" y="208" fill="#0a0a0a" font-weight="700">fs.read · net.api · shell: NO</text>
+            <line x1="175" y1="218" x2="605" y2="218" stroke="#d4d1c8" stroke-width="1" stroke-dasharray="4 4"/>
+            <text x="175" y="246" fill="#6b6b6b">canonical form</text><text x="330" y="246" fill="#0a0a0a" font-weight="700">RFC 8785 JCS</text>
+            <line x1="175" y1="256" x2="605" y2="256" stroke="#d4d1c8" stroke-width="1" stroke-dasharray="4 4"/>
+            <text x="175" y="284" fill="#6b6b6b">proof</text><text x="330" y="284" fill="#0a0a0a" font-weight="700">Ed25519Signature2020</text>
+            <text x="175" y="322" fill="#9a9a9a" font-size="11">anchor: sigstore rekor · logIndex 2764479676</text>
+          </g>
+          <!-- seal -->
+          <g transform="rotate(-8 560 300)">
+            <circle cx="560" cy="300" r="34" fill="none" stroke="#0e7a49" stroke-width="3" stroke-dasharray="5 3"/>
+            <text x="560" y="296" text-anchor="middle" font-family="JetBrains Mono" font-size="10" font-weight="800" fill="#0e7a49">STRANGER</text>
+            <text x="560" y="310" text-anchor="middle" font-family="JetBrains Mono" font-size="10" font-weight="800" fill="#0e7a49">VERIFIED</text>
+          </g>
+        </g>
+        <!-- callouts -->
+        <g font-family="JetBrains Mono" font-size="12" fill="#0a0a0a">
+          <line x1="150" y1="170" x2="90" y2="170" stroke="#d43c19" stroke-width="1.6"/>
+          <circle cx="78" cy="170" r="11" fill="#fafafa" stroke="#d43c19" stroke-width="2"/>
+          <text x="78" y="174" text-anchor="middle" fill="#d43c19" font-weight="800">1</text>
+          <text x="20" y="200" fill="#6b6b6b" font-size="11">the CA that answers</text>
+          <text x="20" y="214" fill="#6b6b6b" font-size="11">if it can't answer: DENY</text>
+
+          <line x1="630" y1="208" x2="690" y2="208" stroke="#d43c19" stroke-width="1.6"/>
+          <circle cx="702" cy="208" r="11" fill="#fafafa" stroke="#d43c19" stroke-width="2"/>
+          <text x="702" y="212" text-anchor="middle" fill="#d43c19" font-weight="800">2</text>
+          <text x="720" y="200" fill="#0a0a0a" font-weight="700">least privilege, written down</text>
+          <text x="720" y="216" fill="#6b6b6b" font-size="11">“shell: NO” is enforceable, not aspirational</text>
+
+          <line x1="630" y1="284" x2="690" y2="284" stroke="#d43c19" stroke-width="1.6"/>
+          <circle cx="702" cy="284" r="11" fill="#fafafa" stroke="#d43c19" stroke-width="2"/>
+          <text x="702" y="288" text-anchor="middle" fill="#d43c19" font-weight="800">3</text>
+          <text x="720" y="276" fill="#0a0a0a" font-weight="700">re-derivable proof</text>
+          <text x="720" y="292" fill="#6b6b6b" font-size="11">any stranger re-verifies in ~30 s</text>
+          <text x="720" y="306" fill="#6b6b6b" font-size="11">no account · no trust in our endpoints</text>
+        </g>
+        <!-- revocation lane -->
+        <g font-family="JetBrains Mono" font-size="11">
+          <path d="M 330 340 L 330 372 L 620 372" fill="none" stroke="#d43c19" stroke-width="2" stroke-dasharray="6 4"/>
+          <path d="M 613 366 L 621 372 L 613 378" fill="none" stroke="#d43c19" stroke-width="2"/>
+          <rect x="620" y="352" width="340" height="40" fill="#fafafa" stroke="#d43c19" stroke-width="2"/>
+          <text x="640" y="369" fill="#d43c19" font-weight="800">MNR-CRL-1.0 revocation registry</text>
+          <text x="640" y="384" fill="#6b6b6b" font-size="10">signed list + append-only transparency log (CT for agents)</text>
+        </g>
+      </svg>
+      <figcaption><span>fig 02-a — one card, three guarantees</span><span>the interesting field is the one that says NO</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ LIFECYCLE SIM ============ -->
+<section class="blk">
+  <div class="wrap">
+    <div class="sec-head rv"><span class="no">TRY. 02</span><h2 data-en="Kill a card, watch the world notice" data-es="Mata una tarjeta, mira al mundo enterarse">Kill a card, watch the world notice</h2></div>
+    <p class="lede rv" data-en="A badge that can't be revoked is a tattoo. Press the states and read what each one means for every verifier — not just for ours." data-es="Un badge que no se puede revocar es un tatuaje. Aprieta los estados y lee qué significa cada uno para todo verificador — no solo para el nuestro.">
+      A badge that can't be revoked is a tattoo. Press the states and read what each one means for every verifier — not just for ours.
+    </p>
+
+    <div class="sim rv" id="atc-sim">
+      <div class="sim-head">
+        <span>ATC/1.0 — lifecycle</span>
+        <span class="live"><i></i><span data-en="state machine" data-es="máquina de estados">state machine</span></span>
+      </div>
+      <div class="sim-body">
+        <div class="atcgrid">
+          <div class="atccard" id="atc-card" data-state="VALID">
+            <div class="ac-top"><span>agent trust card / 1.0</span><span>spec v3.0</span></div>
+            <div class="ac-id">ATC-2026-0042</div>
+            <div class="ac-sub">issued 2026-09-12 · mn-ca-003</div>
+            <div style="margin-top:14px">
+              <div class="ac-field"><span>subject</span><b>agent:invoice-bot-7</b></div>
+              <div class="ac-field"><span>capabilities</span><b>fs.read · net.api</b></div>
+              <div class="ac-field"><span>canonicalization</span><b>RFC 8785 JCS</b></div>
+              <div class="ac-field"><span>rekor anchor</span><b>logIndex 2764479676</b></div>
+            </div>
+            <div class="ac-state" data-en="VALID" data-es="VALID">VALID</div>
+          </div>
+          <div class="statelog">
+            <p id="atc-log"></p>
+            <div class="atc-btns">
+              <button class="tbtn" data-atc="VALID" onclick="atcSet('VALID')">VALID</button>
+              <button class="tbtn" data-atc="SUSPENDED" onclick="atcSet('SUSPENDED')" style="border-color:var(--amber);color:var(--amber)">SUSPENDED</button>
+              <button class="tbtn danger" data-atc="REVOKED" onclick="atcSet('REVOKED')">REVOKED</button>
+            </div>
+            <p class="small" style="border:0;background:none;padding:6px 2px" data-en="Also in the spec, not simulated here: EXPIRED (time-based, automatic) and SUPERSEDED (replaced by a newer card, chain preserved)." data-es="También en la spec, no simulado aquí: EXPIRED (por tiempo, automático) y SUPERSEDED (reemplazada por una tarjeta más nueva, cadena preservada).">
+              Also in the spec, not simulated here: EXPIRED (time-based, automatic) and SUPERSEDED (replaced by a newer card, chain preserved).
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="codebox mt2 rv">
+      <div class="code"><span class="c"># public CA key (Ed25519, RFC 8032)</span>
+curl "https://www.marketnow.site/api/atc?action=ca-key"
+
+<span class="c"># ATC/1.3 specification</span>
+curl "https://www.marketnow.site/api/atc?action=spec"
+
+<span class="c"># verify a card — verdict + reason, signed</span>
+curl "https://www.marketnow.site/api/atc?action=verify&amp;card_id=ATC-2026-XXXXX"</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHY IT MATTERS ============ -->
+<section class="blk">
+  <div class="wrap">
+    <div class="sec-head rv"><span class="no">RULE. 02</span><h2 data-en="Why a protocol, not a platform" data-es="Por qué un protocolo, no una plataforma">Why a protocol, not a platform</h2></div>
+    <div class="rows mt2">
+      <div class="row rv"><div class="b">portable</div><p data-en="A card in your repo, your CI, your npm package — <b>not a session in someone's dashboard</b>. Verifiers don't call us to trust a card; they check a signature and a revocation list. If AliceLabs disappeared tomorrow, every existing card would still verify (or correctly fail) forever." data-es="Una tarjeta en tu repo, tu CI, tu paquete npm — <b>no una sesión en el dashboard de otro</b>. Los verificadores no nos llaman para confiar en una tarjeta; chequean una firma y una lista de revocación. Si AliceLabs desapareciera mañana, cada tarjeta existente seguiría verificando (o fallando correctamente) para siempre.">A card in your repo, your CI, your npm package — <b>not a session in someone's dashboard</b>. Verifiers don't call us to trust a card; they check a signature and a revocation list. If AliceLabs disappeared tomorrow, every existing card would still verify (or correctly fail) forever.</p></div>
+      <div class="row rv"><div class="b">fingerprinted</div><p data-en="Cards bind to <b>cryptographic tool fingerprints</b> (RFC 8785 JCS + SHA-256 over the exact tool definitions): server_hash, tools_hash, schema_hash, dependency_hash. If the tool changes post-audit → the hash changes → the card auto-revokes. Silent upgrades become loud events." data-es="Las tarjetas se vinculan a <b>fingerprints criptográficos de tools</b> (RFC 8785 JCS + SHA-256 sobre las definiciones exactas): server_hash, tools_hash, schema_hash, dependency_hash. Si la tool cambia post-auditoría → el hash cambia → la tarjeta se auto-revoca. Los upgrades silenciosos se vuelven eventos ruidosos.">Cards bind to <b>cryptographic tool fingerprints</b> (RFC 8785 JCS + SHA-256 over the exact tool definitions): server_hash, tools_hash, schema_hash, dependency_hash. If the tool changes post-audit → the hash changes → the card auto-revokes. Silent upgrades become loud events.</p></div>
+      <div class="row rv"><div class="b">transparent</div><p data-en="Revocations and digests anchor to <b>Sigstore Rekor's public transparency log</b> — the same infrastructure that guards software signing. Three log entries already anchor our first CA rotation. It's Certificate Transparency, rebuilt for agents." data-es="Las revocaciones y digests se anclan al <b>log público de transparencia de Sigstore Rekor</b> — la misma infraestructura que guarda la firma de software. Tres entradas del log ya anclan nuestra primera rotación de CA. Es Certificate Transparency, reconstruido para agentes.">Revocations and digests anchor to <b>Sigstore Rekor's public transparency log</b> — the same infrastructure that guards software signing. Three log entries already anchor our first CA rotation. It's Certificate Transparency, rebuilt for agents.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ NAV ============ -->
+<div class="wrap">
+  <div class="filennav">
+    <a href="/uta/">
+      <div class="fno">prev file · 01</div>
+      <div class="ft">← UTA — universal trust adapter</div>
+    </a>
+    <a class="next" href="/sentinel/">
+      <div class="fno">next file · 03</div>
+      <div class="ft">Sentinel — the audit engine <span>→</span></div>
+    </a>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="fcol">
+      <div class="fbrand">UTALABS<span style="color:var(--signal)">.</span>TECH</div>
+      <div>© 2026 AliceLabs LLC · Wyoming, USA</div>
+      <div>FILE 02 · ATC — agent trust card protocol</div>
+      <div><span class="fseal">FAIL-CLOSED BY DEFAULT</span></div>
+    </div>
+    <div class="fcol">
+      <b>FILES</b><br>
+      <a href="/">00 — index</a><br>
+      <a href="/uta/">01 — UTA</a><br>
+      <a href="/sentinel/">03 — Sentinel</a><br>
+      <a href="/interceptor/">04 — Interceptor</a>
+    </div>
+    <div class="fcol">
+      <b>SOURCE</b><br>
+      <a href="https://github.com/alicelabs-llc/universal-trust-adapter">universal-trust-adapter ↗</a><br>
+      <a href="https://www.npmjs.com/package/agent-trust-card">npm agent-trust-card ↗</a><br>
+      <a href="https://www.marketnow.site/api/atc?action=spec">live spec endpoint ↗</a><br>
+      <a href="mailto:contacto@alicelabs.site">contacto@alicelabs.site</a>
+    </div>
+    <div class="fcol">
+      <b>LEGAL</b><br>
+      <a href="/policies/">policies &amp; licensing</a><br>
+      <a href="/policies/#privacy">privacy</a><br>
+      <a href="/policies/#terms">terms</a><br>
+      <a href="/policies/#aups">acceptable use</a>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/site.js"></script>
+</body>
+</html>

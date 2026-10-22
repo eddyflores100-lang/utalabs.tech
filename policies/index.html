@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FILE 05 · Policies &amp; licensing · utalabs.tech — AliceLabs LLC</title>
+<meta name="description" content="Policies for utalabs.tech and the AliceLabs agent-trust stack: privacy (no silent telemetry), terms, acceptable use, licensing (open-core MIT · AL-1.0, license for use, proprietary, CC-BY-4.0 feed).">
+<link rel="canonical" href="https://utalabs.tech/policies/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230a0a0a'/%3E%3Cpath d='M8 10 L8 22 M8 22 L16 9 L24 22 M24 10 L24 22' stroke='%23d43c19' stroke-width='2.6' fill='none' stroke-linecap='square'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/site.css">
+<style>
+  .policy h3{font-family:var(--mono);font-size:17px;margin:34px 0 12px;letter-spacing:-.3px}
+  .policy h3 span{color:var(--signal);margin-right:10px;font-size:13px}
+  .policy p,.policy li{color:var(--muted);font-size:14.8px;margin-bottom:10px;max-width:860px}
+  .policy b{color:var(--ink)}
+  .policy ul{margin:0 0 14px 20px}
+  .policy li{margin-bottom:6px}
+  .updated{font-family:var(--mono);font-size:11px;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-bottom:8px}
+  .anchorbar{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 8px}
+  .anchorbar a{
+    font-family:var(--mono);font-size:11.5px;text-decoration:none;color:var(--muted);
+    border:1.5px solid var(--ink);padding:6px 12px;border-radius:3px;
+  }
+  .anchorbar a:hover{background:var(--ink);color:var(--paper)}
+</style>
+</head>
+<body>
+
+<nav class="topbar">
+  <div class="wrap">
+    <a class="brand" href="/"><span class="stamp">U</span>UTALABS<span style="color:var(--signal)">.</span>TECH</a>
+    <div class="navfiles">
+      <a href="/uta/"><sup>01</sup>UTA</a>
+      <a href="/atc/"><sup>02</sup>ATC</a>
+      <a href="/sentinel/"><sup>03</sup>SENTINEL</a>
+      <a href="/interceptor/"><sup>04</sup>INTERCEPTOR</a>
+    </div>
+    <div class="navright">
+      <div class="extlinks">
+        <a href="https://wall.utalabs.tech">wall↗</a>
+        <a href="https://www.marketnow.site">marketnow↗</a>
+        <a href="https://github.com/eddyflores100-lang">github↗</a>
+      </div>
+      <div class="langsw">
+        <button data-setlang="en" class="on">EN</button>
+        <button data-setlang="es">ES</button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="filestrip">
+  <div class="wrap">
+    <span><b>FILE 05</b> — legal</span>
+    <span class="fs-signal">policies · licensing · alice labs llc</span>
+    <span>entity: <b>AliceLabs LLC · Wyoming, USA</b></span>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kick" data-en="File 05 — the boring file that protects the interesting ones" data-es="Archivo 05 — el archivo aburrido que protege a los interesantes">File 05 — the boring file that protects the interesting ones</div>
+    <h1 class="mega" data-en='Policies &amp; <em>licensing.</em>' data-es='Políticas y <em>licenciamiento.</em>'>Policies &amp; <em>licensing.</em></h1>
+    <p class="tagline" data-en="© 2026 AliceLabs LLC. All products in this cabinet — UTA, ATC, Sentinel, Interceptor, uta-shield, MarketNow — are AliceLabs LLC products. This page states what we collect (almost nothing), what you may do (a lot), and what you may not (the usual)." data-es="© 2026 AliceLabs LLC. Todos los productos de este gabinete — UTA, ATC, Sentinel, Interceptor, uta-shield, MarketNow — son productos de AliceLabs LLC. Esta página declara qué recopilamos (casi nada), qué puedes hacer (mucho) y qué no (lo de siempre).">
+      © 2026 AliceLabs LLC. All products in this cabinet — UTA, ATC, Sentinel, Interceptor, uta-shield, MarketNow — are AliceLabs LLC products. This page states what we collect (almost nothing), what you may do (a lot), and what you may not (the usual).
+    </p>
+    <div class="anchorbar">
+      <a href="#privacy">PRIVACY</a>
+      <a href="#terms">TERMS</a>
+      <a href="#aups">ACCEPTABLE USE</a>
+      <a href="#licensing">LICENSING</a>
+      <a href="#trademark">TRADEMARK</a>
+      <a href="#contact">CONTACT</a>
+    </div>
+  </div>
+</header>
+
+<section class="blk policy">
+  <div class="wrap">
+
+    <div class="updated" data-en="last updated: 2026-10-22 · applies to utalabs.tech and linked AliceLabs deployments" data-es="última actualización: 2026-10-22 · aplica a utalabs.tech y despliegues enlazados de AliceLabs">last updated: 2026-10-22 · applies to utalabs.tech and linked AliceLabs deployments</div>
+
+    <!-- PRIVACY -->
+    <h3 id="privacy"><span>§1</span><span data-en="Privacy policy" data-es="Política de privacidad">Privacy policy</span></h3>
+    <p data-en="<b>This website collects nothing.</b> utalabs.tech is a static site: no cookies, no analytics, no fingerprinting, no third-party trackers, no ads. Fonts are loaded from Google Fonts, which may receive your IP address as any HTTP request does — that is the entire extent of passive data flow on this domain." data-es="<b>Este sitio no recopila nada.</b> utalabs.tech es un sitio estático: sin cookies, sin analytics, sin fingerprinting, sin trackers de terceros, sin anuncios. Las fuentes se cargan de Google Fonts, que puede recibir tu IP como cualquier petición HTTP — ese es todo el flujo pasivo de datos en este dominio.">
+      <b>This website collects nothing.</b> utalabs.tech is a static site: no cookies, no analytics, no fingerprinting, no third-party trackers, no ads. Fonts are loaded from Google Fonts, which may receive your IP address as any HTTP request does — that is the entire extent of passive data flow on this domain.
+    </p>
+    <p data-en="<b>Our products follow the same instinct.</b> The stack's standing rule is <b>no silent telemetry</b>: UTA's verifier returns signed receipts and logs nothing it doesn't have to; uta-shield's audit trail records indicators and decisions — <b>never raw arguments</b> — and stays on your infrastructure, not ours; Sentinel audits run inside sandboxes with no real network and no real filesystem." data-es="<b>Nuestros productos siguen el mismo instinto.</b> La regla permanente del stack es <b>cero telemetría silenciosa</b>: el verificador de UTA devuelve recibos firmados y no registra nada que no deba; la pista de auditoría de uta-shield registra indicadores y decisiones — <b>nunca argumentos crudos</b> — y permanece en tu infraestructura, no en la nuestra; las auditorías de Sentinel corren en sandboxes sin red real ni filesystem real.">
+      <b>Our products follow the same instinct.</b> The stack's standing rule is <b>no silent telemetry</b>: UTA's verifier returns signed receipts and logs nothing it doesn't have to; uta-shield's audit trail records indicators and decisions — <b>never raw arguments</b> — and stays on your infrastructure, not ours; Sentinel audits run inside sandboxes with no real network and no real filesystem.
+    </p>
+    <p data-en="<b>Paid API calls (x402)</b> are settled on-chain (USDC on Base). Payment transactions are public by nature of the blockchain; we do not attach identity to them beyond what the protocol itself requires. <b>Verification requests</b> may retain: the credential hash, the verdict, the timestamp and the authority that answered — sufficient for the receipt, nothing more. <b>Revocation data</b> is public by design (MNR-CRL-1.0 + transparency log)." data-es="<b>Las llamadas API de pago (x402)</b> se liquidan on-chain (USDC en Base). Las transacciones de pago son públicas por naturaleza de la blockchain; no adjuntamos identidad a ellas más allá de lo que el protocolo exige. <b>Las solicitudes de verificación</b> pueden retener: el hash de la credencial, el veredicto, el timestamp y la autoridad que respondió — lo suficiente para el recibo, nada más. <b>Los datos de revocación</b> son públicos por diseño (MNR-CRL-1.0 + log de transparencia).">
+      <b>Paid API calls (x402)</b> are settled on-chain (USDC on Base). Payment transactions are public by nature of the blockchain; we do not attach identity to them beyond what the protocol itself requires. <b>Verification requests</b> may retain: the credential hash, the verdict, the timestamp and the authority that answered — sufficient for the receipt, nothing more. <b>Revocation data</b> is public by design (MNR-CRL-1.0 + transparency log).
+    </p>
+    <p data-en="<b>Contact data.</b> If you email us, we keep the email — that's how email works. We don't sell, rent or share contact data. There is no marketing list to opt out of." data-es="<b>Datos de contacto.</b> Si nos escribes, conservamos el email — así funciona el email. No vendemos, alquilamos ni compartimos datos de contacto. No existe lista de marketing de la cual darte de baja.">
+      <b>Contact data.</b> If you email us, we keep the email — that's how email works. We don't sell, rent or share contact data. There is no marketing list to opt out of.
+    </p>
+
+    <!-- TERMS -->
+    <h3 id="terms"><span>§2</span><span data-en="Terms of service" data-es="Términos de servicio">Terms of service</span></h3>
+    <p data-en="<b>The site.</b> utalabs.tech is provided as-is, for information about AliceLabs LLC products. We document what ships and what doesn't; still, software is software — no warranty of any kind, express or implied, including fitness for a particular purpose or uninterrupted availability. Don't make spending decisions for humans based on this marketing site alone; read the specs and the code." data-es="<b>El sitio.</b> utalabs.tech se provee tal cual, como información sobre productos de AliceLabs LLC. Documentamos qué está despachado y qué no; aun así, software es software — sin garantía de ningún tipo, expresa o implícita, incluyendo aptitud para un propósito particular o disponibilidad ininterrumpida. No tomes decisiones de gasto para humanos basándote solo en este sitio; lee las specs y el código.">
+      <b>The site.</b> utalabs.tech is provided as-is, for information about AliceLabs LLC products. We document what ships and what doesn't; still, software is software — no warranty of any kind, express or implied, including fitness for a particular purpose or uninterrupted availability. Don't make spending decisions for humans based on this marketing site alone; read the specs and the code.
+    </p>
+    <p data-en="<b>The fail-closed caveat, in legalese.</b> Our products are designed to refuse operations when verification is impossible. This means our (or any) outage can cause legitimate calls to be denied. That behavior is a feature, is documented, and is not a defect. If your workload cannot tolerate a denial, configure a human-approval fallback — don't ask us to weaken the default." data-es="<b>La advertencia fail-closed, en cristiano.</b> Nuestros productos están diseñados para rechazar operaciones cuando la verificación es imposible. Esto significa que una caída nuestra (o de cualquiera) puede causar rechazos de llamadas legítimas. Ese comportamiento es una característica, está documentado y no es un defecto. Si tu carga no tolera un rechazo, configura un fallback de aprobación humana — no nos pidas debilitar el default.">
+      <b>The fail-closed caveat, in legalese.</b> Our products are designed to refuse operations when verification is impossible. This means our (or any) outage can cause legitimate calls to be denied. That behavior is a feature, is documented, and is not a defect. If your workload cannot tolerate a denial, configure a human-approval fallback — don't ask us to weaken the default.
+    </p>
+    <p data-en="<b>APIs.</b> Free endpoints (MarketNow MCP tools, ATC verification) are offered in good faith and may be rate-limited, changed or discontinued with notice on the status page. Paid x402 endpoints are paid per call — no subscription, no account, no surprises on an invoice. Whatever settles on-chain is settled." data-es="<b>APIs.</b> Los endpoints gratuitos (tools MCP de MarketNow, verificación ATC) se ofrecen de buena fe y pueden tener rate-limit, cambiarse o discontinuarse con aviso en la página de estado. Los endpoints x402 de pago se pagan por llamada — sin suscripción, sin cuenta, sin sorpresas en una factura. Lo que se liquida on-chain, se liquidó.">
+      <b>APIs.</b> Free endpoints (MarketNow MCP tools, ATC verification) are offered in good faith and may be rate-limited, changed or discontinued with notice on the status page. Paid x402 endpoints are paid per call — no subscription, no account, no surprises on an invoice. Whatever settles on-chain is settled.
+    </p>
+    <p data-en="<b>Liability.</b> To the maximum extent permitted by law, AliceLabs LLC is not liable for indirect, incidental or consequential damages arising from use of the site or the products. Security products reduce risk; nothing reduces it to zero. You remain responsible for your own deployment, keys and policies." data-es="<b>Responsabilidad.</b> Al máximo permitido por ley, AliceLabs LLC no es responsable por daños indirectos, incidentales o consecuentes derivados del uso del sitio o los productos. Los productos de seguridad reducen el riesgo; nada lo reduce a cero. Sigues siendo responsable de tu propio despliegue, claves y políticas.">
+      <b>Liability.</b> To the maximum extent permitted by law, AliceLabs LLC is not liable for indirect, incidental or consequential damages arising from use of the site or the products. Security products reduce risk; nothing reduces it to zero. You remain responsible for your own deployment, keys and policies.
+    </p>
+
+    <!-- AUP -->
+    <h3 id="aups"><span>§3</span><span data-en="Acceptable use" data-es="Uso aceptable">Acceptable use</span></h3>
+    <p data-en="You may use the stack to make agents more trustworthy. You may not use it to make misbehavior more believable. Concretely, the following are prohibited on all AliceLabs services:" data-es="Puedes usar el stack para hacer agentes más confiables. No puedes usarlo para hacer la mala conducta más creíble. Concretamente, lo siguiente está prohibido en todos los servicios de AliceLabs:">
+      You may use the stack to make agents more trustworthy. You may not use it to make misbehavior more believable. Concretely, the following are prohibited on all AliceLabs services:
+    </p>
+    <ul>
+      <li data-en="issuing or attempting to issue Agent Trust Cards for agents you do not control, or falsifying capability declarations;" data-es="emitir o intentar emitir Agent Trust Cards para agentes que no controlas, o falsificar declaraciones de capacidades;">issuing or attempting to issue Agent Trust Cards for agents you do not control, or falsifying capability declarations;</li>
+      <li data-en="using verification or audit verdicts to defraud third parties (e.g., presenting a PASS as an endorsement of overall safety);" data-es="usar veredictos de verificación o auditoría para defraudar a terceros (p. ej., presentar un PASS como aval de seguridad general);">using verification or audit verdicts to defraud third parties (e.g., presenting a PASS as an endorsement of overall safety);</li>
+      <li data-en="attacking the infrastructure: load abuse of free APIs, sandbox escapes attempts, revocation-registry forgery;" data-es="atacar la infraestructura: abuso de carga de APIs gratuitas, intentos de escape del sandbox, falsificación del registro de revocación;">attacking the infrastructure: load abuse of free APIs, sandbox escape attempts, revocation-registry forgery;</li>
+      <li data-en="submitting skills to the marketplace containing malware, credential stealers or undisclosed exfiltration — Sentinel will catch them, quarantine is public, and that's on you;" data-es="enviar skills al marketplace con malware, robadores de credenciales o exfiltración no declarada — Sentinel los cazará, la cuarentena es pública, y el responsable eres tú;">submitting skills to the marketplace containing malware, credential stealers or undisclosed exfiltration — Sentinel will catch them, quarantine is public, and that's on you;</li>
+      <li data-en="any use violating applicable law, including sanctions and export-control regimes." data-es="cualquier uso que viole la ley aplicable, incluyendo regímenes de sanciones y control de exportaciones.">any use violating applicable law, including sanctions and export-control regimes.</li>
+    </ul>
+    <p data-en="Reports of abuse go to the contact below and are handled like our incident reports: documented, answered, and — when confirmed — enforced. We publish what we can." data-es="Los reportes de abuso van al contacto de abajo y se manejan como nuestros informes de incidentes: documentados, respondidos y — cuando se confirman — aplicados. Publicamos lo que podemos.">
+      Reports of abuse go to the contact below and are handled like our incident reports: documented, answered, and — when confirmed — enforced. We publish what we can.
+    </p>
+
+    <!-- LICENSING -->
+    <h3 id="licensing"><span>§4</span><span data-en="Licensing, per product" data-es="Licenciamiento, por producto">Licensing, per product</span></h3>
+    <div class="evwrap rv">
+      <table class="ev">
+        <thead><tr><th>product</th><th>license</th><th>what that means</th></tr></thead>
+        <tbody>
+          <tr><td>UTA (universal-trust-adapter)</td><td>open-core: MIT (perimeter) · AL-1.0 (core)</td><td data-en="Spec, adapters, conformance vectors and the manifesto are MIT. The core verification engine is source-available under AL-1.0: free to use, inspect and integrate; not for resale as your own trust product." data-es="Spec, adaptadores, vectores de conformidad y el manifiesto son MIT. El motor central de verificación es source-available bajo AL-1.0: libre de usar, inspeccionar e integrar; no para revenderlo como tu propio producto de confianza.">Spec, adapters, conformance vectors and the manifesto are MIT. The core verification engine is source-available under AL-1.0: free to use, inspect and integrate; not for resale as your own trust product.</td></tr>
+          <tr><td>ATC protocol &amp; spec</td><td>open spec · public RFC draft</td><td data-en="Implement the protocol freely. The spec, the 36-vector conformance corpus and the public CA key are open. Nothing about ATC requires paying us." data-es="Implementa el protocolo libremente. La spec, el corpus de conformidad de 36 vectores y la clave CA pública son abiertos. Nada de ATC requiere pagarnos.">Implement the protocol freely. The spec, the 36-vector conformance corpus and the public CA key are open. Nothing about ATC requires paying us.</td></tr>
+          <tr><td>uta-shield</td><td>license for use</td><td data-en="Free to self-host and run commercially on your own infrastructure. White-label, OEM, redistribution and managed-service offerings require a commercial exception: support@alicelabs.energy." data-es="Libre de self-hostear y correr comercialmente en tu propia infraestructura. White-label, OEM, redistribución y ofertas de servicio gestionado requieren una excepción comercial: support@alicelabs.energy.">Free to self-host and run commercially on your own infrastructure. White-label, OEM, redistribution and managed-service offerings require a commercial exception: support@alicelabs.energy.</td></tr>
+          <tr><td>Sentinel &amp; Interceptor (MarketNow)</td><td>AliceLabs proprietary</td><td data-en="Running as our hosted service. Audit reports and trust scores are yours to consume; the engine itself is not redistributed." data-es="Corriendo como nuestro servicio alojado. Los reportes de auditoría y trust scores son tuyos para consumir; el motor en sí no se redistribuye.">Running as our hosted service. Audit reports and trust scores are yours to consume; the engine itself is not redistributed.</td></tr>
+          <tr><td>Threat feed (PhishGuard IOCs)</td><td>CC-BY-4.0</td><td data-en="The bundled IOC feed from the taikotalent case is data, open with attribution — extend it, mirror it, build on it." data-es="El feed IOC incluido del caso taikotalent es data, abierta con atribución — extiéndela, replícala, construye sobre ella.">The bundled IOC feed from the taikotalent case is data, open with attribution — extend it, mirror it, build on it.</td></tr>
+          <tr><td>This website</td><td>content © AliceLabs LLC</td><td data-en="Diagrams and text may be quoted with attribution. The design system is ours; ask before reusing it wholesale." data-es="Los diagramas y textos pueden citarse con atribución. El sistema de diseño es nuestro; pide antes de reutilizarlo al por mayor.">Diagrams and text may be quoted with attribution. The design system is ours; ask before reusing it wholesale.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- TRADEMARK -->
+    <h3 id="trademark"><span>§5</span><span data-en="Trademarks" data-es="Marcas">Trademarks</span></h3>
+    <p data-en="UTA, ATC, Agent Trust Card, Sentinel, Interceptor, uta-shield and MarketNow are names of AliceLabs LLC products. You may reference them factually (reviews, integrations, compatibility statements such as “verifies ATC v3 cards”). You may not present your product as an AliceLabs product, or use the names as your own product names. Partner/compatibility logos on request." data-es="UTA, ATC, Agent Trust Card, Sentinel, Interceptor, uta-shield y MarketNow son nombres de productos de AliceLabs LLC. Puedes referenciarlos fácticamente (reviews, integraciones, declaraciones de compatibilidad como “verifica tarjetas ATC v3”). No puedes presentar tu producto como un producto de AliceLabs, ni usar los nombres como nombres de tu producto. Logos de partner/compatibilidad a pedido.">
+      UTA, ATC, Agent Trust Card, Sentinel, Interceptor, uta-shield and MarketNow are names of AliceLabs LLC products. You may reference them factually (reviews, integrations, compatibility statements such as “verifies ATC v3 cards”). You may not present your product as an AliceLabs product, or use the names as your own product names. Partner/compatibility logos on request.
+    </p>
+
+    <!-- CONTACT -->
+    <h3 id="contact"><span>§6</span><span data-en="Contact &amp; entity" data-es="Contacto y entidad">Contact &amp; entity</span></h3>
+    <p data-en="<b>AliceLabs LLC</b> — registered in Wyoming, USA. Founders: Edison Flores &amp; Alejandro Flores." data-es="<b>AliceLabs LLC</b> — registrada en Wyoming, EE.UU. Fundadores: Edison Flores &amp; Alejandro Flores.">
+      <b>AliceLabs LLC</b> — registered in Wyoming, USA. Founders: Edison Flores &amp; Alejandro Flores.
+    </p>
+    <ul>
+      <li><span class="mono">general — contacto@alicelabs.site</span></li>
+      <li><span class="mono">support &amp; licensing — support@alicelabs.energy</span></li>
+      <li><span class="mono">security — see the public postmortems; responsible disclosure honored</span></li>
+    </ul>
+    <p data-en="Policy changes are versioned by the “last updated” date at the top. Material changes to paid APIs get a notice period via the status page." data-es="Los cambios de política se versionan con la fecha de “última actualización” arriba. Cambios materiales en APIs de pago tendrán período de aviso vía la página de estado.">
+      Policy changes are versioned by the “last updated” date at the top. Material changes to paid APIs get a notice period via the status page.
+    </p>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="filennav">
+    <a href="/interceptor/">
+      <div class="fno">prev file · 04</div>
+      <div class="ft">← Interceptor — runtime enforcement</div>
+    </a>
+    <a class="next" href="/">
+      <div class="fno">back to</div>
+      <div class="ft">utalabs index <span>→</span></div>
+    </a>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="fcol">
+      <div class="fbrand">UTALABS<span style="color:var(--signal)">.</span>TECH</div>
+      <div>© 2026 AliceLabs LLC · Wyoming, USA</div>
+      <div>FILE 05 · policies &amp; licensing</div>
+      <div><span class="fseal">FAIL-CLOSED BY DEFAULT</span></div>
+    </div>
+    <div class="fcol">
+      <b>FILES</b><br>
+      <a href="/">00 — index</a><br>
+      <a href="/uta/">01 — UTA</a><br>
+      <a href="/atc/">02 — ATC</a><br>
+      <a href="/sentinel/">03 — Sentinel</a><br>
+      <a href="/interceptor/">04 — Interceptor</a>
+    </div>
+    <div class="fcol">
+      <b>SITES</b><br>
+      <a href="https://wall.utalabs.tech">wall.utalabs.tech ↗</a><br>
+      <a href="https://www.marketnow.site">marketnow.site ↗</a><br>
+      <a href="https://github.com/eddyflores100-lang">github.com/eddyflores100-lang ↗</a><br>
+      <a href="mailto:contacto@alicelabs.site">contacto@alicelabs.site</a>
+    </div>
+    <div class="fcol">
+      <b>LEGAL</b><br>
+      <a href="#privacy">privacy</a><br>
+      <a href="#terms">terms</a><br>
+      <a href="#aups">acceptable use</a><br>
+      <a href="#licensing">licensing</a>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/site.js"></script>
+</body>
+</html>
