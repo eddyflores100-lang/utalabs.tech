@@ -1,275 +1,254 @@
 <!DOCTYPE html>
-<html lang="en" data-lang="en">
+
+<html data-lang="es" lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FILE 04 · Interceptor — runtime enforcement · utalabs.tech</title>
-<meta name="description" content="The Runtime MCP Interceptor: a policy engine that sits between your agent stack and your tools, enforcing capability rules at call time — blocks .env reads and rm -rf even with a valid card and a green score. By AliceLabs LLC.">
-<link rel="canonical" href="https://utalabs.tech/interceptor/">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230a0a0a'/%3E%3Cpath d='M8 10 L8 22 M8 22 L16 9 L24 22 M24 10 L24 22' stroke='%23d43c19' stroke-width='2.6' fill='none' stroke-linecap='square'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/site.css">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-en="FILE 04 · Interceptor — runtime enforcement · utalabs.tech">ARCHIVO 04 · Interceptor — ejecución en runtime · utalabs.tech</title>
+<meta content="El Runtime MCP Interceptor: un motor de políticas que se interpone entre tu stack de agentes y tus herramientas, aplicando reglas de capacidad en el momento de la llamada — bloquea lecturas de .env y rm -rf incluso con tarjeta válida y puntaje verde. Por AliceLabs LLC." name="description"/>
+<link href="https://utalabs.tech/interceptor/" rel="canonical"/>
+<link href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230a0a0a'/%3E%3Cpath d='M8 10 L8 22 M8 22 L16 9 L24 22 M24 10 L24 22' stroke='%23d43c19' stroke-width='2.6' fill='none' stroke-linecap='square'/%3E%3C/svg%3E" rel="icon"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/site.css" rel="stylesheet"/>
 </head>
 <body>
-
 <nav class="topbar">
-  <div class="wrap">
-    <a class="brand" href="/"><span class="stamp">U</span>UTALABS<span style="color:var(--signal)">.</span>TECH</a>
-    <div class="navfiles">
-      <a href="/uta/"><sup>01</sup>UTA</a>
-      <a href="/atc/"><sup>02</sup>ATC</a>
-      <a href="/sentinel/"><sup>03</sup>SENTINEL</a>
-      <a href="/interceptor/" class="on"><sup>04</sup>INTERCEPTOR</a>
-    </div>
-    <div class="navright">
-      <div class="extlinks">
-        <a href="https://wall.utalabs.tech">wall↗</a>
-        <a href="https://www.marketnow.site">marketnow↗</a>
-        <a href="https://github.com/alicelabs-llc/MARKETNOW">repo↗</a>
-      </div>
-      <div class="langsw">
-        <button data-setlang="en" class="on">EN</button>
-        <button data-setlang="es">ES</button>
-      </div>
-    </div>
-  </div>
-</nav>
-
-<div class="filestrip">
-  <div class="wrap">
-    <span><b>FILE 04</b> — enforcement</span>
-    <span class="fs-signal">Interceptor · runtime policy engine</span>
-    <span>live rules: <b>5</b> · <b class="ok">enforcing since v5.0</b></span>
-  </div>
+<div class="wrap">
+<a class="brand" href="/"><span class="stamp">U</span>UTALABS<span style="color:var(--signal)">.</span>TECH</a>
+<div class="navfiles">
+<a href="/uta/"><sup>01</sup>UTA</a>
+<a href="/atc/"><sup>02</sup>ATC</a>
+<a href="/sentinel/"><sup>03</sup>SENTINEL</a>
+<a class="on" href="/interceptor/"><sup>04</sup>INTERCEPTOR</a>
 </div>
-
+<div class="navright">
+<div class="extlinks">
+<a href="https://wall.utalabs.tech">wall↗</a>
+<a href="https://www.marketnow.site">marketnow↗</a>
+<a href="https://github.com/alicelabs-llc/MARKETNOW">repo↗</a>
+</div>
+<div class="langsw">
+<button class="" data-setlang="en">EN</button>
+<button class="on" data-setlang="es">ES</button>
+</div>
+</div>
+</div>
+</nav>
+<div class="filestrip">
+<div class="wrap">
+<span><b>FILE 04</b> — enforcement</span>
+<span class="fs-signal">Interceptor · runtime policy engine</span>
+<span>live rules: <b>5</b> · <b class="ok">enforcing since v5.0</b></span>
+</div>
+</div>
 <header class="hero">
-  <div class="wrap herorow">
-    <div>
-      <div class="kick" data-en="File 04 — the last gate before your database" data-es="Archivo 04 — la última compuerta antes de tu base de datos">File 04 — the last gate before your database</div>
-      <h1 class="mega" data-en='A valid card is not<br><em>a standing order.</em>' data-es='Una tarjeta válida no es<br><em>una orden permanente.</em>'>A valid card is not<br><em>a standing order.</em></h1>
-      <p class="tagline" data-en="Audit time is not runtime. A tool that was clean last Tuesday can be invoked with today's poisoned prompt. The Interceptor rides along <b>every call</b>, checks it against the capability graph and your org's policy, and answers in one word — <b>ALLOW</b> or <b>BLOCK</b> — with a signed reason. The rest of the stack vouches for the agent. The Interceptor judges the request." data-es="El momento de la auditoría no es el runtime. Una tool que estaba limpia el martes pasado puede invocarse hoy con un prompt envenenado. El Interceptor acompaña <b>cada llamada</b>, la chequea contra el capability graph y la política de tu organización, y responde en una palabra — <b>ALLOW</b> o <b>BLOCK</b> — con una razón firmada. El resto del stack responde por el agente. El Interceptor juzga la petición.">
-        Audit time is not runtime. A tool that was clean last Tuesday can be invoked with today's poisoned prompt. The Interceptor rides along <b>every call</b>, checks it against the capability graph and your org's policy, and answers in one word — <b>ALLOW</b> or <b>BLOCK</b> — with a signed reason. The rest of the stack vouches for the agent. The Interceptor judges the request.
-      </p>
-    </div>
-    <aside class="herometa rv">
-      <div class="row"><span>live policy rules</span><b>5</b></div>
-      <div class="row"><span>signature blocks</span><b>.env · rm -rf</b></div>
-      <div class="row"><span>decisions per call</span><b>allow / block / approval</b></div>
-      <div class="row"><span>audit trail</span><b>JSONL · signed</b></div>
-      <div class="row"><span>capability graph</span><b>design hook · v5.3</b></div>
-      <div class="row"><span>attack-chain analysis</span><b>design hook · v5.4</b></div>
-      <div class="row"><span>status</span><b class="ok">live in production</b></div>
-    </aside>
-  </div>
+<div class="wrap herorow">
+<div>
+<div class="kick" data-en="File 04 — the last gate before your database">Archivo 04 — la última compuerta antes de tu base de datos</div>
+<h1 class="mega" data-en="A valid card is not&lt;br/&gt;&lt;em&gt;a standing order.&lt;/em&gt;">Una tarjeta válida no es<br/><em>una orden permanente.</em></h1>
+<p class="tagline" data-en="Audit time is not runtime. A tool that was clean last Tuesday can be invoked with today's poisoned prompt. The Interceptor rides along &lt;b&gt;every call&lt;/b&gt;, checks it against the capability graph and your org's policy, and answers in one word — &lt;b&gt;ALLOW&lt;/b&gt; or &lt;b&gt;BLOCK&lt;/b&gt; — with a signed reason. The rest of the stack vouches for the agent. The Interceptor judges the request.">El momento de la auditoría no es el runtime. Una tool que estaba limpia el martes pasado puede invocarse hoy con un prompt envenenado. El Interceptor acompaña <b>cada llamada</b>, la chequea contra el capability graph y la política de tu organización, y responde en una palabra — <b>ALLOW</b> o <b>BLOCK</b> — con una razón firmada. El resto del stack responde por el agente. El Interceptor juzga la petición.</p>
+</div>
+<aside class="herometa rv">
+<div class="row"><span>live policy rules</span><b>5</b></div>
+<div class="row"><span>signature blocks</span><b>.env · rm -rf</b></div>
+<div class="row"><span>decisions per call</span><b>allow / block / approval</b></div>
+<div class="row"><span>audit trail</span><b>JSONL · signed</b></div>
+<div class="row"><span>capability graph</span><b>design hook · v5.3</b></div>
+<div class="row"><span>attack-chain analysis</span><b>design hook · v5.4</b></div>
+<div class="row"><span>status</span><b class="ok">live in production</b></div>
+</aside>
+</div>
 </header>
-
 <!-- ============ FLOW DIAGRAM ============ -->
 <section class="blk">
-  <div class="wrap">
-    <div class="sec-head rv"><span class="no">FIG. 04-A</span><h2 data-en="One call, one verdict, drawn" data-es="Una llamada, un veredicto, dibujado">One call, one verdict, drawn</h2></div>
-    <p class="lede rv" data-en="The Interceptor sees four inputs. It returns one of three verdicts. Everything else is logging." data-es="El Interceptor ve cuatro entradas. Devuelve uno de tres veredictos. Todo lo demás es logging.">
-      The Interceptor sees four inputs. It returns one of three verdicts. Everything else is logging.
-    </p>
-    <figure class="dgm fig rv">
-      <svg viewBox="0 0 1000 360" width="100%" style="min-width:700px" role="img" aria-label="Interceptor decision flow">
-        <defs>
-          <marker id="ar4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-            <path d="M0 0 L10 5 L0 10 z" fill="#0a0a0a"/>
-          </marker>
-          <marker id="ar4r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-            <path d="M0 0 L10 5 L0 10 z" fill="#d43c19"/>
-          </marker>
-        </defs>
-        <g font-family="JetBrains Mono" font-size="12">
-          <!-- inputs -->
-          <rect x="20" y="30" width="180" height="40" fill="#fafafa" stroke="#0a0a0a" stroke-width="1.6"/>
-          <text x="110" y="55" text-anchor="middle" fill="#0a0a0a">① the call (tool + args)</text>
-          <rect x="20" y="86" width="180" height="40" fill="#fafafa" stroke="#0a0a0a" stroke-width="1.6"/>
-          <text x="110" y="111" text-anchor="middle" fill="#0a0a0a">② the caller's card</text>
-          <rect x="20" y="142" width="180" height="40" fill="#fafafa" stroke="#0a0a0a" stroke-width="1.6"/>
-          <text x="110" y="167" text-anchor="middle" fill="#0a0a0a">③ sentinel risk flags</text>
-          <rect x="20" y="198" width="180" height="40" fill="#fafafa" stroke="#0a0a0a" stroke-width="1.6"/>
-          <text x="110" y="223" text-anchor="middle" fill="#0a0a0a">④ org policy (yours)</text>
-          <!-- engine -->
-          <rect x="290" y="60" width="220" height="170" fill="#d43c19"/>
-          <text x="400" y="130" text-anchor="middle" font-weight="800" font-size="22" fill="#fafafa">INTERCEPTOR</text>
-          <text x="400" y="156" text-anchor="middle" fill="#fbe9e4" font-size="11">capability graph match</text>
-          <text x="400" y="174" text-anchor="middle" fill="#fbe9e4" font-size="11">P-01 … P-05</text>
-          <text x="400" y="200" text-anchor="middle" fill="#fbe9e4" font-size="10">score &lt; 5 → BLOCK</text>
-          <text x="400" y="216" text-anchor="middle" fill="#fbe9e4" font-size="10">5–7 → REQUIRE_APPROVAL</text>
-          <text x="400" y="232" text-anchor="middle" fill="#fbe9e4" font-size="10">no card → REQUIRE_APPROVAL</text>
-          <!-- verdicts -->
-          <rect x="620" y="50" width="180" height="46" fill="#fafafa" stroke="#0e7a49" stroke-width="2.5"/>
-          <text x="710" y="70" text-anchor="middle" font-weight="800" fill="#0e7a49">ALLOW</text>
-          <text x="710" y="87" text-anchor="middle" fill="#6b6b6b" font-size="10">+ signed receipt</text>
-          <rect x="620" y="120" width="180" height="46" fill="#fafafa" stroke="#a05e03" stroke-width="2.5"/>
-          <text x="710" y="140" text-anchor="middle" font-weight="800" fill="#a05e03">REQUIRE_APPROVAL</text>
-          <text x="710" y="157" text-anchor="middle" fill="#6b6b6b" font-size="10">a human, one click</text>
-          <rect x="620" y="190" width="180" height="46" fill="#fafafa" stroke="#d43c19" stroke-width="2.5"/>
-          <text x="710" y="210" text-anchor="middle" font-weight="800" fill="#d43c19">BLOCK</text>
-          <text x="710" y="227" text-anchor="middle" fill="#6b6b6b" font-size="10">+ signed refusal</text>
-          <!-- server -->
-          <rect x="860" y="120" width="120" height="60" fill="#0a0a0a"/>
-          <text x="920" y="146" text-anchor="middle" font-weight="800" fill="#fafafa">MCP</text>
-          <text x="920" y="163" text-anchor="middle" font-weight="800" fill="#fafafa">SERVER</text>
-          <path d="M200 50 C 250 50 250 90 288 95" stroke="#0a0a0a" stroke-width="1.6" fill="none"/>
-          <path d="M200 106 L 288 116" stroke="#0a0a0a" stroke-width="1.6" fill="none"/>
-          <path d="M200 162 L 288 152" stroke="#0a0a0a" stroke-width="1.6" fill="none"/>
-          <path d="M200 218 C 250 218 250 190 288 178" stroke="#0a0a0a" stroke-width="1.6" fill="none"/>
-          <path d="M510 90 L 618 72" stroke="#0e7a49" stroke-width="2.2" marker-end="url(#ar4)"/>
-          <path d="M510 145 L 618 143" stroke="#a05e03" stroke-width="2.2" marker-end="url(#ar4)"/>
-          <path d="M510 200 L 618 213" stroke="#d43c19" stroke-width="2.2" stroke-dasharray="7 4" marker-end="url(#ar4r)"/>
-          <path d="M800 73 C 840 80 840 130 858 138" stroke="#0e7a49" stroke-width="2" fill="none" marker-end="url(#ar4)"/>
-          <path d="M800 143 L 858 148" stroke="#a05e03" stroke-width="1.6" stroke-dasharray="4 4" fill="none"/>
-          <path d="M800 213 C 840 210 840 175 858 168" stroke="#d43c19" stroke-width="1.6" stroke-dasharray="5 4" fill="none"/>
-          <!-- audit lane -->
-          <path d="M 400 230 L 400 320 L 920 320" fill="none" stroke="#9a9a9a" stroke-width="1.8" stroke-dasharray="6 6"/>
-          <path d="M 913 314 L 921 320 L 913 326" fill="none" stroke="#9a9a9a" stroke-width="1.8"/>
-          <text x="660" y="342" text-anchor="middle" fill="#6b6b6b" font-size="11">JSONL audit trail — indicator + rule + confidence. Never raw args.</text>
-          <text x="110" y="290" text-anchor="middle" fill="#6b6b6b" font-size="10.5">inputs are evidence,</text>
-          <text x="110" y="305" text-anchor="middle" fill="#6b6b6b" font-size="10.5">not trust</text>
-        </g>
-      </svg>
-      <figcaption><span>fig 04-a — decision flow per call</span><span>the blocked path still produces a signed receipt</span></figcaption>
-    </figure>
-  </div>
+<div class="wrap">
+<div class="sec-head rv"><span class="no">FIG. 04-A</span><h2 data-en="One call, one verdict, drawn">Una llamada, un veredicto, dibujado</h2></div>
+<p class="lede rv" data-en="The Interceptor sees four inputs. It returns one of three verdicts. Everything else is logging.">El Interceptor ve cuatro entradas. Devuelve uno de tres veredictos. Todo lo demás es logging.</p>
+<figure class="dgm fig rv">
+<svg aria-label="Interceptor decision flow" role="img" style="min-width:700px" viewbox="0 0 1000 360" width="100%">
+<defs>
+<marker id="ar4" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10">
+<path d="M0 0 L10 5 L0 10 z" fill="#0a0a0a"></path>
+</marker>
+<marker id="ar4r" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10">
+<path d="M0 0 L10 5 L0 10 z" fill="#d43c19"></path>
+</marker>
+</defs>
+<g font-family="JetBrains Mono" font-size="12">
+<!-- inputs -->
+<rect fill="#fafafa" height="40" stroke="#0a0a0a" stroke-width="1.6" width="180" x="20" y="30"></rect>
+<text fill="#0a0a0a" text-anchor="middle" x="110" y="55">① the call (tool + args)</text>
+<rect fill="#fafafa" height="40" stroke="#0a0a0a" stroke-width="1.6" width="180" x="20" y="86"></rect>
+<text fill="#0a0a0a" text-anchor="middle" x="110" y="111">② the caller's card</text>
+<rect fill="#fafafa" height="40" stroke="#0a0a0a" stroke-width="1.6" width="180" x="20" y="142"></rect>
+<text fill="#0a0a0a" text-anchor="middle" x="110" y="167">③ sentinel risk flags</text>
+<rect fill="#fafafa" height="40" stroke="#0a0a0a" stroke-width="1.6" width="180" x="20" y="198"></rect>
+<text fill="#0a0a0a" text-anchor="middle" x="110" y="223">④ org policy (yours)</text>
+<!-- engine -->
+<rect fill="#d43c19" height="170" width="220" x="290" y="60"></rect>
+<text fill="#fafafa" font-size="22" font-weight="800" text-anchor="middle" x="400" y="130">INTERCEPTOR</text>
+<text fill="#fbe9e4" font-size="11" text-anchor="middle" x="400" y="156">capability graph match</text>
+<text fill="#fbe9e4" font-size="11" text-anchor="middle" x="400" y="174">P-01 … P-05</text>
+<text fill="#fbe9e4" font-size="10" text-anchor="middle" x="400" y="200">score &lt; 5 → BLOCK</text>
+<text fill="#fbe9e4" font-size="10" text-anchor="middle" x="400" y="216">5–7 → REQUIRE_APPROVAL</text>
+<text fill="#fbe9e4" font-size="10" text-anchor="middle" x="400" y="232">no card → REQUIRE_APPROVAL</text>
+<!-- verdicts -->
+<rect fill="#fafafa" height="46" stroke="#0e7a49" stroke-width="2.5" width="180" x="620" y="50"></rect>
+<text fill="#0e7a49" font-weight="800" text-anchor="middle" x="710" y="70">ALLOW</text>
+<text fill="#6b6b6b" font-size="10" text-anchor="middle" x="710" y="87">+ signed receipt</text>
+<rect fill="#fafafa" height="46" stroke="#a05e03" stroke-width="2.5" width="180" x="620" y="120"></rect>
+<text fill="#a05e03" font-weight="800" text-anchor="middle" x="710" y="140">REQUIRE_APPROVAL</text>
+<text fill="#6b6b6b" font-size="10" text-anchor="middle" x="710" y="157">a human, one click</text>
+<rect fill="#fafafa" height="46" stroke="#d43c19" stroke-width="2.5" width="180" x="620" y="190"></rect>
+<text fill="#d43c19" font-weight="800" text-anchor="middle" x="710" y="210">BLOCK</text>
+<text fill="#6b6b6b" font-size="10" text-anchor="middle" x="710" y="227">+ signed refusal</text>
+<!-- server -->
+<rect fill="#0a0a0a" height="60" width="120" x="860" y="120"></rect>
+<text fill="#fafafa" font-weight="800" text-anchor="middle" x="920" y="146">MCP</text>
+<text fill="#fafafa" font-weight="800" text-anchor="middle" x="920" y="163">SERVER</text>
+<path d="M200 50 C 250 50 250 90 288 95" fill="none" stroke="#0a0a0a" stroke-width="1.6"></path>
+<path d="M200 106 L 288 116" fill="none" stroke="#0a0a0a" stroke-width="1.6"></path>
+<path d="M200 162 L 288 152" fill="none" stroke="#0a0a0a" stroke-width="1.6"></path>
+<path d="M200 218 C 250 218 250 190 288 178" fill="none" stroke="#0a0a0a" stroke-width="1.6"></path>
+<path d="M510 90 L 618 72" marker-end="url(#ar4)" stroke="#0e7a49" stroke-width="2.2"></path>
+<path d="M510 145 L 618 143" marker-end="url(#ar4)" stroke="#a05e03" stroke-width="2.2"></path>
+<path d="M510 200 L 618 213" marker-end="url(#ar4r)" stroke="#d43c19" stroke-dasharray="7 4" stroke-width="2.2"></path>
+<path d="M800 73 C 840 80 840 130 858 138" fill="none" marker-end="url(#ar4)" stroke="#0e7a49" stroke-width="2"></path>
+<path d="M800 143 L 858 148" fill="none" stroke="#a05e03" stroke-dasharray="4 4" stroke-width="1.6"></path>
+<path d="M800 213 C 840 210 840 175 858 168" fill="none" stroke="#d43c19" stroke-dasharray="5 4" stroke-width="1.6"></path>
+<!-- audit lane -->
+<path d="M 400 230 L 400 320 L 920 320" fill="none" stroke="#9a9a9a" stroke-dasharray="6 6" stroke-width="1.8"></path>
+<path d="M 913 314 L 921 320 L 913 326" fill="none" stroke="#9a9a9a" stroke-width="1.8"></path>
+<text fill="#6b6b6b" font-size="11" text-anchor="middle" x="660" y="342">JSONL audit trail — indicator + rule + confidence. Never raw args.</text>
+<text fill="#6b6b6b" font-size="10.5" text-anchor="middle" x="110" y="290">inputs are evidence,</text>
+<text fill="#6b6b6b" font-size="10.5" text-anchor="middle" x="110" y="305">not trust</text>
+</g>
+</svg>
+<figcaption><span>fig 04-a — decision flow per call</span><span>the blocked path still produces a signed receipt</span></figcaption>
+</figure>
+</div>
 </section>
-
 <!-- ============ TERMINAL SIM ============ -->
 <section class="blk">
-  <div class="wrap">
-    <div class="sec-head rv"><span class="no">TRY. 04</span><h2 data-en="Feed the engine" data-es="Alimenta al motor">Feed the engine</h2></div>
-    <p class="lede rv" data-en="Six calls, one policy engine. Three are fine. Three would make a very bad Tuesday. <b>Deterministic replay of rule behavior</b> — same input, same verdict, every time." data-es="Seis llamadas, un motor de políticas. Tres están bien. Tres arruinarían un martes. <b>Replay determinista del comportamiento de las reglas</b> — misma entrada, mismo veredicto, siempre.">
-      Six calls, one policy engine. Three are fine. Three would make a very bad Tuesday. <b>Deterministic replay of rule behavior</b> — same input, same verdict, every time.
-    </p>
-
-    <div class="sim rv" id="int-sim">
-      <div class="sim-head">
-        <span>interceptor — runtime policy engine</span>
-        <span class="live"><i></i><span data-en="deterministic replay" data-es="replay determinista">deterministic replay</span></span>
-      </div>
-      <div class="sim-body">
-        <div class="term">
-          <div class="tbar"><i></i><i></i><i></i><span>interceptor · your-mcp-server</span></div>
-          <div class="tbody" id="int-term">
-            <div class="ln dim" data-en="// pick a call below — verdicts print here" data-es="// elige una llamada abajo — los veredictos se imprimen aquí">// pick a call below — verdicts print here</div>
-          </div>
-        </div>
-        <div class="tcaps">
-          <button class="tcap" onclick="intercept('GET /health')">GET /health</button>
-          <button class="tcap" onclick="intercept('tools/list')">tools/list</button>
-          <button class="tcap" onclick="intercept('fs.read(&quot;/var/log/app.log&quot;)')">fs.read("/var/log/app.log")</button>
-          <button class="tcap bad" onclick="intercept('fs.read(&quot;/home/u/.env&quot;)')">fs.read("/home/u/.env")</button>
-          <button class="tcap bad" onclick="intercept('shell(&quot;rm -rf /&quot;)')">shell("rm -rf /")</button>
-          <button class="tcap bad" onclick="intercept('net.post(&quot;https://pastebin.com&quot;)')">net.post("https://pastebin.com")</button>
-        </div>
-        <div class="policetags">
-          <span class="ptag"><b>P-01</b> · undeclared shell.execute → BLOCK</span>
-          <span class="ptag"><b>P-03</b> · credential paths (.env, .aws, .ssh) → BLOCK</span>
-          <span class="ptag"><b>P-04</b> · net outside capability graph → BLOCK</span>
-          <span class="ptag"><b>P-0x</b> · org policy slots → yours</span>
-        </div>
-      </div>
-    </div>
-  </div>
+<div class="wrap">
+<div class="sec-head rv"><span class="no">TRY. 04</span><h2 data-en="Feed the engine">Alimenta al motor</h2></div>
+<p class="lede rv" data-en="Six calls, one policy engine. Three are fine. Three would make a very bad Tuesday. &lt;b&gt;Deterministic replay of rule behavior&lt;/b&gt; — same input, same verdict, every time.">Seis llamadas, un motor de políticas. Tres están bien. Tres arruinarían un martes. <b>Replay determinista del comportamiento de las reglas</b> — misma entrada, mismo veredicto, siempre.</p>
+<div class="sim rv" id="int-sim">
+<div class="sim-head">
+<span>interceptor — runtime policy engine</span>
+<span class="live"><i></i><span data-en="deterministic replay">replay determinista</span></span>
+</div>
+<div class="sim-body">
+<div class="term">
+<div class="tbar"><i></i><i></i><i></i><span>interceptor · your-mcp-server</span></div>
+<div class="tbody" id="int-term">
+<div class="ln dim" data-en="// pick a call below — verdicts print here">// elige una llamada abajo — los veredictos se imprimen aquí</div>
+</div>
+</div>
+<div class="tcaps">
+<button class="tcap" onclick="intercept('GET /health')">GET /health</button>
+<button class="tcap" onclick="intercept('tools/list')">tools/list</button>
+<button class="tcap" onclick="intercept('fs.read(&quot;/var/log/app.log&quot;)')">fs.read("/var/log/app.log")</button>
+<button class="tcap bad" onclick="intercept('fs.read(&quot;/home/u/.env&quot;)')">fs.read("/home/u/.env")</button>
+<button class="tcap bad" onclick="intercept('shell(&quot;rm -rf /&quot;)')">shell("rm -rf /")</button>
+<button class="tcap bad" onclick="intercept('net.post(&quot;https://pastebin.com&quot;)')">net.post("https://pastebin.com")</button>
+</div>
+<div class="policetags">
+<span class="ptag"><b>P-01</b> · undeclared shell.execute → BLOCK</span>
+<span class="ptag"><b>P-03</b> · credential paths (.env, .aws, .ssh) → BLOCK</span>
+<span class="ptag"><b>P-04</b> · net outside capability graph → BLOCK</span>
+<span class="ptag"><b>P-0x</b> · org policy slots → yours</span>
+</div>
+</div>
+</div>
+</div>
 </section>
-
 <!-- ============ ATTACK CHAINS ============ -->
 <section class="blk">
-  <div class="wrap">
-    <div class="sec-head rv"><span class="no">RULE. 04</span><h2 data-en="Eight allowed calls can be one attack" data-es="Ocho llamadas permitidas pueden ser un ataque">Eight allowed calls can be one attack</h2></div>
-    <p class="lede rv" data-en="Per-call verdicts miss the plot: <b>every step individually ALLOW</b>, the chain is the exfiltration. Trajectory analysis (v5.4, public roadmap) scores the session, not the sentence." data-es="Los veredictos por llamada pierden la trama: <b>cada paso individualmente ALLOW</b>, la cadena es la exfiltración. El análisis de trayectoria (v5.4, roadmap público) puntúa la sesión, no la frase.">
-      Per-call verdicts miss the plot: <b>every step individually ALLOW</b>, the chain is the exfiltration. Trajectory analysis (v5.4, public roadmap) scores the session, not the sentence.
-    </p>
-    <figure class="dgm fig rv">
-      <svg viewBox="0 0 1000 230" width="100%" style="min-width:700px" role="img" aria-label="multi-tool attack chain">
-        <g font-family="JetBrains Mono" font-size="11">
-          <rect x="20" y="60" width="110" height="46" fill="#fafafa" stroke="#0e7a49" stroke-width="2"/>
-          <text x="75" y="80" text-anchor="middle" fill="#0a0a0a">1·search</text><text x="75" y="96" text-anchor="middle" fill="#0e7a49" font-size="9.5">ALLOW</text>
-          <rect x="160" y="60" width="110" height="46" fill="#fafafa" stroke="#0e7a49" stroke-width="2"/>
-          <text x="215" y="80" text-anchor="middle" fill="#0a0a0a">2·read</text><text x="215" y="96" text-anchor="middle" fill="#0e7a49" font-size="9.5">ALLOW</text>
-          <rect x="300" y="60" width="110" height="46" fill="#fafafa" stroke="#0e7a49" stroke-width="2"/>
-          <text x="355" y="80" text-anchor="middle" fill="#0a0a0a">3·extract url</text><text x="355" y="96" text-anchor="middle" fill="#0e7a49" font-size="9.5">ALLOW</text>
-          <rect x="440" y="60" width="110" height="46" fill="#fafafa" stroke="#0e7a49" stroke-width="2"/>
-          <text x="495" y="80" text-anchor="middle" fill="#0a0a0a">4·download</text><text x="495" y="96" text-anchor="middle" fill="#0e7a49" font-size="9.5">ALLOW</text>
-          <rect x="580" y="60" width="110" height="46" fill="#fafafa" stroke="#0e7a49" stroke-width="2"/>
-          <text x="635" y="80" text-anchor="middle" fill="#0a0a0a">5·execute</text><text x="635" y="96" text-anchor="middle" fill="#0e7a49" font-size="9.5">ALLOW</text>
-          <rect x="720" y="48" width="150" height="70" fill="#d43c19"/>
-          <text x="795" y="76" text-anchor="middle" fill="#fafafa" font-weight="800">6·exfiltrate</text>
-          <text x="795" y="94" text-anchor="middle" fill="#fbe9e4" font-size="10">CHAIN = BLOCK</text>
-          <g stroke="#0a0a0a" stroke-width="1.8">
-            <line x1="130" y1="83" x2="158" y2="83"/><line x1="270" y1="83" x2="298" y2="83"/>
-            <line x1="410" y1="83" x2="438" y2="83"/><line x1="550" y1="83" x2="578" y2="83"/>
-            <line x1="690" y1="83" x2="718" y2="83"/>
-          </g>
-          <path d="M 635 106 L 635 160 L 795 160 L 795 120" fill="none" stroke="#d43c19" stroke-width="2" stroke-dasharray="6 4"/>
-          <path d="M 788 127 L 795 119 L 802 127" fill="none" stroke="#d43c19" stroke-width="2"/>
-          <text x="500" y="185" text-anchor="middle" fill="#6b6b6b" font-size="10.5">individually boring · together: USER_SECRET → external-domain (exfiltration pattern)</text>
-          <text x="500" y="205" text-anchor="middle" fill="#0a0a0a" font-size="10.5" font-weight="700">cross-tool privilege escalation: tool A (low) + tool B (high) = CRITICAL</text>
-        </g>
-      </svg>
-      <figcaption><span>fig 04-b — multi-tool attack chain</span><span>design hook · honesty policy: not shipped as v5.0 — tracked on the public roadmap</span></figcaption>
-    </figure>
-    <div class="duo mt2">
-      <div class="note amber rv" data-en="<b>What ships today:</b> 5 runtime policy rules, live since v5.0 — including the two signature blocks (.env reads, rm -rf), capability checks against the card, and the JSONL audit trail. The Interceptor has been enforcing in production since August 2026." data-es="<b>Lo que se despacha hoy:</b> 5 reglas de política en runtime, vivas desde v5.0 — incluidos los dos bloqueos de firma (lecturas de .env, rm -rf), chequeos de capacidades contra la tarjeta, y la pista de auditoría JSONL. El Interceptor está ejecutando en producción desde agosto 2026.">
-        <b>What ships today:</b> 5 runtime policy rules, live since v5.0 — including the two signature blocks (.env reads, rm -rf), capability checks against the card, and the JSONL audit trail. The Interceptor has been enforcing in production since August 2026.
-      </div>
-      <div class="note rv" data-en="<b>What's honest roadmap:</b> the full capability graph per tool, org-level policy DSL (“score ≥ 8 AND no filesystem AND no shell”), agent+task identity on every execution, and trajectory scoring. Each dated on the public roadmap — not sold as done." data-es="<b>Lo que es roadmap honesto:</b> el capability graph completo por tool, el DSL de políticas por organización (“score ≥ 8 AND no filesystem AND no shell”), identidad de agente+task en cada ejecución, y el puntaje de trayectoria. Cada uno fechado en el roadmap público — no vendido como hecho.">
-        <b>What's honest roadmap:</b> the full capability graph per tool, org-level policy DSL (“score ≥ 8 AND no filesystem AND no shell”), agent+task identity on every execution, and trajectory scoring. Each dated on the public roadmap — not sold as done.
-      </div>
-    </div>
-  </div>
+<div class="wrap">
+<div class="sec-head rv"><span class="no">RULE. 04</span><h2 data-en="Eight allowed calls can be one attack">Ocho llamadas permitidas pueden ser un ataque</h2></div>
+<p class="lede rv" data-en="Per-call verdicts miss the plot: &lt;b&gt;every step individually ALLOW&lt;/b&gt;, the chain is the exfiltration. Trajectory analysis (v5.4, public roadmap) scores the session, not the sentence.">Los veredictos por llamada pierden la trama: <b>cada paso individualmente ALLOW</b>, la cadena es la exfiltración. El análisis de trayectoria (v5.4, roadmap público) puntúa la sesión, no la frase.</p>
+<figure class="dgm fig rv">
+<svg aria-label="multi-tool attack chain" role="img" style="min-width:700px" viewbox="0 0 1000 230" width="100%">
+<g font-family="JetBrains Mono" font-size="11">
+<rect fill="#fafafa" height="46" stroke="#0e7a49" stroke-width="2" width="110" x="20" y="60"></rect>
+<text fill="#0a0a0a" text-anchor="middle" x="75" y="80">1·search</text><text fill="#0e7a49" font-size="9.5" text-anchor="middle" x="75" y="96">ALLOW</text>
+<rect fill="#fafafa" height="46" stroke="#0e7a49" stroke-width="2" width="110" x="160" y="60"></rect>
+<text fill="#0a0a0a" text-anchor="middle" x="215" y="80">2·read</text><text fill="#0e7a49" font-size="9.5" text-anchor="middle" x="215" y="96">ALLOW</text>
+<rect fill="#fafafa" height="46" stroke="#0e7a49" stroke-width="2" width="110" x="300" y="60"></rect>
+<text fill="#0a0a0a" text-anchor="middle" x="355" y="80">3·extract url</text><text fill="#0e7a49" font-size="9.5" text-anchor="middle" x="355" y="96">ALLOW</text>
+<rect fill="#fafafa" height="46" stroke="#0e7a49" stroke-width="2" width="110" x="440" y="60"></rect>
+<text fill="#0a0a0a" text-anchor="middle" x="495" y="80">4·download</text><text fill="#0e7a49" font-size="9.5" text-anchor="middle" x="495" y="96">ALLOW</text>
+<rect fill="#fafafa" height="46" stroke="#0e7a49" stroke-width="2" width="110" x="580" y="60"></rect>
+<text fill="#0a0a0a" text-anchor="middle" x="635" y="80">5·execute</text><text fill="#0e7a49" font-size="9.5" text-anchor="middle" x="635" y="96">ALLOW</text>
+<rect fill="#d43c19" height="70" width="150" x="720" y="48"></rect>
+<text fill="#fafafa" font-weight="800" text-anchor="middle" x="795" y="76">6·exfiltrate</text>
+<text fill="#fbe9e4" font-size="10" text-anchor="middle" x="795" y="94">CHAIN = BLOCK</text>
+<g stroke="#0a0a0a" stroke-width="1.8">
+<line x1="130" x2="158" y1="83" y2="83"></line><line x1="270" x2="298" y1="83" y2="83"></line>
+<line x1="410" x2="438" y1="83" y2="83"></line><line x1="550" x2="578" y1="83" y2="83"></line>
+<line x1="690" x2="718" y1="83" y2="83"></line>
+</g>
+<path d="M 635 106 L 635 160 L 795 160 L 795 120" fill="none" stroke="#d43c19" stroke-dasharray="6 4" stroke-width="2"></path>
+<path d="M 788 127 L 795 119 L 802 127" fill="none" stroke="#d43c19" stroke-width="2"></path>
+<text fill="#6b6b6b" font-size="10.5" text-anchor="middle" x="500" y="185">individually boring · together: USER_SECRET → external-domain (exfiltration pattern)</text>
+<text fill="#0a0a0a" font-size="10.5" font-weight="700" text-anchor="middle" x="500" y="205">cross-tool privilege escalation: tool A (low) + tool B (high) = CRITICAL</text>
+</g>
+</svg>
+<figcaption><span>fig 04-b — multi-tool attack chain</span><span>design hook · honesty policy: not shipped as v5.0 — tracked on the public roadmap</span></figcaption>
+</figure>
+<div class="duo mt2">
+<div class="note amber rv" data-en="&lt;b&gt;What ships today:&lt;/b&gt; 5 runtime policy rules, live since v5.0 — including the two signature blocks (.env reads, rm -rf), capability checks against the card, and the JSONL audit trail. The Interceptor has been enforcing in production since August 2026."><b>Lo que se despacha hoy:</b> 5 reglas de política en runtime, vivas desde v5.0 — incluidos los dos bloqueos de firma (lecturas de .env, rm -rf), chequeos de capacidades contra la tarjeta, y la pista de auditoría JSONL. El Interceptor está ejecutando en producción desde agosto 2026.</div>
+<div class="note rv" data-en="&lt;b&gt;What's honest roadmap:&lt;/b&gt; the full capability graph per tool, org-level policy DSL (“score ≥ 8 AND no filesystem AND no shell”), agent+task identity on every execution, and trajectory scoring. Each dated on the public roadmap — not sold as done."><b>Lo que es roadmap honesto:</b> el capability graph completo por tool, el DSL de políticas por organización (“score ≥ 8 AND no filesystem AND no shell”), identidad de agente+task en cada ejecución, y el puntaje de trayectoria. Cada uno fechado en el roadmap público — no vendido como hecho.</div>
+</div>
+</div>
 </section>
-
 <!-- ============ NAV ============ -->
 <div class="wrap">
-  <div class="filennav">
-    <a href="/sentinel/">
-      <div class="fno">prev file · 03</div>
-      <div class="ft">← Sentinel — the audit engine</div>
-    </a>
-    <a class="next" href="/policies/">
-      <div class="fno">next · legal</div>
-      <div class="ft">Policies &amp; licensing <span>→</span></div>
-    </a>
-  </div>
+<div class="filennav">
+<a href="/sentinel/">
+<div class="fno">prev file · 03</div>
+<div class="ft">← Sentinel — the audit engine</div>
+</a>
+<a class="next" href="/policies/">
+<div class="fno">next · legal</div>
+<div class="ft">Policies &amp; licensing <span>→</span></div>
+</a>
 </div>
-
+</div>
 <footer>
-  <div class="wrap">
-    <div class="fcol">
-      <div class="fbrand">UTALABS<span style="color:var(--signal)">.</span>TECH</div>
-      <div>© 2026 AliceLabs LLC · Wyoming, USA</div>
-      <div>FILE 04 · Interceptor — runtime enforcement</div>
-      <div><span class="fseal">FAIL-CLOSED BY DEFAULT</span></div>
-    </div>
-    <div class="fcol">
-      <b>FILES</b><br>
-      <a href="/">00 — index</a><br>
-      <a href="/uta/">01 — UTA</a><br>
-      <a href="/atc/">02 — ATC</a><br>
-      <a href="/sentinel/">03 — Sentinel</a>
-    </div>
-    <div class="fcol">
-      <b>SOURCE</b><br>
-      <a href="https://github.com/alicelabs-llc/MARKETNOW">alicelabs-llc/MARKETNOW ↗</a><br>
-      <a href="https://github.com/alicelabs-llc/MARKETNOW/blob/main/ROADMAP.md">public roadmap ↗</a><br>
-      <a href="https://wall.utalabs.tech">uta-shield (operator side) ↗</a><br>
-      <a href="mailto:contacto@alicelabs.site">contacto@alicelabs.site</a>
-    </div>
-    <div class="fcol">
-      <b>LEGAL</b><br>
-      <a href="/policies/">policies &amp; licensing</a><br>
-      <a href="/policies/#privacy">privacy</a><br>
-      <a href="/policies/#terms">terms</a><br>
-      <a href="/policies/#aups">acceptable use</a>
-    </div>
-  </div>
+<div class="wrap">
+<div class="fcol">
+<div class="fbrand">UTALABS<span style="color:var(--signal)">.</span>TECH</div>
+<div>© 2026 AliceLabs LLC · Wyoming, USA</div>
+<div>FILE 04 · Interceptor — runtime enforcement</div>
+<div><span class="fseal">FAIL-CLOSED BY DEFAULT</span></div>
+</div>
+<div class="fcol">
+<b>FILES</b><br/>
+<a href="/">00 — index</a><br/>
+<a href="/uta/">01 — UTA</a><br/>
+<a href="/atc/">02 — ATC</a><br/>
+<a href="/sentinel/">03 — Sentinel</a>
+</div>
+<div class="fcol">
+<b>SOURCE</b><br/>
+<a href="https://github.com/alicelabs-llc/MARKETNOW">alicelabs-llc/MARKETNOW ↗</a><br/>
+<a href="https://github.com/alicelabs-llc/MARKETNOW/blob/main/ROADMAP.md">public roadmap ↗</a><br/>
+<a href="https://wall.utalabs.tech">uta-shield (operator side) ↗</a><br/>
+<a href="mailto:contacto@alicelabs.site">contacto@alicelabs.site</a>
+</div>
+<div class="fcol">
+<b>LEGAL</b><br/>
+<a href="/policies/">policies &amp; licensing</a><br/>
+<a href="/policies/#privacy">privacy</a><br/>
+<a href="/policies/#terms">terms</a><br/>
+<a href="/policies/#aups">acceptable use</a>
+</div>
+</div>
 </footer>
-
 <script src="/assets/site.js"></script>
 </body>
 </html>

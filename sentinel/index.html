@@ -1,260 +1,239 @@
 <!DOCTYPE html>
-<html lang="en" data-lang="en">
+
+<html data-lang="es" lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FILE 03 · Sentinel — the audit engine · utalabs.tech</title>
-<meta name="description" content="Sentinel audits MCP servers in 10 static layers plus an L2 sandbox that actually runs each server under gVisor and watches its syscalls for 30 seconds. 1,211,488 checks performed, 1,030 threats caught. By AliceLabs LLC.">
-<link rel="canonical" href="https://utalabs.tech/sentinel/">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230a0a0a'/%3E%3Cpath d='M8 10 L8 22 M8 22 L16 9 L24 22 M24 10 L24 22' stroke='%23d43c19' stroke-width='2.6' fill='none' stroke-linecap='square'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/site.css">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-en="FILE 03 · Sentinel — the audit engine · utalabs.tech">ARCHIVO 03 · Sentinel — el motor de auditoría · utalabs.tech</title>
+<meta content="Sentinel audita servidores MCP en 10 capas estáticas más un sandbox L2 que ejecuta cada servidor bajo gVisor y observa sus syscalls durante 30 segundos. 1.211.488 verificaciones realizadas, 1.030 amenazas detectadas. Por AliceLabs LLC." name="description"/>
+<link href="https://utalabs.tech/sentinel/" rel="canonical"/>
+<link href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230a0a0a'/%3E%3Cpath d='M8 10 L8 22 M8 22 L16 9 L24 22 M24 10 L24 22' stroke='%23d43c19' stroke-width='2.6' fill='none' stroke-linecap='square'/%3E%3C/svg%3E" rel="icon"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/site.css" rel="stylesheet"/>
 </head>
 <body>
-
 <nav class="topbar">
-  <div class="wrap">
-    <a class="brand" href="/"><span class="stamp">U</span>UTALABS<span style="color:var(--signal)">.</span>TECH</a>
-    <div class="navfiles">
-      <a href="/uta/"><sup>01</sup>UTA</a>
-      <a href="/atc/"><sup>02</sup>ATC</a>
-      <a href="/sentinel/" class="on"><sup>03</sup>SENTINEL</a>
-      <a href="/interceptor/"><sup>04</sup>INTERCEPTOR</a>
-    </div>
-    <div class="navright">
-      <div class="extlinks">
-        <a href="https://wall.utalabs.tech">wall↗</a>
-        <a href="https://www.marketnow.site">marketnow↗</a>
-        <a href="https://github.com/alicelabs-llc/MARKETNOW">repo↗</a>
-      </div>
-      <div class="langsw">
-        <button data-setlang="en" class="on">EN</button>
-        <button data-setlang="es">ES</button>
-      </div>
-    </div>
-  </div>
-</nav>
-
-<div class="filestrip">
-  <div class="wrap">
-    <span><b>FILE 03</b> — audit engine</span>
-    <span class="fs-signal">Sentinel · L1 static + L2 dynamic</span>
-    <span>checks run: <b>1,211,488</b> · <b class="ok">live in production</b></span>
-  </div>
+<div class="wrap">
+<a class="brand" href="/"><span class="stamp">U</span>UTALABS<span style="color:var(--signal)">.</span>TECH</a>
+<div class="navfiles">
+<a href="/uta/"><sup>01</sup>UTA</a>
+<a href="/atc/"><sup>02</sup>ATC</a>
+<a class="on" href="/sentinel/"><sup>03</sup>SENTINEL</a>
+<a href="/interceptor/"><sup>04</sup>INTERCEPTOR</a>
 </div>
-
+<div class="navright">
+<div class="extlinks">
+<a href="https://wall.utalabs.tech">wall↗</a>
+<a href="https://www.marketnow.site">marketnow↗</a>
+<a href="https://github.com/alicelabs-llc/MARKETNOW">repo↗</a>
+</div>
+<div class="langsw">
+<button class="" data-setlang="en">EN</button>
+<button class="on" data-setlang="es">ES</button>
+</div>
+</div>
+</div>
+</nav>
+<div class="filestrip">
+<div class="wrap">
+<span><b>FILE 03</b> — audit engine</span>
+<span class="fs-signal">Sentinel · L1 static + L2 dynamic</span>
+<span>checks run: <b>1,211,488</b> · <b class="ok">live in production</b></span>
+</div>
+</div>
 <header class="hero">
-  <div class="wrap herorow">
-    <div>
-      <div class="kick" data-en="File 03 — trust what the code does, not what it says" data-es="Archivo 03 — confía en lo que el código hace, no en lo que dice">File 03 — trust what the code does, not what it says</div>
-      <h1 class="mega" data-en='Source code lies.<br><em>Syscalls don't.</em>' data-es='El código fuente miente.<br><em>Las syscalls no.</em>'>Source code lies.<br><em>Syscalls don't.</em></h1>
-      <p class="tagline" data-en="A malicious MCP server doesn't announce itself in the README. It hides behind obfuscated imports, computed <b>import()</b> paths, and cleanup functions that quietly wipe your <b>.ssh</b> folder. Sentinel is the engine that doesn't blink: <b>10 static layers</b> over the source, then an <b>L2 sandbox</b> that actually runs the server under gVisor and records every syscall for 30 seconds." data-es="Un servidor MCP malicioso no se anuncia en el README. Se esconde tras imports ofuscados, rutas de <b>import()</b> calculadas, y funciones de limpieza que borran tu carpeta <b>.ssh</b> sin hacer ruido. Sentinel es el motor que no parpadea: <b>10 capas estáticas</b> sobre el código, luego un <b>sandbox L2</b> que realmente ejecuta el servidor bajo gVisor y graba cada syscall durante 30 segundos.">
-        A malicious MCP server doesn't announce itself in the README. It hides behind obfuscated imports, computed <b>import()</b> paths, and cleanup functions that quietly wipe your <b>.ssh</b> folder. Sentinel is the engine that doesn't blink: <b>10 static layers</b> over the source, then an <b>L2 sandbox</b> that actually runs the server under gVisor and records every syscall for 30 seconds.
-      </p>
-    </div>
-    <aside class="herometa rv">
-      <div class="row"><span>checks performed</span><b>1,211,488</b></div>
-      <div class="row"><span>skills analyzed</span><b>9,248</b></div>
-      <div class="row"><span>threats detected</span><b>1,030</b></div>
-      <div class="row"><span>quarantined</span><b>80 · 71 risky</b></div>
-      <div class="row"><span>injection rules</span><b>L1.9 · 32 rules</b></div>
-      <div class="row"><span>sandbox</span><b>gVisor / Firecracker</b></div>
-      <div class="row"><span>runtime trace</span><b class="ok">30 s · syscall level</b></div>
-    </aside>
-  </div>
+<div class="wrap herorow">
+<div>
+<div class="kick" data-en="File 03 — trust what the code does, not what it says">Archivo 03 — confía en lo que el código hace, no en lo que dice</div>
+<h1 class="mega" data-en="Source code lies.&lt;br/&gt;&lt;em&gt;Syscalls don't.&lt;/em&gt;">El código fuente miente.<br/><em>Las syscalls no.</em></h1>
+<p class="tagline" data-en="A malicious MCP server doesn't announce itself in the README. It hides behind obfuscated imports, computed &lt;b&gt;import()&lt;/b&gt; paths, and cleanup functions that quietly wipe your &lt;b&gt;.ssh&lt;/b&gt; folder. Sentinel is the engine that doesn't blink: &lt;b&gt;10 static layers&lt;/b&gt; over the source, then an &lt;b&gt;L2 sandbox&lt;/b&gt; that actually runs the server under gVisor and records every syscall for 30 seconds.">Un servidor MCP malicioso no se anuncia en el README. Se esconde tras imports ofuscados, rutas de <b>import()</b> calculadas, y funciones de limpieza que borran tu carpeta <b>.ssh</b> sin hacer ruido. Sentinel es el motor que no parpadea: <b>10 capas estáticas</b> sobre el código, luego un <b>sandbox L2</b> que realmente ejecuta el servidor bajo gVisor y graba cada syscall durante 30 segundos.</p>
+</div>
+<aside class="herometa rv">
+<div class="row"><span>checks performed</span><b>1,211,488</b></div>
+<div class="row"><span>skills analyzed</span><b>9,248</b></div>
+<div class="row"><span>threats detected</span><b>1,030</b></div>
+<div class="row"><span>quarantined</span><b>80 · 71 risky</b></div>
+<div class="row"><span>injection rules</span><b>L1.9 · 32 rules</b></div>
+<div class="row"><span>sandbox</span><b>gVisor / Firecracker</b></div>
+<div class="row"><span>runtime trace</span><b class="ok">30 s · syscall level</b></div>
+</aside>
+</div>
 </header>
-
 <!-- ============ PIPELINE DIAGRAM ============ -->
 <section class="blk">
-  <div class="wrap">
-    <div class="sec-head rv"><span class="no">FIG. 03-A</span><h2 data-en="The audit, drawn" data-es="La auditoría, dibujada">The audit, drawn</h2></div>
-    <p class="lede rv" data-en="From repo to verdict, without a human trusting anything." data-es="Del repo al veredicto, sin que un humano confíe en nada.">
-      From repo to verdict, without a human trusting anything.
-    </p>
-    <figure class="dgm fig rv">
-      <svg viewBox="0 0 1000 340" width="100%" style="min-width:700px" role="img" aria-label="Sentinel audit pipeline">
-        <defs>
-          <marker id="ar3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-            <path d="M0 0 L10 5 L0 10 z" fill="#0a0a0a"/>
-          </marker>
-        </defs>
-        <g font-family="JetBrains Mono" font-size="12">
-          <!-- repo -->
-          <rect x="20" y="120" width="120" height="80" fill="#fafafa" stroke="#0a0a0a" stroke-width="2"/>
-          <text x="80" y="152" text-anchor="middle" font-weight="800" fill="#0a0a0a">MCP</text>
-          <text x="80" y="170" text-anchor="middle" font-weight="800" fill="#0a0a0a">repo</text>
-          <text x="80" y="216" text-anchor="middle" fill="#6b6b6b" font-size="10">clone · install isolated</text>
-          <!-- L1 -->
-          <rect x="200" y="60" width="180" height="200" fill="#fafafa" stroke="#0a0a0a" stroke-width="2"/>
-          <text x="290" y="88" text-anchor="middle" font-weight="800" fill="#0a0a0a">L1 — static ×10</text>
-          <g font-size="10.5" fill="#6b6b6b">
-            <text x="215" y="112">L1.1 deps &amp; CVEs</text>
-            <text x="215" y="130">L1.2 embedded secrets</text>
-            <text x="215" y="148">L1.3 obfuscated imports</text>
-            <text x="215" y="166">L1.4 dangerous capabilities</text>
-            <text x="215" y="184">L1.5 schema mismatch</text>
-            <text x="215" y="202" fill="#d43c19" font-weight="700">L1.6 overwrite patterns</text>
-            <text x="215" y="220">L1.7 network endpoints</text>
-            <text x="215" y="238">L1.8 eval / exec usage</text>
-            <text x="215" y="256" fill="#d43c19" font-weight="700">L1.9 prompt injection ×32</text>
-          </g>
-          <!-- L2 -->
-          <rect x="440" y="60" width="200" height="200" fill="#0a0a0a"/>
-          <text x="540" y="88" text-anchor="middle" font-weight="800" fill="#fafafa">L2 — sandbox</text>
-          <g font-size="10.5" fill="#9a9a9a">
-            <text x="455" y="112">gVisor (recommended)</text>
-            <text x="455" y="130">Firecracker microVM</text>
-            <text x="455" y="148">WASM · Docker+seccomp</text>
-            <line x1="455" y1="160" x2="625" y2="160" stroke="#2a2d2a" stroke-width="1"/>
-            <text x="455" y="184" fill="#fafafa">run server · MCP handshake</text>
-            <text x="455" y="202" fill="#fafafa">initialize · tools/list</text>
-            <text x="455" y="220" fill="#d43c19" font-weight="700">trace syscalls · 30 s</text>
-            <text x="455" y="238">fs · net · proc · unlink</text>
-          </g>
-          <!-- report -->
-          <rect x="700" y="80" width="270" height="70" fill="#fafafa" stroke="#0e7a49" stroke-width="2.5"/>
-          <text x="835" y="108" text-anchor="middle" font-weight="800" fill="#0e7a49">BEHAVIORAL REPORT</text>
-          <text x="835" y="128" text-anchor="middle" fill="#6b6b6b" font-size="10.5">findings + evidence + reproduction</text>
-          <rect x="700" y="170" width="270" height="70" fill="#fafafa" stroke="#d43c19" stroke-width="2.5"/>
-          <text x="835" y="198" text-anchor="middle" font-weight="800" fill="#d43c19">QUARANTINE</text>
-          <text x="835" y="218" text-anchor="middle" fill="#6b6b6b" font-size="10.5">80 quarantined · 71 flagged risky</text>
-          <!-- arrows -->
-          <path d="M140 160 L 198 160" stroke="#0a0a0a" stroke-width="2" marker-end="url(#ar3)"/>
-          <path d="M380 160 L 438 160" stroke="#0a0a0a" stroke-width="2" marker-end="url(#ar3)"/>
-          <path d="M640 115 L 698 115" stroke="#0e7a49" stroke-width="2" marker-end="url(#ar3)"/>
-          <path d="M640 205 L 698 205" stroke="#d43c19" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#ar3)"/>
-          <!-- footer annotation -->
-          <text x="290" y="290" text-anchor="middle" fill="#6b6b6b" font-size="10.5">1  reads the code</text>
-          <text x="540" y="290" text-anchor="middle" fill="#6b6b6b" font-size="10.5">2  catches what only happens at runtime</text>
-          <text x="835" y="290" text-anchor="middle" fill="#6b6b6b" font-size="10.5">3  every finding carries its evidence</text>
-        </g>
-      </svg>
-      <figcaption><span>fig 03-a — L1 + L2 audit flow</span><span>reproducible: audit id + scanner version + ruleset + sandbox image</span></figcaption>
-    </figure>
-  </div>
+<div class="wrap">
+<div class="sec-head rv"><span class="no">FIG. 03-A</span><h2 data-en="The audit, drawn">La auditoría, dibujada</h2></div>
+<p class="lede rv" data-en="From repo to verdict, without a human trusting anything.">Del repo al veredicto, sin que un humano confíe en nada.</p>
+<figure class="dgm fig rv">
+<svg aria-label="Sentinel audit pipeline" role="img" style="min-width:700px" viewbox="0 0 1000 340" width="100%">
+<defs>
+<marker id="ar3" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10">
+<path d="M0 0 L10 5 L0 10 z" fill="#0a0a0a"></path>
+</marker>
+</defs>
+<g font-family="JetBrains Mono" font-size="12">
+<!-- repo -->
+<rect fill="#fafafa" height="80" stroke="#0a0a0a" stroke-width="2" width="120" x="20" y="120"></rect>
+<text fill="#0a0a0a" font-weight="800" text-anchor="middle" x="80" y="152">MCP</text>
+<text fill="#0a0a0a" font-weight="800" text-anchor="middle" x="80" y="170">repo</text>
+<text fill="#6b6b6b" font-size="10" text-anchor="middle" x="80" y="216">clone · install isolated</text>
+<!-- L1 -->
+<rect fill="#fafafa" height="200" stroke="#0a0a0a" stroke-width="2" width="180" x="200" y="60"></rect>
+<text fill="#0a0a0a" font-weight="800" text-anchor="middle" x="290" y="88">L1 — static ×10</text>
+<g fill="#6b6b6b" font-size="10.5">
+<text x="215" y="112">L1.1 deps &amp; CVEs</text>
+<text x="215" y="130">L1.2 embedded secrets</text>
+<text x="215" y="148">L1.3 obfuscated imports</text>
+<text x="215" y="166">L1.4 dangerous capabilities</text>
+<text x="215" y="184">L1.5 schema mismatch</text>
+<text fill="#d43c19" font-weight="700" x="215" y="202">L1.6 overwrite patterns</text>
+<text x="215" y="220">L1.7 network endpoints</text>
+<text x="215" y="238">L1.8 eval / exec usage</text>
+<text fill="#d43c19" font-weight="700" x="215" y="256">L1.9 prompt injection ×32</text>
+</g>
+<!-- L2 -->
+<rect fill="#0a0a0a" height="200" width="200" x="440" y="60"></rect>
+<text fill="#fafafa" font-weight="800" text-anchor="middle" x="540" y="88">L2 — sandbox</text>
+<g fill="#9a9a9a" font-size="10.5">
+<text x="455" y="112">gVisor (recommended)</text>
+<text x="455" y="130">Firecracker microVM</text>
+<text x="455" y="148">WASM · Docker+seccomp</text>
+<line stroke="#2a2d2a" stroke-width="1" x1="455" x2="625" y1="160" y2="160"></line>
+<text fill="#fafafa" x="455" y="184">run server · MCP handshake</text>
+<text fill="#fafafa" x="455" y="202">initialize · tools/list</text>
+<text fill="#d43c19" font-weight="700" x="455" y="220">trace syscalls · 30 s</text>
+<text x="455" y="238">fs · net · proc · unlink</text>
+</g>
+<!-- report -->
+<rect fill="#fafafa" height="70" stroke="#0e7a49" stroke-width="2.5" width="270" x="700" y="80"></rect>
+<text fill="#0e7a49" font-weight="800" text-anchor="middle" x="835" y="108">BEHAVIORAL REPORT</text>
+<text fill="#6b6b6b" font-size="10.5" text-anchor="middle" x="835" y="128">findings + evidence + reproduction</text>
+<rect fill="#fafafa" height="70" stroke="#d43c19" stroke-width="2.5" width="270" x="700" y="170"></rect>
+<text fill="#d43c19" font-weight="800" text-anchor="middle" x="835" y="198">QUARANTINE</text>
+<text fill="#6b6b6b" font-size="10.5" text-anchor="middle" x="835" y="218">80 quarantined · 71 flagged risky</text>
+<!-- arrows -->
+<path d="M140 160 L 198 160" marker-end="url(#ar3)" stroke="#0a0a0a" stroke-width="2"></path>
+<path d="M380 160 L 438 160" marker-end="url(#ar3)" stroke="#0a0a0a" stroke-width="2"></path>
+<path d="M640 115 L 698 115" marker-end="url(#ar3)" stroke="#0e7a49" stroke-width="2"></path>
+<path d="M640 205 L 698 205" marker-end="url(#ar3)" stroke="#d43c19" stroke-dasharray="6 4" stroke-width="2"></path>
+<!-- footer annotation -->
+<text fill="#6b6b6b" font-size="10.5" text-anchor="middle" x="290" y="290">1  reads the code</text>
+<text fill="#6b6b6b" font-size="10.5" text-anchor="middle" x="540" y="290">2  catches what only happens at runtime</text>
+<text fill="#6b6b6b" font-size="10.5" text-anchor="middle" x="835" y="290">3  every finding carries its evidence</text>
+</g>
+</svg>
+<figcaption><span>fig 03-a — L1 + L2 audit flow</span><span>reproducible: audit id + scanner version + ruleset + sandbox image</span></figcaption>
+</figure>
+</div>
 </section>
-
 <!-- ============ SCAN SIMULATOR ============ -->
 <section class="blk">
-  <div class="wrap">
-    <div class="sec-head rv"><span class="no">TRY. 03</span><h2 data-en="Run the ten layers" data-es="Corre las diez capas">Run the ten layers</h2></div>
-    <p class="lede rv" data-en="Two replays of real audit shapes: a clean invoice bot, and a PDF tool whose <b>cleanup()</b> wanted more than garbage. Layer states light up in run order; the report prints what the auditor would receive." data-es="Dos replays de formas reales de auditoría: un bot de facturas limpio, y una tool de PDF cuyo <b>cleanup()</b> quería más que basura. Las capas se encienden en orden de ejecución; el reporte imprime lo que el auditor recibiría.">
-      Two replays of real audit shapes: a clean invoice bot, and a PDF tool whose <b>cleanup()</b> wanted more than garbage. Layer states light up in run order; the report prints what the auditor would receive.
-    </p>
-
-    <div class="sim rv" id="sentinel-sim">
-      <div class="sim-head">
-        <span>sentinel audit — L1 ×10 + L2 trace</span>
-        <span class="live"><i></i><span data-en="replay · deterministic" data-es="replay · determinista">replay · deterministic</span></span>
-      </div>
-      <div class="sim-body">
-        <div class="scan-grid">
-          <div class="layers">
-            <div class="layer"><span class="no">L1.1</span><span class="nm">dependencies &amp; CVEs</span><span class="rst">—</span></div>
-            <div class="layer"><span class="no">L1.2</span><span class="nm">embedded secrets</span><span class="rst">—</span></div>
-            <div class="layer"><span class="no">L1.3</span><span class="nm">obfuscated imports</span><span class="rst">—</span></div>
-            <div class="layer"><span class="no">L1.4</span><span class="nm">dangerous capabilities</span><span class="rst">—</span></div>
-            <div class="layer"><span class="no">L1.5</span><span class="nm">schema mismatch</span><span class="rst">—</span></div>
-            <div class="layer"><span class="no">L1.6</span><span class="nm">out-of-root overwrite</span><span class="rst">—</span></div>
-            <div class="layer"><span class="no">L1.7</span><span class="nm">network endpoints</span><span class="rst">—</span></div>
-            <div class="layer"><span class="no">L1.8</span><span class="nm">eval / exec usage</span><span class="rst">—</span></div>
-            <div class="layer"><span class="no">L1.9</span><span class="nm">prompt injection · 32 rules</span><span class="rst">—</span></div>
-            <div class="layer"><span class="no">L2</span><span class="nm">sandbox · syscall trace · 30 s</span><span class="rst">—</span></div>
-          </div>
-          <div>
-            <div class="scanreport" id="sentinel-report">
-              <div class="tt" data-en="awaiting scan… pick a replay" data-es="esperando escaneo… elige un replay">awaiting scan… pick a replay</div>
-            </div>
-            <div class="atc-btns">
-              <button class="tbtn" data-scan="clean" onclick="sentinelScan('clean')" data-en="▶ replay: invoice-bot-7 (clean)" data-es="▶ replay: invoice-bot-7 (limpio)">▶ replay: invoice-bot-7 (clean)</button>
-              <button class="tbtn danger" data-scan="threat" onclick="sentinelScan('threat')" data-en="▶ replay: pdf-tools-2 (threat)" data-es="▶ replay: pdf-tools-2 (amenaza)">▶ replay: pdf-tools-2 (threat)</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+<div class="wrap">
+<div class="sec-head rv"><span class="no">TRY. 03</span><h2 data-en="Run the ten layers">Corre las diez capas</h2></div>
+<p class="lede rv" data-en="Two replays of real audit shapes: a clean invoice bot, and a PDF tool whose &lt;b&gt;cleanup()&lt;/b&gt; wanted more than garbage. Layer states light up in run order; the report prints what the auditor would receive.">Dos replays de formas reales de auditoría: un bot de facturas limpio, y una tool de PDF cuyo <b>cleanup()</b> quería más que basura. Las capas se encienden en orden de ejecución; el reporte imprime lo que el auditor recibiría.</p>
+<div class="sim rv" id="sentinel-sim">
+<div class="sim-head">
+<span>sentinel audit — L1 ×10 + L2 trace</span>
+<span class="live"><i></i><span data-en="replay · deterministic">replay · determinista</span></span>
+</div>
+<div class="sim-body">
+<div class="scan-grid">
+<div class="layers">
+<div class="layer"><span class="no">L1.1</span><span class="nm">dependencies &amp; CVEs</span><span class="rst">—</span></div>
+<div class="layer"><span class="no">L1.2</span><span class="nm">embedded secrets</span><span class="rst">—</span></div>
+<div class="layer"><span class="no">L1.3</span><span class="nm">obfuscated imports</span><span class="rst">—</span></div>
+<div class="layer"><span class="no">L1.4</span><span class="nm">dangerous capabilities</span><span class="rst">—</span></div>
+<div class="layer"><span class="no">L1.5</span><span class="nm">schema mismatch</span><span class="rst">—</span></div>
+<div class="layer"><span class="no">L1.6</span><span class="nm">out-of-root overwrite</span><span class="rst">—</span></div>
+<div class="layer"><span class="no">L1.7</span><span class="nm">network endpoints</span><span class="rst">—</span></div>
+<div class="layer"><span class="no">L1.8</span><span class="nm">eval / exec usage</span><span class="rst">—</span></div>
+<div class="layer"><span class="no">L1.9</span><span class="nm">prompt injection · 32 rules</span><span class="rst">—</span></div>
+<div class="layer"><span class="no">L2</span><span class="nm">sandbox · syscall trace · 30 s</span><span class="rst">—</span></div>
+</div>
+<div>
+<div class="scanreport" id="sentinel-report">
+<div class="tt" data-en="awaiting scan… pick a replay">esperando escaneo… elige un replay</div>
+</div>
+<div class="atc-btns">
+<button class="tbtn" data-en="▶ replay: invoice-bot-7 (clean)" data-scan="clean" onclick="sentinelScan('clean')">▶ replay: invoice-bot-7 (limpio)</button>
+<button class="tbtn danger" data-en="▶ replay: pdf-tools-2 (threat)" data-scan="threat" onclick="sentinelScan('threat')">▶ replay: pdf-tools-2 (amenaza)</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 </section>
-
 <!-- ============ OWASP ALIGNMENT ============ -->
 <section class="blk">
-  <div class="wrap">
-    <div class="sec-head rv"><span class="no">MAP. 03</span><h2 data-en="Mapped to OWASP's MCP cheat sheet" data-es="Mapeado al cheat sheet de OWASP para MCP">Mapped to OWASP's MCP cheat sheet</h2></div>
-    <p class="lede rv" data-en="Not our invented checklist — the industry's. Live rows are shipped today; dated rows are on the public roadmap." data-es="No un checklist inventado por nosotros — el de la industria. Las filas vivas están despachadas hoy; las fechadas están en el roadmap público.">
-      Not our invented checklist — the industry's. Live rows are shipped today; dated rows are on the public roadmap.
-    </p>
-    <div class="evwrap rv">
-      <table class="ev">
-        <thead><tr><th>owasp recommendation</th><th>sentinel implementation</th><th>status</th></tr></thead>
-        <tbody>
-          <tr><td>Isolate tool execution</td><td>gVisor sandbox, syscall-level trace</td><td><b style="color:var(--pass)">live</b></td></tr>
-          <tr><td>Scan for prompt injection</td><td>L1.9 — 32 rules</td><td><b style="color:var(--pass)">live</b></td></tr>
-          <tr><td>Verify tool descriptions haven't changed</td><td>Cryptographic fingerprinting (SHA-256 + JCS)</td><td><b style="color:var(--pass)">live</b></td></tr>
-          <tr><td>Monitor runtime behavior</td><td>Behavioral baseline + drift detection</td><td style="color:var(--amber)">v5.2 · 2027-Q1</td></tr>
-          <tr><td>Implement least privilege</td><td>Capability graph + org policies (→ Interceptor)</td><td style="color:var(--amber)">v5.3 · 2027-Q2</td></tr>
-          <tr><td>Implement revocation</td><td>ATC revocation + transparency log (→ FILE 02)</td><td style="color:var(--amber)">v5.1 · 2026-Q4</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="duo mt4">
-      <div class="note rv" data-en="<b>Evidence-first findings.</b> Every finding carries: Finding ID, severity, <b>confidence %</b>, evidence, location and reproduction. Two scores — how dangerous, and how sure — plus Evidence Coverage: how much of the tool surface was actually verified." data-es="<b>Hallazgos con evidencia primero.</b> Cada hallazgo trae: Finding ID, severidad, <b>confianza %</b>, evidencia, ubicación y reproducción. Dos puntajes — qué tan peligroso y qué tan seguro — más Cobertura de Evidencia: cuánta superficie de la tool se verificó de verdad.">
-        <b>Evidence-first findings.</b> Every finding carries: Finding ID, severity, <b>confidence %</b>, evidence, location and reproduction. Two scores — how dangerous, and how sure — plus Evidence Coverage: how much of the tool surface was actually verified.
-      </div>
-      <div class="note green rv" data-en="<b>Reproducible audits.</b> Audit ID + scanner version + ruleset version + sandbox image + timestamp. Running the same audit twice on the same version must produce identical results — or a written explanation of why it didn't." data-es="<b>Auditorías reproducibles.</b> Audit ID + versión del escáner + versión del ruleset + imagen del sandbox + timestamp. Correr la misma auditoría dos veces sobre la misma versión debe producir resultados idénticos — o una explicación escrita de por qué no.">
-        <b>Reproducible audits.</b> Audit ID + scanner version + ruleset version + sandbox image + timestamp. Running the same audit twice on the same version must produce identical results — or a written explanation of why it didn't.
-      </div>
-    </div>
-  </div>
+<div class="wrap">
+<div class="sec-head rv"><span class="no">MAP. 03</span><h2 data-en="Mapped to OWASP's MCP cheat sheet">Mapeado al cheat sheet de OWASP para MCP</h2></div>
+<p class="lede rv" data-en="Not our invented checklist — the industry's. Live rows are shipped today; dated rows are on the public roadmap.">No un checklist inventado por nosotros — el de la industria. Las filas vivas están despachadas hoy; las fechadas están en el roadmap público.</p>
+<div class="evwrap rv">
+<table class="ev">
+<thead><tr><th>owasp recommendation</th><th>sentinel implementation</th><th>status</th></tr></thead>
+<tbody>
+<tr><td>Isolate tool execution</td><td>gVisor sandbox, syscall-level trace</td><td><b style="color:var(--pass)">live</b></td></tr>
+<tr><td>Scan for prompt injection</td><td>L1.9 — 32 rules</td><td><b style="color:var(--pass)">live</b></td></tr>
+<tr><td>Verify tool descriptions haven't changed</td><td>Cryptographic fingerprinting (SHA-256 + JCS)</td><td><b style="color:var(--pass)">live</b></td></tr>
+<tr><td>Monitor runtime behavior</td><td>Behavioral baseline + drift detection</td><td style="color:var(--amber)">v5.2 · 2027-Q1</td></tr>
+<tr><td>Implement least privilege</td><td>Capability graph + org policies (→ Interceptor)</td><td style="color:var(--amber)">v5.3 · 2027-Q2</td></tr>
+<tr><td>Implement revocation</td><td>ATC revocation + transparency log (→ FILE 02)</td><td style="color:var(--amber)">v5.1 · 2026-Q4</td></tr>
+</tbody>
+</table>
+</div>
+<div class="duo mt4">
+<div class="note rv" data-en="&lt;b&gt;Evidence-first findings.&lt;/b&gt; Every finding carries: Finding ID, severity, &lt;b&gt;confidence %&lt;/b&gt;, evidence, location and reproduction. Two scores — how dangerous, and how sure — plus Evidence Coverage: how much of the tool surface was actually verified."><b>Hallazgos con evidencia primero.</b> Cada hallazgo trae: Finding ID, severidad, <b>confianza %</b>, evidencia, ubicación y reproducción. Dos puntajes — qué tan peligroso y qué tan seguro — más Cobertura de Evidencia: cuánta superficie de la tool se verificó de verdad.</div>
+<div class="note green rv" data-en="&lt;b&gt;Reproducible audits.&lt;/b&gt; Audit ID + scanner version + ruleset version + sandbox image + timestamp. Running the same audit twice on the same version must produce identical results — or a written explanation of why it didn't."><b>Auditorías reproducibles.</b> Audit ID + versión del escáner + versión del ruleset + imagen del sandbox + timestamp. Correr la misma auditoría dos veces sobre la misma versión debe producir resultados idénticos — o una explicación escrita de por qué no.</div>
+</div>
+</div>
 </section>
-
 <!-- ============ NAV ============ -->
 <div class="wrap">
-  <div class="filennav">
-    <a href="/atc/">
-      <div class="fno">prev file · 02</div>
-      <div class="ft">← ATC — agent trust card</div>
-    </a>
-    <a class="next" href="/interceptor/">
-      <div class="fno">next file · 04</div>
-      <div class="ft">Interceptor — runtime enforcement <span>→</span></div>
-    </a>
-  </div>
+<div class="filennav">
+<a href="/atc/">
+<div class="fno">prev file · 02</div>
+<div class="ft">← ATC — agent trust card</div>
+</a>
+<a class="next" href="/interceptor/">
+<div class="fno">next file · 04</div>
+<div class="ft">Interceptor — runtime enforcement <span>→</span></div>
+</a>
 </div>
-
+</div>
 <footer>
-  <div class="wrap">
-    <div class="fcol">
-      <div class="fbrand">UTALABS<span style="color:var(--signal)">.</span>TECH</div>
-      <div>© 2026 AliceLabs LLC · Wyoming, USA</div>
-      <div>FILE 03 · Sentinel — the audit engine</div>
-      <div><span class="fseal">FAIL-CLOSED BY DEFAULT</span></div>
-    </div>
-    <div class="fcol">
-      <b>FILES</b><br>
-      <a href="/">00 — index</a><br>
-      <a href="/uta/">01 — UTA</a><br>
-      <a href="/atc/">02 — ATC</a><br>
-      <a href="/interceptor/">04 — Interceptor</a>
-    </div>
-    <div class="fcol">
-      <b>SOURCE</b><br>
-      <a href="https://github.com/alicelabs-llc/MARKETNOW">alicelabs-llc/MARKETNOW ↗</a><br>
-      <a href="https://www.marketnow.site/api/audit-report.json">public audit report ↗</a><br>
-      <a href="https://www.marketnow.site/api/trust-score?skillId=1">trust score api ↗</a><br>
-      <a href="mailto:contacto@alicelabs.site">contacto@alicelabs.site</a>
-    </div>
-    <div class="fcol">
-      <b>LEGAL</b><br>
-      <a href="/policies/">policies &amp; licensing</a><br>
-      <a href="/policies/#privacy">privacy</a><br>
-      <a href="/policies/#terms">terms</a><br>
-      <a href="/policies/#aups">acceptable use</a>
-    </div>
-  </div>
+<div class="wrap">
+<div class="fcol">
+<div class="fbrand">UTALABS<span style="color:var(--signal)">.</span>TECH</div>
+<div>© 2026 AliceLabs LLC · Wyoming, USA</div>
+<div>FILE 03 · Sentinel — the audit engine</div>
+<div><span class="fseal">FAIL-CLOSED BY DEFAULT</span></div>
+</div>
+<div class="fcol">
+<b>FILES</b><br/>
+<a href="/">00 — index</a><br/>
+<a href="/uta/">01 — UTA</a><br/>
+<a href="/atc/">02 — ATC</a><br/>
+<a href="/interceptor/">04 — Interceptor</a>
+</div>
+<div class="fcol">
+<b>SOURCE</b><br/>
+<a href="https://github.com/alicelabs-llc/MARKETNOW">alicelabs-llc/MARKETNOW ↗</a><br/>
+<a href="https://www.marketnow.site/api/audit-report.json">public audit report ↗</a><br/>
+<a href="https://www.marketnow.site/api/trust-score?skillId=1">trust score api ↗</a><br/>
+<a href="mailto:contacto@alicelabs.site">contacto@alicelabs.site</a>
+</div>
+<div class="fcol">
+<b>LEGAL</b><br/>
+<a href="/policies/">policies &amp; licensing</a><br/>
+<a href="/policies/#privacy">privacy</a><br/>
+<a href="/policies/#terms">terms</a><br/>
+<a href="/policies/#aups">acceptable use</a>
+</div>
+</div>
 </footer>
-
 <script src="/assets/site.js"></script>
 </body>
 </html>

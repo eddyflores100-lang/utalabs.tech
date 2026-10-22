@@ -1,213 +1,193 @@
 <!DOCTYPE html>
-<html lang="en" data-lang="en">
+
+<html data-lang="es" lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FILE 01 · UTA — universal trust adapter · utalabs.tech</title>
-<meta name="description" content="UTA translates between all 8 trust credential formats used by AI agents via one canonical Universal Trust Schema — lossless, fail-closed, x402-ready at $0.01/verify. The USB-C of agent trust, by AliceLabs LLC.">
-<link rel="canonical" href="https://utalabs.tech/uta/">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230a0a0a'/%3E%3Cpath d='M8 10 L8 22 M8 22 L16 9 L24 22 M24 10 L24 22' stroke='%23d43c19' stroke-width='2.6' fill='none' stroke-linecap='square'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/site.css">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-en="FILE 01 · UTA — universal trust adapter · utalabs.tech">ARCHIVO 01 · UTA — universal trust adapter · utalabs.tech</title>
+<meta content="UTA traduce entre los 8 formatos de credenciales de confianza para agentes de IA vía un único Universal Trust Schema canónico — sin pérdida, fail-closed, listo para x402 a $0.01/verificación. El USB-C de la confianza para agentes, por AliceLabs LLC." name="description"/>
+<link href="https://utalabs.tech/uta/" rel="canonical"/>
+<link href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230a0a0a'/%3E%3Cpath d='M8 10 L8 22 M8 22 L16 9 L24 22 M24 10 L24 22' stroke='%23d43c19' stroke-width='2.6' fill='none' stroke-linecap='square'/%3E%3C/svg%3E" rel="icon"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="/assets/site.css" rel="stylesheet"/>
 </head>
 <body>
-
 <nav class="topbar">
-  <div class="wrap">
-    <a class="brand" href="/"><span class="stamp">U</span>UTALABS<span style="color:var(--signal)">.</span>TECH</a>
-    <div class="navfiles">
-      <a href="/uta/" class="on"><sup>01</sup>UTA</a>
-      <a href="/atc/"><sup>02</sup>ATC</a>
-      <a href="/sentinel/"><sup>03</sup>SENTINEL</a>
-      <a href="/interceptor/"><sup>04</sup>INTERCEPTOR</a>
-    </div>
-    <div class="navright">
-      <div class="extlinks">
-        <a href="https://wall.utalabs.tech">wall↗</a>
-        <a href="https://www.marketnow.site">marketnow↗</a>
-        <a href="https://github.com/alicelabs-llc/universal-trust-adapter">repo↗</a>
-      </div>
-      <div class="langsw">
-        <button data-setlang="en" class="on">EN</button>
-        <button data-setlang="es">ES</button>
-      </div>
-    </div>
-  </div>
-</nav>
-
-<div class="filestrip">
-  <div class="wrap">
-    <span><b>FILE 01</b> — translation layer</span>
-    <span class="fs-signal">UTA · universal trust adapter</span>
-    <span>repo: <b>alicelabs-llc/universal-trust-adapter</b> · <b class="ok">live on Base</b></span>
-  </div>
+<div class="wrap">
+<a class="brand" href="/"><span class="stamp">U</span>UTALABS<span style="color:var(--signal)">.</span>TECH</a>
+<div class="navfiles">
+<a class="on" href="/uta/"><sup>01</sup>UTA</a>
+<a href="/atc/"><sup>02</sup>ATC</a>
+<a href="/sentinel/"><sup>03</sup>SENTINEL</a>
+<a href="/interceptor/"><sup>04</sup>INTERCEPTOR</a>
 </div>
-
+<div class="navright">
+<div class="extlinks">
+<a href="https://wall.utalabs.tech">wall↗</a>
+<a href="https://www.marketnow.site">marketnow↗</a>
+<a href="https://github.com/alicelabs-llc/universal-trust-adapter">repo↗</a>
+</div>
+<div class="langsw">
+<button class="" data-setlang="en">EN</button>
+<button class="on" data-setlang="es">ES</button>
+</div>
+</div>
+</div>
+</nav>
+<div class="filestrip">
+<div class="wrap">
+<span><b>FILE 01</b> — translation layer</span>
+<span class="fs-signal">UTA · universal trust adapter</span>
+<span>repo: <b>alicelabs-llc/universal-trust-adapter</b> · <b class="ok">live on Base</b></span>
+</div>
+</div>
 <header class="hero">
-  <div class="wrap herorow">
-    <div>
-      <div class="kick" data-en="File 01 — make every credential speak every dialect" data-es="Archivo 01 — haz que cada credencial hable todos los dialectos">File 01 — make every credential speak every dialect</div>
-      <h1 class="mega" data-en='Every agent trust format, <em>one socket.</em>' data-es='Todos los formatos de confianza agentil, <em>un solo enchufe.</em>'>Every agent trust format, <em>one socket.</em></h1>
-      <p class="tagline" data-en="Eight ecosystems issued eight credential formats. Every verifier that wants to check an agent must speak all of them — or trust only one. UTA is the adapter in between: <b>8 formats in, one canonical schema out, losslessly</b> — then a 12-stage pipeline decides. If the answer can't be verified, the verdict is DENY. Never “probably fine”." data-es="Ocho ecosistemas emitieron ocho formatos de credenciales. Cada verificador que quiera chequear un agente debe hablarlos todos — o confiar en uno solo. UTA es el adaptador en el medio: <b>8 formatos entran, un esquema canónico sale, sin pérdida</b> — luego una tubería de 12 etapas decide. Si la respuesta no se puede verificar, el veredicto es DENY. Nunca “probablemente bien”.">
-        Eight ecosystems issued eight credential formats. Every verifier that wants to check an agent must speak all of them — or trust only one. UTA is the adapter in between: <b>8 formats in, one canonical schema out, losslessly</b> — then a 12-stage pipeline decides. If the answer can't be verified, the verdict is DENY. Never “probably fine”.
-      </p>
-    </div>
-    <aside class="herometa rv">
-      <div class="row"><span>formats supported</span><b>8 in · 8 out</b></div>
-      <div class="row"><span>verification stages</span><b>12</b></div>
-      <div class="row"><span>conformance vectors</span><b>36 · v1.4.0</b></div>
-      <div class="row"><span>x402 api</span><b>$0.01 / $0.08 batch</b></div>
-      <div class="row"><span>chains</span><b>Base mainnet + Sepolia</b></div>
-      <div class="row"><span>glama rating</span><b class="ok">A</b></div>
-      <div class="row"><span>rekor anchored</span><b class="ok">yes — live log</b></div>
-    </aside>
-  </div>
+<div class="wrap herorow">
+<div>
+<div class="kick" data-en="File 01 — make every credential speak every dialect">Archivo 01 — haz que cada credencial hable todos los dialectos</div>
+<h1 class="mega" data-en="Every agent trust format, &lt;em&gt;one socket.&lt;/em&gt;">Todos los formatos de confianza agentil, <em>un solo enchufe.</em></h1>
+<p class="tagline" data-en="Eight ecosystems issued eight credential formats. Every verifier that wants to check an agent must speak all of them — or trust only one. UTA is the adapter in between: &lt;b&gt;8 formats in, one canonical schema out, losslessly&lt;/b&gt; — then a 12-stage pipeline decides. If the answer can't be verified, the verdict is DENY. Never “probably fine”.">Ocho ecosistemas emitieron ocho formatos de credenciales. Cada verificador que quiera chequear un agente debe hablarlos todos — o confiar en uno solo. UTA es el adaptador en el medio: <b>8 formatos entran, un esquema canónico sale, sin pérdida</b> — luego una tubería de 12 etapas decide. Si la respuesta no se puede verificar, el veredicto es DENY. Nunca “probablemente bien”.</p>
+</div>
+<aside class="herometa rv">
+<div class="row"><span>formats supported</span><b>8 in · 8 out</b></div>
+<div class="row"><span>verification stages</span><b>12</b></div>
+<div class="row"><span>conformance vectors</span><b>36 · v1.4.0</b></div>
+<div class="row"><span>x402 api</span><b>$0.01 / $0.08 batch</b></div>
+<div class="row"><span>chains</span><b>Base mainnet + Sepolia</b></div>
+<div class="row"><span>glama rating</span><b class="ok">A</b></div>
+<div class="row"><span>rekor anchored</span><b class="ok">yes — live log</b></div>
+</aside>
+</div>
 </header>
-
 <!-- ============ DIAGRAM ============ -->
 <section class="blk">
-  <div class="wrap">
-    <div class="sec-head rv"><span class="no">FIG. 01-A</span><h2 data-en="What it does, drawn" data-es="Lo que hace, dibujado">What it does, drawn</h2></div>
-    <p class="lede rv" data-en="Like Zapier connected apps, UTA connects trust standards — but with a border checkpoint at the exit." data-es="Como Zapier conectó apps, UTA conecta estándares de confianza — pero con un puesto fronterizo en la salida.">
-      Like Zapier connected apps, UTA connects trust standards — but with a border checkpoint at the exit.
-    </p>
-    <figure class="dgm fig rv">
-      <svg viewBox="0 0 1000 380" width="100%" style="min-width:700px" role="img" aria-label="UTA translation diagram">
-        <defs>
-          <marker id="ar1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-            <path d="M0 0 L10 5 L0 10 z" fill="#0a0a0a"/>
-          </marker>
-          <marker id="ar1r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-            <path d="M0 0 L10 5 L0 10 z" fill="#d43c19"/>
-          </marker>
-        </defs>
-        <!-- inbound formats -->
-        <g font-family="JetBrains Mono" font-size="12" font-weight="700">
-          <rect x="20" y="20" width="130" height="34" fill="#fafafa" stroke="#0a0a0a" stroke-width="1.6"/><text x="85" y="42" text-anchor="middle" fill="#0a0a0a">JWT</text>
-          <rect x="20" y="66" width="130" height="34" fill="#fafafa" stroke="#0a0a0a" stroke-width="1.6"/><text x="85" y="88" text-anchor="middle" fill="#0a0a0a">W3C VC</text>
-          <rect x="20" y="112" width="130" height="34" fill="#fafafa" stroke="#0a0a0a" stroke-width="1.6"/><text x="85" y="134" text-anchor="middle" fill="#0a0a0a">A2A</text>
-          <rect x="20" y="158" width="130" height="34" fill="#fafafa" stroke="#0a0a0a" stroke-width="1.6"/><text x="85" y="180" text-anchor="middle" fill="#0a0a0a">EAT-AI</text>
-          <rect x="20" y="204" width="130" height="34" fill="#fafafa" stroke="#0a0a0a" stroke-width="1.6"/><text x="85" y="226" text-anchor="middle" fill="#0a0a0a">ZTA</text>
-          <rect x="20" y="250" width="130" height="34" fill="#fafafa" stroke="#0a0a0a" stroke-width="1.6"/><text x="85" y="272" text-anchor="middle" fill="#0a0a0a">MCP Card</text>
-          <rect x="20" y="296" width="130" height="34" fill="#fafafa" stroke="#0a0a0a" stroke-width="1.6"/><text x="85" y="318" text-anchor="middle" fill="#0a0a0a">X.509</text>
-          <rect x="20" y="342" width="130" height="34" fill="#fafafa" stroke="#0a0a0a" stroke-width="1.6"/><text x="85" y="364" text-anchor="middle" fill="#d43c19">ATC v3</text>
-        </g>
-        <!-- connectors -->
-        <g stroke="#0a0a0a" stroke-width="1.4" fill="none">
-          <path d="M150 37 C 240 37 260 170 330 180"/>
-          <path d="M150 83 C 240 83 260 175 330 185"/>
-          <path d="M150 129 C 240 129 260 180 330 190"/>
-          <path d="M150 175 C 235 175 265 187 330 195"/>
-          <path d="M150 221 C 240 221 260 195 330 200"/>
-          <path d="M150 267 C 240 267 260 205 330 205"/>
-          <path d="M150 313 C 240 313 260 215 330 210"/>
-          <path d="M150 359 C 240 359 260 225 330 220"/>
-        </g>
-        <!-- UTA core -->
-        <g>
-          <rect x="330" y="120" width="220" height="140" fill="#d43c19"/>
-          <text x="440" y="165" text-anchor="middle" font-family="JetBrains Mono" font-weight="800" font-size="30" fill="#fafafa">UTA</text>
-          <text x="440" y="190" text-anchor="middle" font-family="JetBrains Mono" font-size="12" fill="#faf7f5">Universal Trust Schema</text>
-          <text x="440" y="208" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#fbe9e4">12-stage pipeline inside ↓</text>
-          <text x="440" y="238" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#fbe9e4">① parse · ② normalize (RFC 8785)</text>
-          <text x="440" y="252" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#fbe9e4">③ verify sig · ④ check revocation</text>
-        </g>
-        <!-- verdict branch -->
-        <g font-family="JetBrains Mono" font-size="11">
-          <path d="M550 165 L 640 130" stroke="#0e7a49" stroke-width="2.2" marker-end="url(#ar1)"/>
-          <path d="M550 215 L 640 255" stroke="#d43c19" stroke-width="2.2" stroke-dasharray="6 4" marker-end="url(#ar1r)"/>
-          <rect x="645" y="108" width="180" height="44" fill="#fafafa" stroke="#0e7a49" stroke-width="2"/>
-          <text x="735" y="127" text-anchor="middle" font-weight="800" fill="#0e7a49">ALLOW + receipt</text>
-          <text x="735" y="143" text-anchor="middle" fill="#6b6b6b" font-size="9.5">signed · machine-readable</text>
-          <rect x="645" y="235" width="180" height="44" fill="#fafafa" stroke="#d43c19" stroke-width="2"/>
-          <text x="735" y="254" text-anchor="middle" font-weight="800" fill="#d43c19">DENY + receipt</text>
-          <text x="735" y="270" text-anchor="middle" fill="#6b6b6b" font-size="9.5">refusals get receipts too</text>
-        </g>
-        <!-- x402 lane -->
-        <g font-family="JetBrains Mono" font-size="11">
-          <rect x="645" y="315" width="300" height="44" fill="#0a0a0a"/>
-          <text x="795" y="334" text-anchor="middle" font-weight="800" fill="#fafafa">x402 paid API</text>
-          <text x="795" y="350" text-anchor="middle" fill="#9a9a9a" font-size="10">$0.01/verify · $0.08/batch · USDC on Base · no signup</text>
-          <path d="M440 260 L 440 337 L 643 337" stroke="#0a0a0a" stroke-width="1.6" stroke-dasharray="4 4" fill="none" marker-end="url(#ar1)"/>
-        </g>
-        <!-- annotation callouts -->
-        <g font-family="JetBrains Mono" font-size="10.5" fill="#6b6b6b">
-          <circle cx="440" cy="90" r="11" fill="#fafafa" stroke="#d43c19" stroke-width="2"/>
-          <text x="440" y="94" text-anchor="middle" fill="#d43c19" font-weight="800">1</text>
-          <text x="460" y="94" fill="#0a0a0a">any dialect arrives…</text>
-          <circle cx="440" cy="295" r="11" fill="#fafafa" stroke="#d43c19" stroke-width="2"/>
-          <text x="440" y="299" text-anchor="middle" fill="#d43c19" font-weight="800">2</text>
-          <text x="460" y="299" fill="#0a0a0a">…one canonical truth leaves</text>
-        </g>
-      </svg>
-      <figcaption><span>fig 01-a — the adapter + border checkpoint</span><span>solid = shipped v1.4 · dashed = deny path</span></figcaption>
-    </figure>
-  </div>
+<div class="wrap">
+<div class="sec-head rv"><span class="no">FIG. 01-A</span><h2 data-en="What it does, drawn">Lo que hace, dibujado</h2></div>
+<p class="lede rv" data-en="Like Zapier connected apps, UTA connects trust standards — but with a border checkpoint at the exit.">Como Zapier conectó apps, UTA conecta estándares de confianza — pero con un puesto fronterizo en la salida.</p>
+<figure class="dgm fig rv">
+<svg aria-label="UTA translation diagram" role="img" style="min-width:700px" viewbox="0 0 1000 380" width="100%">
+<defs>
+<marker id="ar1" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10">
+<path d="M0 0 L10 5 L0 10 z" fill="#0a0a0a"></path>
+</marker>
+<marker id="ar1r" markerheight="7" markerwidth="7" orient="auto-start-reverse" refx="9" refy="5" viewbox="0 0 10 10">
+<path d="M0 0 L10 5 L0 10 z" fill="#d43c19"></path>
+</marker>
+</defs>
+<!-- inbound formats -->
+<g font-family="JetBrains Mono" font-size="12" font-weight="700">
+<rect fill="#fafafa" height="34" stroke="#0a0a0a" stroke-width="1.6" width="130" x="20" y="20"></rect><text fill="#0a0a0a" text-anchor="middle" x="85" y="42">JWT</text>
+<rect fill="#fafafa" height="34" stroke="#0a0a0a" stroke-width="1.6" width="130" x="20" y="66"></rect><text fill="#0a0a0a" text-anchor="middle" x="85" y="88">W3C VC</text>
+<rect fill="#fafafa" height="34" stroke="#0a0a0a" stroke-width="1.6" width="130" x="20" y="112"></rect><text fill="#0a0a0a" text-anchor="middle" x="85" y="134">A2A</text>
+<rect fill="#fafafa" height="34" stroke="#0a0a0a" stroke-width="1.6" width="130" x="20" y="158"></rect><text fill="#0a0a0a" text-anchor="middle" x="85" y="180">EAT-AI</text>
+<rect fill="#fafafa" height="34" stroke="#0a0a0a" stroke-width="1.6" width="130" x="20" y="204"></rect><text fill="#0a0a0a" text-anchor="middle" x="85" y="226">ZTA</text>
+<rect fill="#fafafa" height="34" stroke="#0a0a0a" stroke-width="1.6" width="130" x="20" y="250"></rect><text fill="#0a0a0a" text-anchor="middle" x="85" y="272">MCP Card</text>
+<rect fill="#fafafa" height="34" stroke="#0a0a0a" stroke-width="1.6" width="130" x="20" y="296"></rect><text fill="#0a0a0a" text-anchor="middle" x="85" y="318">X.509</text>
+<rect fill="#fafafa" height="34" stroke="#0a0a0a" stroke-width="1.6" width="130" x="20" y="342"></rect><text fill="#d43c19" text-anchor="middle" x="85" y="364">ATC v3</text>
+</g>
+<!-- connectors -->
+<g fill="none" stroke="#0a0a0a" stroke-width="1.4">
+<path d="M150 37 C 240 37 260 170 330 180"></path>
+<path d="M150 83 C 240 83 260 175 330 185"></path>
+<path d="M150 129 C 240 129 260 180 330 190"></path>
+<path d="M150 175 C 235 175 265 187 330 195"></path>
+<path d="M150 221 C 240 221 260 195 330 200"></path>
+<path d="M150 267 C 240 267 260 205 330 205"></path>
+<path d="M150 313 C 240 313 260 215 330 210"></path>
+<path d="M150 359 C 240 359 260 225 330 220"></path>
+</g>
+<!-- UTA core -->
+<g>
+<rect fill="#d43c19" height="140" width="220" x="330" y="120"></rect>
+<text fill="#fafafa" font-family="JetBrains Mono" font-size="30" font-weight="800" text-anchor="middle" x="440" y="165">UTA</text>
+<text fill="#faf7f5" font-family="JetBrains Mono" font-size="12" text-anchor="middle" x="440" y="190">Universal Trust Schema</text>
+<text fill="#fbe9e4" font-family="JetBrains Mono" font-size="11" text-anchor="middle" x="440" y="208">12-stage pipeline inside ↓</text>
+<text fill="#fbe9e4" font-family="JetBrains Mono" font-size="10" text-anchor="middle" x="440" y="238">① parse · ② normalize (RFC 8785)</text>
+<text fill="#fbe9e4" font-family="JetBrains Mono" font-size="10" text-anchor="middle" x="440" y="252">③ verify sig · ④ check revocation</text>
+</g>
+<!-- verdict branch -->
+<g font-family="JetBrains Mono" font-size="11">
+<path d="M550 165 L 640 130" marker-end="url(#ar1)" stroke="#0e7a49" stroke-width="2.2"></path>
+<path d="M550 215 L 640 255" marker-end="url(#ar1r)" stroke="#d43c19" stroke-dasharray="6 4" stroke-width="2.2"></path>
+<rect fill="#fafafa" height="44" stroke="#0e7a49" stroke-width="2" width="180" x="645" y="108"></rect>
+<text fill="#0e7a49" font-weight="800" text-anchor="middle" x="735" y="127">ALLOW + receipt</text>
+<text fill="#6b6b6b" font-size="9.5" text-anchor="middle" x="735" y="143">signed · machine-readable</text>
+<rect fill="#fafafa" height="44" stroke="#d43c19" stroke-width="2" width="180" x="645" y="235"></rect>
+<text fill="#d43c19" font-weight="800" text-anchor="middle" x="735" y="254">DENY + receipt</text>
+<text fill="#6b6b6b" font-size="9.5" text-anchor="middle" x="735" y="270">refusals get receipts too</text>
+</g>
+<!-- x402 lane -->
+<g font-family="JetBrains Mono" font-size="11">
+<rect fill="#0a0a0a" height="44" width="300" x="645" y="315"></rect>
+<text fill="#fafafa" font-weight="800" text-anchor="middle" x="795" y="334">x402 paid API</text>
+<text fill="#9a9a9a" font-size="10" text-anchor="middle" x="795" y="350">$0.01/verify · $0.08/batch · USDC on Base · no signup</text>
+<path d="M440 260 L 440 337 L 643 337" fill="none" marker-end="url(#ar1)" stroke="#0a0a0a" stroke-dasharray="4 4" stroke-width="1.6"></path>
+</g>
+<!-- annotation callouts -->
+<g fill="#6b6b6b" font-family="JetBrains Mono" font-size="10.5">
+<circle cx="440" cy="90" fill="#fafafa" r="11" stroke="#d43c19" stroke-width="2"></circle>
+<text fill="#d43c19" font-weight="800" text-anchor="middle" x="440" y="94">1</text>
+<text fill="#0a0a0a" x="460" y="94">any dialect arrives…</text>
+<circle cx="440" cy="295" fill="#fafafa" r="11" stroke="#d43c19" stroke-width="2"></circle>
+<text fill="#d43c19" font-weight="800" text-anchor="middle" x="440" y="299">2</text>
+<text fill="#0a0a0a" x="460" y="299">…one canonical truth leaves</text>
+</g>
+</svg>
+<figcaption><span>fig 01-a — the adapter + border checkpoint</span><span>solid = shipped v1.4 · dashed = deny path</span></figcaption>
+</figure>
+</div>
 </section>
-
 <!-- ============ SIMULATOR ============ -->
 <section class="blk">
-  <div class="wrap">
-    <div class="sec-head rv"><span class="no">TRY. 01</span><h2 data-en="Feed it a credential" data-es="Aliméntale una credencial">Feed it a credential</h2></div>
-    <p class="lede rv" data-en="Pick the format an agent shows up with. Watch it normalize into UTS and re-emit. <b>Static demo data, deterministic logic</b> — the shape of the real pipeline, without pretending to run crypto in your browser." data-es="Elige el formato con el que llega un agente. Mira cómo se normaliza a UTS y se re-emite. <b>Datos demo estáticos, lógica determinista</b> — la forma de la tubería real, sin fingir correr cripto en tu navegador.">
-      Pick the format an agent shows up with. Watch it normalize into UTS and re-emit. <b>Static demo data, deterministic logic</b> — the shape of the real pipeline, without pretending to run crypto in your browser.
-    </p>
-
-    <div class="sim rv" id="uta-sim">
-      <div class="sim-head">
-        <span>UTA/1.4 — translate_credential</span>
-        <span class="live"><i></i><span data-en="simulator" data-es="simulador">simulator</span></span>
-      </div>
-      <div class="sim-body">
-        <div class="fmtgrid">
-          <button class="fmt" onclick="utaTranslate('JWT')">JWT</button>
-          <button class="fmt" onclick="utaTranslate('W3C VC')">W3C VC</button>
-          <button class="fmt" onclick="utaTranslate('A2A')">A2A</button>
-          <button class="fmt" onclick="utaTranslate('EAT-AI')">EAT-AI</button>
-          <button class="fmt" onclick="utaTranslate('ZTA')">ZTA</button>
-          <button class="fmt" onclick="utaTranslate('MCP Card')">MCP Card</button>
-          <button class="fmt" onclick="utaTranslate('X.509')">X.509</button>
-          <button class="fmt" onclick="utaTranslate('ATC v3')">ATC v3</button>
-        </div>
-        <div class="transit">
-          <div class="tr-box"><div class="tt" data-en="inbound credential" data-es="credencial entrante">inbound credential</div><div class="ln" id="uta-src" data-en="— pick a format above —" data-es="— elige un formato arriba —">— pick a format above —</div></div>
-          <div class="tr-arrow"><div>UTS<div class="pulse">⇢</div>canonical</div></div>
-          <div class="tr-box"><div class="tt" data-en="canonical → re-emitted" data-es="canónico → re-emitido">canonical → re-emitted</div><div class="ln" id="uta-out" data-en="—" data-es="—">—</div></div>
-        </div>
-        <div class="tr-verdict" id="uta-verdict" style="display:none"></div>
-      </div>
-    </div>
-
-    <h3 class="mono mt2 rv" style="font-size:16px" data-en="The 12 stages it runs on everything" data-es="Las 12 etapas que corre sobre todo">The 12 stages it runs on everything</h3>
-    <p class="lede rv" style="margin-bottom:24px" data-en="Translation without verification is a robbery funnel. Every credential that passes through UTS gets all twelve." data-es="Traducir sin verificar es un embudo de robo. Cada credencial que pasa por UTS recibe las doce.">
-      Translation without verification is a robbery funnel. Every credential that passes through UTS gets all twelve.
-    </p>
-    <div class="stats rv">
-      <div class="st"><div class="n">01–03</div><div class="l" data-en="parse · normalize · schema" data-es="parse · normalizar · schema">parse · normalize · schema</div></div>
-      <div class="st"><div class="n">04–06</div><div class="l" data-en="sig verify · chain · timestamps" data-es="verif. firma · cadena · timestamps">sig verify · chain · timestamps</div></div>
-      <div class="st"><div class="n">07–09</div><div class="l" data-en="revocation · expiry · scope" data-es="revocación · expiración · scope">revocation · expiry · scope</div></div>
-      <div class="st"><div class="n">10–12</div><div class="l" data-en="risk · policy · signed verdict" data-es="riesgo · política · veredicto firmado">risk · policy · signed verdict</div></div>
-    </div>
-  </div>
+<div class="wrap">
+<div class="sec-head rv"><span class="no">TRY. 01</span><h2 data-en="Feed it a credential">Aliméntale una credencial</h2></div>
+<p class="lede rv" data-en="Pick the format an agent shows up with. Watch it normalize into UTS and re-emit. &lt;b&gt;Static demo data, deterministic logic&lt;/b&gt; — the shape of the real pipeline, without pretending to run crypto in your browser.">Elige el formato con el que llega un agente. Mira cómo se normaliza a UTS y se re-emite. <b>Datos demo estáticos, lógica determinista</b> — la forma de la tubería real, sin fingir correr cripto en tu navegador.</p>
+<div class="sim rv" id="uta-sim">
+<div class="sim-head">
+<span>UTA/1.4 — translate_credential</span>
+<span class="live"><i></i><span data-en="simulator">simulador</span></span>
+</div>
+<div class="sim-body">
+<div class="fmtgrid">
+<button class="fmt" onclick="utaTranslate('JWT')">JWT</button>
+<button class="fmt" onclick="utaTranslate('W3C VC')">W3C VC</button>
+<button class="fmt" onclick="utaTranslate('A2A')">A2A</button>
+<button class="fmt" onclick="utaTranslate('EAT-AI')">EAT-AI</button>
+<button class="fmt" onclick="utaTranslate('ZTA')">ZTA</button>
+<button class="fmt" onclick="utaTranslate('MCP Card')">MCP Card</button>
+<button class="fmt" onclick="utaTranslate('X.509')">X.509</button>
+<button class="fmt" onclick="utaTranslate('ATC v3')">ATC v3</button>
+</div>
+<div class="transit">
+<div class="tr-box"><div class="tt" data-en="inbound credential">credencial entrante</div><div class="ln" data-en="— pick a format above —" id="uta-src">— elige un formato arriba —</div></div>
+<div class="tr-arrow"><div>UTS<div class="pulse">⇢</div>canonical</div></div>
+<div class="tr-box"><div class="tt" data-en="canonical → re-emitted">canónico → re-emitido</div><div class="ln" data-en="—" id="uta-out">—</div></div>
+</div>
+<div class="tr-verdict" id="uta-verdict" style="display:none"></div>
+</div>
+</div>
+<h3 class="mono mt2 rv" data-en="The 12 stages it runs on everything" style="font-size:16px">Las 12 etapas que corre sobre todo</h3>
+<p class="lede rv" data-en="Translation without verification is a robbery funnel. Every credential that passes through UTS gets all twelve." style="margin-bottom:24px">Traducir sin verificar es un embudo de robo. Cada credencial que pasa por UTS recibe las doce.</p>
+<div class="stats rv">
+<div class="st"><div class="n">01–03</div><div class="l" data-en="parse · normalize · schema">parse · normalizar · schema</div></div>
+<div class="st"><div class="n">04–06</div><div class="l" data-en="sig verify · chain · timestamps">verif. firma · cadena · timestamps</div></div>
+<div class="st"><div class="n">07–09</div><div class="l" data-en="revocation · expiry · scope">revocación · expiración · scope</div></div>
+<div class="st"><div class="n">10–12</div><div class="l" data-en="risk · policy · signed verdict">riesgo · política · veredicto firmado</div></div>
+</div>
+</div>
 </section>
-
 <!-- ============ FAIL CLOSED ============ -->
 <section class="blk">
-  <div class="wrap">
-    <div class="sec-head rv"><span class="no">RULE. 01</span><h2 data-en="The fail-closed clause" data-es="La cláusula fail-closed">The fail-closed clause</h2></div>
-    <div class="duo mt2">
-      <div class="note red rv" data-en="<b>The clause:</b> if the revocation check cannot be reached, the verdict is <b>DENY</b>. Not “allow with a warning”. Not “retry silently”. A verifier that can't check is a verifier that doesn't answer — and an unanswered checkpoint is a closed one." data-es="<b>La cláusula:</b> si el chequeo de revocación no se puede alcanzar, el veredicto es <b>DENY</b>. No “permitir con advertencia”. No “reintentar en silencio”. Un verificador que no puede chequear es un verificador que no responde — y un puesto fronterizo sin respuesta está cerrado.">
-        <b>The clause:</b> if the revocation check cannot be reached, the verdict is <b>DENY</b>. Not “allow with a warning”. Not “retry silently”. A verifier that can't check is a verifier that doesn't answer — and an unanswered checkpoint is a closed one.
-      </div>
-      <div class="note green rv" data-en="<b>Why you should care:</b> most “trust layers” on the market fail open — when their API is down, calls flow. That inverts the incentive: your security is the first thing sacrificed to their uptime metrics. Ours inverts it back." data-es="<b>Por qué te importa:</b> la mayoría de las “capas de confianza” del mercado fallan abiertas — cuando su API cae, las llamadas fluyen. Eso invierte el incentivo: tu seguridad es lo primero que se sacrifica por sus métricas de uptime. La nuestra lo re-invierte.">
-        <b>Why you should care:</b> most “trust layers” on the market fail open — when their API is down, calls flow. That inverts the incentive: your security is the first thing sacrificed to their uptime metrics. Ours inverts it back.
-      </div>
-    </div>
-
-    <div class="codebox mt4 rv">
-      <div class="code"><span class="c"># machine-readable price + payment requirements (402 PAYMENT-REQUIRED)</span>
+<div class="wrap">
+<div class="sec-head rv"><span class="no">RULE. 01</span><h2 data-en="The fail-closed clause">La cláusula fail-closed</h2></div>
+<div class="duo mt2">
+<div class="note red rv" data-en="&lt;b&gt;The clause:&lt;/b&gt; if the revocation check cannot be reached, the verdict is &lt;b&gt;DENY&lt;/b&gt;. Not “allow with a warning”. Not “retry silently”. A verifier that can't check is a verifier that doesn't answer — and an unanswered checkpoint is a closed one."><b>La cláusula:</b> si el chequeo de revocación no se puede alcanzar, el veredicto es <b>DENY</b>. No “permitir con advertencia”. No “reintentar en silencio”. Un verificador que no puede chequear es un verificador que no responde — y un puesto fronterizo sin respuesta está cerrado.</div>
+<div class="note green rv" data-en="&lt;b&gt;Why you should care:&lt;/b&gt; most “trust layers” on the market fail open — when their API is down, calls flow. That inverts the incentive: your security is the first thing sacrificed to their uptime metrics. Ours inverts it back."><b>Por qué te importa:</b> la mayoría de las “capas de confianza” del mercado fallan abiertas — cuando su API cae, las llamadas fluyen. Eso invierte el incentivo: tu seguridad es lo primero que se sacrifica por sus métricas de uptime. La nuestra lo re-invierte.</div>
+</div>
+<div class="codebox mt4 rv">
+<div class="code"><span class="c"># machine-readable price + payment requirements (402 PAYMENT-REQUIRED)</span>
 curl -s https://uta-trust-api.eddyflores100.workers.dev/.well-known/x402.json
 
 <span class="c"># human + agent docs (OpenAPI, /llms.txt for agents)</span>
@@ -216,83 +196,75 @@ curl -s https://uta-trust-api.eddyflores100.workers.dev/docs
 <span class="c"># verify any agent for $0.01 — USDC, exact scheme, Base mainnet (eip155:8453)</span>
 <span class="c"># Base Sepolia (eip155:84532) via x402.org facilitator — zero-cost testing</span>
 <span class="k">any x402 client</span> · <span class="s">no signup · no API key · pay per call</span></div>
-    </div>
-  </div>
+</div>
+</div>
 </section>
-
 <!-- ============ EVIDENCE ============ -->
 <section class="blk">
-  <div class="wrap">
-    <div class="sec-head rv"><span class="no">RECEIPTS</span><h2 data-en="Verify our claims — the stranger test" data-es="Verificá nuestras afirmaciones — el test del extraño">Verify our claims — the stranger test</h2></div>
-    <p class="lede rv" data-en="Every line below is a public artifact. Where we are only proposing — not merged — the row says so." data-es="Cada línea abajo es un artefacto público. Donde solo proponemos — no fusionado — la fila lo dice.">
-      Every line below is a public artifact. Where we are only proposing — not merged — the row says so.
-    </p>
-    <div class="evwrap rv">
-      <table class="ev">
-        <thead><tr><th>claim</th><th>evidence · link</th></tr></thead>
-        <tbody>
-          <tr><td>Spending authority PR</td><td><a href="https://github.com/solana-foundation/pay">solana-foundation/pay PR #525</a> — 199 tests green, open public review. <b>Not merged yet</b> — no human review recorded as of today.</td></tr>
-          <tr><td>x402 core issues</td><td>Public technical answers to four live x402 issues (#3808–#3814) · open extension proposal <a href="https://github.com/x402-foundation/x402/pull/3815">x402#3815</a>.</td></tr>
-          <tr><td>Standards work</td><td><a href="https://github.com/x402-foundation/wg-identity">wg-identity #40</a> — fail-closed position + not-evaluated receipt requirement published; one vendor (AXES) publicly reviewing for schema alignment.</td></tr>
-          <tr><td>Reproducible trust</td><td><a href="https://www.marketnow.site/uta/conformance/anchors/">Sigstore Rekor</a> — 9 live checks against the transparency log, runnable locally: entry, hash, countersignature, Merkle inclusion, C2SP checkpoint.</td></tr>
-          <tr><td>Conformance</td><td><a href="https://www.marketnow.site/uta/conformance/">36-vector corpus · v1.4.0</a> — full suite runs with curl + node only.</td></tr>
-          <tr><td>Incident honesty</td><td><a href="https://marketnow.site/security/incidents/2026-09-08">CA key rotation postmortem</a> — mn-ca-002 → mn-ca-003, exposure confirmed, revocation published same day, 3 Rekor entries anchor the digests.</td></tr>
-          <tr><td>Registry listings</td><td><a href="https://mcp.so/servers/marketnow">mcp.so</a> (maintainer-confirmed 2026-10-16) · Glama rated A · x402scan indexed · gold-402 Gate PASSED ×2.</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="small rv" data-en="21 public integration proposals filed across agent frameworks and facilitators (piprail, qntx/facilitator, daydreams…). Outcomes mixed and tracked in public — several open, some closed. That's the point." data-es="21 propuestas públicas de integración archivadas en frameworks de agentes y facilitadores (piprail, qntx/facilitator, daydreams…). Resultados mixtos y rastreados en público — varias abiertas, algunas cerradas. Ese es el punto.">
-      21 public integration proposals filed across agent frameworks and facilitators (piprail, qntx/facilitator, daydreams…). Outcomes mixed and tracked in public — several open, some closed. That's the point.
-    </p>
-  </div>
+<div class="wrap">
+<div class="sec-head rv"><span class="no">RECEIPTS</span><h2 data-en="Verify our claims — the stranger test">Verificá nuestras afirmaciones — el test del extraño</h2></div>
+<p class="lede rv" data-en="Every line below is a public artifact. Where we are only proposing — not merged — the row says so.">Cada línea abajo es un artefacto público. Donde solo proponemos — no fusionado — la fila lo dice.</p>
+<div class="evwrap rv">
+<table class="ev">
+<thead><tr><th>claim</th><th>evidence · link</th></tr></thead>
+<tbody>
+<tr><td>Spending authority PR</td><td><a href="https://github.com/solana-foundation/pay">solana-foundation/pay PR #525</a> — 199 tests green, open public review. <b>Not merged yet</b> — no human review recorded as of today.</td></tr>
+<tr><td>x402 core issues</td><td>Public technical answers to four live x402 issues (#3808–#3814) · open extension proposal <a href="https://github.com/x402-foundation/x402/pull/3815">x402#3815</a>.</td></tr>
+<tr><td>Standards work</td><td><a href="https://github.com/x402-foundation/wg-identity">wg-identity #40</a> — fail-closed position + not-evaluated receipt requirement published; one vendor (AXES) publicly reviewing for schema alignment.</td></tr>
+<tr><td>Reproducible trust</td><td><a href="https://www.marketnow.site/uta/conformance/anchors/">Sigstore Rekor</a> — 9 live checks against the transparency log, runnable locally: entry, hash, countersignature, Merkle inclusion, C2SP checkpoint.</td></tr>
+<tr><td>Conformance</td><td><a href="https://www.marketnow.site/uta/conformance/">36-vector corpus · v1.4.0</a> — full suite runs with curl + node only.</td></tr>
+<tr><td>Incident honesty</td><td><a href="https://marketnow.site/security/incidents/2026-09-08">CA key rotation postmortem</a> — mn-ca-002 → mn-ca-003, exposure confirmed, revocation published same day, 3 Rekor entries anchor the digests.</td></tr>
+<tr><td>Registry listings</td><td><a href="https://mcp.so/servers/marketnow">mcp.so</a> (maintainer-confirmed 2026-10-16) · Glama rated A · x402scan indexed · gold-402 Gate PASSED ×2.</td></tr>
+</tbody>
+</table>
+</div>
+<p class="small rv" data-en="21 public integration proposals filed across agent frameworks and facilitators (piprail, qntx/facilitator, daydreams…). Outcomes mixed and tracked in public — several open, some closed. That's the point.">21 propuestas públicas de integración archivadas en frameworks de agentes y facilitadores (piprail, qntx/facilitator, daydreams…). Resultados mixtos y rastreados en público — varias abiertas, algunas cerradas. Ese es el punto.</p>
+</div>
 </section>
-
 <!-- ============ NAV ============ -->
 <div class="wrap">
-  <div class="filennav">
-    <a href="/">
-      <div class="fno">prev file · 00</div>
-      <div class="ft">← utalabs index</div>
-    </a>
-    <a class="next" href="/atc/">
-      <div class="fno">next file · 02</div>
-      <div class="ft">ATC — agent trust card <span>→</span></div>
-    </a>
-  </div>
+<div class="filennav">
+<a href="/">
+<div class="fno">prev file · 00</div>
+<div class="ft">← utalabs index</div>
+</a>
+<a class="next" href="/atc/">
+<div class="fno">next file · 02</div>
+<div class="ft">ATC — agent trust card <span>→</span></div>
+</a>
 </div>
-
+</div>
 <footer>
-  <div class="wrap">
-    <div class="fcol">
-      <div class="fbrand">UTALABS<span style="color:var(--signal)">.</span>TECH</div>
-      <div>© 2026 AliceLabs LLC · Wyoming, USA</div>
-      <div>FILE 01 · UTA — universal trust adapter</div>
-      <div><span class="fseal">FAIL-CLOSED BY DEFAULT</span></div>
-    </div>
-    <div class="fcol">
-      <b>FILES</b><br>
-      <a href="/">00 — index</a><br>
-      <a href="/atc/">02 — ATC</a><br>
-      <a href="/sentinel/">03 — Sentinel</a><br>
-      <a href="/interceptor/">04 — Interceptor</a>
-    </div>
-    <div class="fcol">
-      <b>SOURCE</b><br>
-      <a href="https://github.com/alicelabs-llc/universal-trust-adapter">universal-trust-adapter ↗</a><br>
-      <a href="https://www.npmjs.com/package/agent-trust-card">npm agent-trust-card ↗</a><br>
-      <a href="https://www.npmjs.com/package/marketnow-mcp">npm marketnow-mcp ↗</a><br>
-      <a href="mailto:contacto@alicelabs.site">contacto@alicelabs.site</a>
-    </div>
-    <div class="fcol">
-      <b>LEGAL</b><br>
-      <a href="/policies/">policies &amp; licensing</a><br>
-      <a href="/policies/#privacy">privacy</a><br>
-      <a href="/policies/#terms">terms</a><br>
-      <a href="/policies/#aups">acceptable use</a>
-    </div>
-  </div>
+<div class="wrap">
+<div class="fcol">
+<div class="fbrand">UTALABS<span style="color:var(--signal)">.</span>TECH</div>
+<div>© 2026 AliceLabs LLC · Wyoming, USA</div>
+<div>FILE 01 · UTA — universal trust adapter</div>
+<div><span class="fseal">FAIL-CLOSED BY DEFAULT</span></div>
+</div>
+<div class="fcol">
+<b>FILES</b><br/>
+<a href="/">00 — index</a><br/>
+<a href="/atc/">02 — ATC</a><br/>
+<a href="/sentinel/">03 — Sentinel</a><br/>
+<a href="/interceptor/">04 — Interceptor</a>
+</div>
+<div class="fcol">
+<b>SOURCE</b><br/>
+<a href="https://github.com/alicelabs-llc/universal-trust-adapter">universal-trust-adapter ↗</a><br/>
+<a href="https://www.npmjs.com/package/agent-trust-card">npm agent-trust-card ↗</a><br/>
+<a href="https://www.npmjs.com/package/marketnow-mcp">npm marketnow-mcp ↗</a><br/>
+<a href="mailto:contacto@alicelabs.site">contacto@alicelabs.site</a>
+</div>
+<div class="fcol">
+<b>LEGAL</b><br/>
+<a href="/policies/">policies &amp; licensing</a><br/>
+<a href="/policies/#privacy">privacy</a><br/>
+<a href="/policies/#terms">terms</a><br/>
+<a href="/policies/#aups">acceptable use</a>
+</div>
+</div>
 </footer>
-
 <script src="/assets/site.js"></script>
 </body>
 </html>

@@ -6,7 +6,7 @@
 "use strict";
 var doc=document;
 
-/* ---------- EN / ES ---------- */
+/* ---------- ES / EN (español por defecto) ---------- */
 window.setLang=function(l){
   doc.documentElement.setAttribute('data-lang',l);
   doc.querySelectorAll('[data-en]').forEach(function(el){
@@ -19,14 +19,14 @@ window.setLang=function(l){
   });
 };
 (function(){
-  var l='en';
+  var l='es';
   try{
     var q=new URLSearchParams(location.search).get('lang');
-    l=q||localStorage.getItem('utalabs-lang')||((navigator.language||'').indexOf('es')===0?'es':'en');
+    l=q||localStorage.getItem('utalabs-lang')||'es';
   }catch(e){}
-  if(l&&l!=='en') setLang(l);
+  if(l&&l!=='es') setLang(l);
   else doc.querySelectorAll('.langsw button').forEach(function(b){
-    b.classList.toggle('on',b.getAttribute('data-setlang')==='en');
+    b.classList.toggle('on',b.getAttribute('data-setlang')==='es');
   });
 })();
 doc.querySelectorAll('[data-setlang]').forEach(function(b){
@@ -100,7 +100,7 @@ window.pipePlay=function(scenario){
       es:['<b>agente → uta:</b> la llamada llega con una tarjeta adjunta. Empieza la verificación.','<b>uta → registro de revocación:</b> el id aparece en la lista firmada (MNR-CRL-1.0). Veredicto: <span class="v-block">DENY</span> — la cadena nunca llega a tu servidor.','<b>recibo:</b> se devuelve una razón firmada y legible por máquina: <span class="v-block">tarjeta REVOKED, autoridad mn-ca-003</span>. Los rechazos también reciben recibo.']
     }
   };
-  var msgs=verdicts[scenario][doc.documentElement.getAttribute('data-lang')||'en'];
+  var msgs=verdicts[scenario][doc.documentElement.getAttribute('data-lang')||'es'];
   var colors={normal:'#0e7a49',hostile:'#d43c19',revoked:'#d43c19'};
   var i=0;
   steps.forEach(function(s){s.classList.remove('hot','bad')});
@@ -155,7 +155,7 @@ window.utaTranslate=function(fmt){
     out.innerHTML='<span class="ln">canonical: Universal Trust Schema</span><span class="ln">→ emitting <b>'+fmt+'</b></span><span class="ln">'+canonical.replace(/\n/g,'<br>')+'</span>';
     vd.style.display='block';
     vd.className='tr-verdict';
-    vd.innerHTML=(doc.documentElement.getAttribute('data-lang')||'en')==='es'
+    vd.innerHTML=(doc.documentElement.getAttribute('data-lang')||'es')==='es'
       ?'✓ SIN PÉRDIDA — 8/8 campos preservados · firma re-anclada, no re-emitida'
       :'✓ LOSSLESS — 8/8 fields preserved · signature re-anchored, not re-issued';
   },650);
@@ -168,7 +168,7 @@ window.atcSet=function(state){
   var card=doc.getElementById('atc-card'),log=doc.getElementById('atc-log');
   if(!card)return;
   card.setAttribute('data-state',state);
-  var es=(doc.documentElement.getAttribute('data-lang')||'en')==='es';
+  var es=(doc.documentElement.getAttribute('data-lang')||'es')==='es';
   var texts={
     VALID: es?'<b class="good">VALID</b> — la firma Ed25519 verifica contra la CA pública (RFC 8032), la canonicalización RFC 8785 JCS es determinista y el id no aparece en el registro de revocación. El agente puede operar. Cualquier extraño puede re-derivar esto en 30 segundos, sin cuenta y sin confiar en nuestros endpoints.'
            :'<b class="good">VALID</b> — the Ed25519 signature verifies against the public CA (RFC 8032), RFC 8785 JCS canonicalization is deterministic, and the id is absent from the revocation registry. The agent may operate. Any stranger can re-derive this in 30 seconds — no account, no trust in our endpoints required.',
@@ -188,7 +188,7 @@ window.sentinelScan=function(mode){
   var layers=doc.querySelectorAll('#sentinel-sim .layer');
   var rep=doc.getElementById('sentinel-report');
   if(!layers.length)return;
-  var es=(doc.documentElement.getAttribute('data-lang')||'en')==='es';
+  var es=(doc.documentElement.getAttribute('data-lang')||'es')==='es';
   layers.forEach(function(l){l.className='layer'});
   rep.innerHTML='<div class="tt">'+(es?'esperando escaneo…':'awaiting scan…')+'</div>';
   var findings=[
@@ -246,7 +246,7 @@ window.sentinelScan=function(mode){
 window.intercept=function(cmd){
   var body=doc.getElementById('int-term');
   if(!body)return;
-  var es=(doc.documentElement.getAttribute('data-lang')||'en')==='es';
+  var es=(doc.documentElement.getAttribute('data-lang')||'es')==='es';
   var decisions={
     'GET /health':{v:'ALLOW',why:es?'ruta pública · sin capacidades · P-0 default':'public route · no capabilities · P-0 default',bad:false},
     'tools/list':{v:'ALLOW',why:es?'fingerprint SHA-256 coincide con el hash auditado':'fingerprint SHA-256 matches audited hash',bad:false},
